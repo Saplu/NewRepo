@@ -177,5 +177,10 @@ namespace MyFirstMonoGame
         {
             actionMultiplier = 8;
         }
+
+        private void asd()
+        {
+            actionMultiplier = 6;
+        }
     }
 }
