@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShopClassLibrary", "..\..\M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utils", "..\..\MyFirstGame\Utils\Utils.csproj", "{A5812422-FA2F-45E4-8A9F-D29FE6743B63}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{F79A9083-3C94-4E8A-8DA4-6E72D5AA9214}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{A5812422-FA2F-45E4-8A9F-D29FE6743B63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5812422-FA2F-45E4-8A9F-D29FE6743B63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5812422-FA2F-45E4-8A9F-D29FE6743B63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F79A9083-3C94-4E8A-8DA4-6E72D5AA9214}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F79A9083-3C94-4E8A-8DA4-6E72D5AA9214}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F79A9083-3C94-4E8A-8DA4-6E72D5AA9214}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F79A9083-3C94-4E8A-8DA4-6E72D5AA9214}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

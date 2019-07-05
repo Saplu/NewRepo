@@ -58,36 +58,11 @@
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Bank.cs">
-      <DependentUpon>DbEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAO\CharacterDAO.cs" />
-    <Compile Include="DbEntities.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DbEntities.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DbEntities.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DbEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DbEntities.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DbEntities.edmx</DependentUpon>
-    </Compile>
     <Compile Include="Game1.cs" />
-    <Compile Include="Item.cs">
-      <DependentUpon>DbEntities.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DAO\ItemDAO.cs" />
     <Compile Include="Maps\Map.cs" />
     <Compile Include="Maps\Training.cs" />
     <Compile Include="MovableHero.cs" />
-    <Compile Include="Player.cs">
-      <DependentUpon>DbEntities.tt</DependentUpon>
-    </Compile>
+    <Compile Include="PlayerConverter.cs" />
     <Compile Include="Presentation\Button.cs" />
     <Compile Include="Presentation\Combat.cs" />
     <Compile Include="Presentation\Label.cs" />
@@ -165,13 +140,6 @@
     </None>
     <None Include="app.config" />
     <None Include="app.manifest" />
-    <EntityDeploy Include="DbEntities.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DbEntities.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="DbEntities.edmx.diagram">
-      <DependentUpon>DbEntities.edmx</DependentUpon>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
@@ -187,25 +155,10 @@
       <Project>{823ea572-99d6-48ef-b52f-8d727641a85f}</Project>
       <Name>ShopClassLibrary</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Database1.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Database1_log.ldf">
-      <DependentUpon>Database1.mdf</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DbEntities.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DbEntities.Context.cs</LastGenOutput>
-      <DependentUpon>DbEntities.edmx</DependentUpon>
-    </Content>
-    <Content Include="DbEntities.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DbEntities.edmx</DependentUpon>
-      <LastGenOutput>DbEntities.cs</LastGenOutput>
-    </Content>
+    <ProjectReference Include="..\DAL\DAL.csproj">
+      <Project>{f79a9083-3c94-4e8a-8da4-6e72d5aa9214}</Project>
+      <Name>DAL</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">

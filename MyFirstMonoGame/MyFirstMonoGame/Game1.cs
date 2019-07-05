@@ -9,7 +9,7 @@ namespace MyFirstMonoGame
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
-    public class Game1 : Game
+    public class Game1 : Game //Tämä on se oikea kansio!
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -27,8 +27,7 @@ namespace MyFirstMonoGame
         Presentation.VictoryView victory;
         Texture2D combatBackGround, skillButtonTexture, victoryBackGround, buttonTexture, red, blue, green;
 
-        CharacterDAO characterDAO;
-        ItemDAO itemDAO;
+        DAL.DAO dao;
 
         public Map Map { get => map; set => map = value; }
         public Hero Hero { get => hero; set => hero = value; }
@@ -50,8 +49,10 @@ namespace MyFirstMonoGame
             // TODO: Add your initialization logic here
             IsMouseVisible = true;
             Main = true;
-            characterDAO = new CharacterDAO();
-            itemDAO = new ItemDAO();
+            dao = new DAL.DAO(1);
+            dao.Read();
+            var playerConverter = new PlayerConverter();
+            players = playerConverter.DAOToGame(dao.Players);
 
             base.Initialize();
         }
@@ -74,8 +75,6 @@ namespace MyFirstMonoGame
             var menuBackGround = Content.Load<Texture2D>("Tausta");
             mainMenu = new Presentation.MainMenu(buttonTexture, menuBackGround, font);
             skillButtonTexture = Content.Load<Texture2D>("skillbutton");
-            var daoPlayers = characterDAO.GetPlayers();
-            players = DAOToRealPlayer(daoPlayers);
 
             var bloodPriestTexture = Content.Load<Texture2D>("BloodPriest");
             var goblinTexture = Content.Load<Texture2D>("Goblin");
@@ -197,7 +196,7 @@ namespace MyFirstMonoGame
 
         private void manageActiveObjects(string key)
         {
-            switch(key)
+            switch (key)
             {
                 case "MainMenu": Main = true; Adventure = false; Combat = false; Victory = false; break;
                 case "Adventure": Main = false; Adventure = true; Combat = false; Victory = false; break;
@@ -207,29 +206,7 @@ namespace MyFirstMonoGame
                 default: Main = true; Adventure = false; Combat = false; Victory = false; break;
             }
         }
-
-        private List<CharacterClassLibrary.Player> DAOToRealPlayer(List<Player> daoPlayers)
-        {
-            var players = new List<CharacterClassLibrary.Player>();
-            var allItems = itemDAO.GetItems();
-            var items = getItems(allItems);
-
-            foreach(var dao in daoPlayers)
-            {
-                var character = CharacterClassLibrary.Player.Create((ClassName)dao.Class);
-                getStats(character, dao);
-                foreach (var item in items)
-                {
-                    if (item.Owner == character.Name)
-                        character.Items.Add(item);
-                }
-                getStats(character);
-                players.Add(character);
-            }
-            return players;
-        }
-
-
+        /*
         private CharacterClassLibrary.Player getStats(CharacterClassLibrary.Player character, Player player)
         {
             character.Armor = player.Armor;
@@ -268,7 +245,7 @@ namespace MyFirstMonoGame
                 player.Crit += item.Crit;
             }
         }
-
+        */
         private void newCombat()
         {
             var randomMission = new MissionClassLibrary.RandomMissionGenerator();

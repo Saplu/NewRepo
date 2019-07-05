@@ -65,7 +65,7 @@ namespace MyFirstMonoGame.Presentation
             player3Label = new Label("player3Label", font, mission.Players[2].ToString(), 450, 277, 150, 100);
             player4Label = new Label("player4Label", font, mission.Players[3].ToString(), 600, 277, 150, 100);
             turnLabel = new Label("turnLabel", font, "Turn: " + missionStatus.Turn.ToString(), 725, 230, 50, 20);
-            toolTipLabel = new Label("toolTip", font, "", 10, 240, 110, 240);
+            toolTipLabel = new Label("toolTip", font, "", 5, 240, 130, 240);
 
             skill1Button = new Button(skillButton, 120, 420, "", 130, 40);
             skill2Button = new Button(skillButton, 270, 420, "", 130, 40);
