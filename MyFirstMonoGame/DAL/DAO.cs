@@ -39,7 +39,6 @@ namespace DAL
                 newLines.AddRange(rewriteData(item, party, lines, partyPlayerLines.IndexOf(item)));
             }
             updateFile(newLines);
-            //var targetParty = findParty(party);
         }
 
         public void Read()
@@ -62,22 +61,7 @@ namespace DAL
             }
             return lines;
         }
-        /*
-        private void separateParties(List<string> lines)
-        {
-            separatePlayers(lines);
-            for (int i = 0; i < players.Count; i+=4)
-            {
-                var list = new List<Player>();
-                list.Add(players[i]);
-                list.Add(players[i + 1]);
-                list.Add(players[i + 2]);
-                list.Add(players[i + 3]);
-                var party = new Party(list);
-                parties.Add(party);
-            }
-        }
-        */
+
         private void separatePlayers(List<string> lines)
         {
             playerLines = new List<int>();
@@ -94,11 +78,12 @@ namespace DAL
 
         private void generatePlayers(List<string> lines, List<int> playerLines)
         {
+            players = new List<Player>();
             foreach (var item in playerLines)
             {
                 var data = split(item + 1, lines);
                 var items = generateItems(item, lines, data[0]);
-                var player = new Player(data[0], Convert.ToInt32(data[4]), Convert.ToInt32(data[8]),
+                var player = new Player(data[0], Convert.ToInt32(data[7]), Convert.ToInt32(data[8]),
                     Convert.ToInt32(data[1]), Convert.ToInt32(data[2]), Convert.ToInt32(data[3]),
                     Convert.ToInt32(data[5]), Convert.ToInt32(data[6]), Convert.ToInt32(data[4]),
                     items, getItemTypes(Convert.ToInt32(data[8])));
@@ -142,23 +127,7 @@ namespace DAL
                 default: return list;
             }
         }
-        /*
-        private Party findParty(Party party)
-        {
-            foreach(var item in parties)
-            {
-                var nameList = new List<string>();
-                nameList.Add(item.Players[0].Name);
-                nameList.Add(item.Players[1].Name);
-                nameList.Add(item.Players[2].Name);
-                nameList.Add(item.Players[3].Name);
-                if (nameList.Contains(party.Players[0].Name) && nameList.Contains(party.Players[1].Name) &&
-                    nameList.Contains(party.Players[2].Name) && nameList.Contains(party.Players[3].Name))
-                    return item;
-            }
-            throw new Exception("No party found. Weird.");
-        }
-        */
+
         private int findLine(string name, List<string> lines)
         {
             foreach (var item in playerLines)
@@ -175,7 +144,7 @@ namespace DAL
         {
             var value = new List<string>() { "PlayerBegins" + index.ToString() + "\r\n" };
             string original = lines[item + 1];
-            string updated = original.Replace(original, party.Players[index].ToString());
+            string updated = party.Players[index].ToString();
             value.Add(updated);
             for (int i = 2; i < 10; i++)
             {

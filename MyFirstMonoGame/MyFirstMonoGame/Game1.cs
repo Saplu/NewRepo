@@ -143,7 +143,9 @@ namespace MyFirstMonoGame
                 string Redirect = hero.CheckForCombat(map.CombatBoxes);
                 manageActiveObjects(Redirect);
                 if (Redirect == "Combat")
+                {
                     newCombat();
+                }
             }
             if (Combat == true)
             {
@@ -157,6 +159,10 @@ namespace MyFirstMonoGame
                 victory.UpdateButtons(currentState);
                 string Redirect = victory.CheckButtons();
                 manageActiveObjects(Redirect);
+                if (Redirect == "Adventure")
+                {
+                    savePlayers();
+                }
             }
             previousState = currentState;
             base.Update(gameTime);
@@ -206,46 +212,7 @@ namespace MyFirstMonoGame
                 default: Main = true; Adventure = false; Combat = false; Victory = false; break;
             }
         }
-        /*
-        private CharacterClassLibrary.Player getStats(CharacterClassLibrary.Player character, Player player)
-        {
-            character.Armor = player.Armor;
-            character.ClassName = (ClassName)player.Class;
-            character.Crit = player.Crit;
-            character.Health = player.Health;
-            character.Level = player.Level;
-            character.SpellPower = player.SpellPower;
-            character.Name = player.Id;
-            character.Strength = player.Strength;
-            character.Xp = player.Xp;
-            return character;
-        }
 
-        private List<CharacterClassLibrary.Item> getItems(List<Item> items)
-        {
-            var list = new List<CharacterClassLibrary.Item>();
-            foreach (var item in items)
-            {
-                var thing = new CharacterClassLibrary.Item(item.Health, item.Strength, item.Crit, item.SpellPower,
-                    item.Armor, item.Name, 1, (ItemType)item.Type, (ItemPlace)item.Place, item.Owner, (ItemQuality)item.Quality);
-                list.Add(thing);
-            }
-            return list;
-        }
-
-        private void getStats(CharacterClassLibrary.Player player)
-        {
-            foreach (var item in player.Items)
-            {
-                player.Health += item.Health;
-                player.MaxHealth = player.Health;
-                player.Strength += item.Strength;
-                player.SpellPower += item.Spellpower;
-                player.Armor += item.Armor;
-                player.Crit += item.Crit;
-            }
-        }
-        */
         private void newCombat()
         {
             var randomMission = new MissionClassLibrary.RandomMissionGenerator();
@@ -253,6 +220,15 @@ namespace MyFirstMonoGame
             combat = new Presentation.Combat(activeMission, combatBackGround, characterTextures, font, skillButtonTexture, green, red, blue);
             var mission = new MissionClassLibrary.SuccessfulMission(activeMission);
             victory = new Presentation.VictoryView(victoryBackGround, mission, buttonTexture, font, hero, map);
+        }
+
+        private void savePlayers()
+        {
+            var converter = new PlayerConverter();
+            var party = converter.GameToDAO(activeMission.Players);
+            dao.Update(party);
+            dao.Read();
+            players = converter.DAOToGame(dao.Players);
         }
     }
 }
