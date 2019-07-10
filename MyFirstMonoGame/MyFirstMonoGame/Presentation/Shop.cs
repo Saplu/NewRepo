@@ -25,11 +25,11 @@ namespace MyFirstMonoGame.Presentation
             this.backGround = backGround;
             this.players = players;
             shop = new ShopClassLibrary.Shop(players, dao);
-            offerLabel = new Label("offerLabel", font, "", 400, 40, 300, 300);
-            exceptionLabel = new Label("exceptionLabel", font, "", 200, 450, 400, 30);
+            offerLabel = new Label("offerLabel", font, "", 440, 40, 300, 300);
+            exceptionLabel = new Label("exceptionLabel", font, "", 320, 240, 400, 30);
             moneyLabel = new Label("moneyLabel", font, "Your money: " + shop.Dao.Party.Money,
                 20, 350, 150, 30);
-            currentLabel = new Label("currentLabel", font, "", 400, 300, 300, 300);
+            currentLabel = new Label("currentLabel", font, "", 200, 40, 300, 300);
             okButton = new Button(buttonTexture, 700, 340, "Go for it!", 80, 30);
             menuButton = new Button(buttonTexture, 700, 400, "Menu", 80, 30);
             player1Button = new Button(buttonTexture, 20, 50, players[0].Name, 100, 30);
@@ -62,25 +62,48 @@ namespace MyFirstMonoGame.Presentation
         {
             foreach (var button in allButtons)
                 button.UpdateMouseState(currentState);
-            okButton.UpdateMouseState(currentState);
         }
 
-        public void CheckButtons()
+        public string CheckButtons()
         {
-            foreach (var button in playerButtons)
+            try
             {
-                if (button.ButtonClicked())
+                foreach (var button in playerButtons)
                 {
-                    shop.SelectedPlayer = players.Find(x => x.Name == button.Text);
-                    currentLabel.Text = "Currently wearing:\r\n" + shop.SelectedPlayer.Items[1];
+                    if (button.ButtonClicked())
+                    {
+                        exceptionLabel.Text = "";
+                        shop.SelectedPlayer = players.Find(x => x.Name == button.Text);
+                    }
                 }
+                foreach (var button in placeButtons)
+                {
+                    if (button.ButtonClicked())
+                    {
+                        exceptionLabel.Text = "";
+                        shop.GenerateOffer(button.Text);
+                        offerLabel.Text = "Offer:\r\n" + shop.Offer.ToString(1);
+                        currentLabel.Text = "Currently wearing:\r\n" + shop.SelectedPlayer.Items[placeButtons.IndexOf(button) + 2];
+                    }
+                }
+                if (okButton.ButtonClicked())
+                {
+                    var party = shop.PurcasheItem();
+                    var converter = new PlayerConverter();
+                    var dalParty = converter.GameToDAO(party);
+                    dalParty.Money = shop.Money;
+                    shop.SaveChanges(dalParty);
+                    moneyLabel.Text = dalParty.Money.ToString();
+                    return "reload";
+                }
+                if (menuButton.ButtonClicked())
+                    return "MainMenu";
+                return "Shop";
             }
-            foreach (var button in placeButtons)
+            catch(Exception ex)
             {
-                if (button.ButtonClicked())
-                {
-                    shop.GenerateOffer(button.Text);
-                }
+                exceptionLabel.Text = ex.Message;
+                return "Shop";
             }
         }
     }

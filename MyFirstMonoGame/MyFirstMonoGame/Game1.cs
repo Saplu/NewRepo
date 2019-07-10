@@ -22,13 +22,13 @@ namespace MyFirstMonoGame
 
         bool Main, Adventure, Combat, Victory, Shop;
         MouseState previousState, currentState;
-        int x, y;
+        int x, y, money;
         List<Texture2D> characterTextures;
         MissionClassLibrary.Mission activeMission;
         List<CharacterClassLibrary.Player> players;
         Presentation.VictoryView victory;
         Texture2D combatBackGround, skillButtonTexture, victoryBackGround, buttonTexture, red, blue, green,
-            menuBackGround;
+            menuBackGround, shopBackGround;
 
         DAL.DAO dao;
 
@@ -56,6 +56,7 @@ namespace MyFirstMonoGame
             dao.Read();
             var playerConverter = new PlayerConverter();
             players = playerConverter.DAOToGame(dao.Players);
+            money = dao.Party.Money;
 
             base.Initialize();
         }
@@ -76,6 +77,7 @@ namespace MyFirstMonoGame
             hero = new Hero(heroTextureAtlas, 4, 4);
             buttonTexture = Content.Load<Texture2D>("Nappi");
             menuBackGround = Content.Load<Texture2D>("Tausta");
+            shopBackGround = Content.Load<Texture2D>("kauppa");
             mainMenu = new Presentation.MainMenu(buttonTexture, menuBackGround, font);
             skillButtonTexture = Content.Load<Texture2D>("skillbutton");
 
@@ -107,7 +109,7 @@ namespace MyFirstMonoGame
                 medicTexture, pirateTexture, necroTexture, warriorTexture, templarTexture,
                 rabbitTexture, rogueTexture, shamanTexture, protectorTexture, mageTexture};
 
-            map = new Maps.Training(mapTextureAtlas, 5, 7, enemyTexture);
+            map = new Maps.Training(mapTextureAtlas, 5, 7, enemyTexture, buttonTexture, font);
         }
 
         /// <summary>
@@ -143,9 +145,12 @@ namespace MyFirstMonoGame
 
             if (Adventure == true)
             {
+                map.UpdateButtons(currentState);
                 hero.Update(gameTime, graphics);
                 hero.CheckForCollision(map.Boxes, gameTime, graphics);
                 string Redirect = hero.CheckForCombat(map.CombatBoxes);
+                if (Redirect != "Combat")
+                    Redirect = map.CheckButtons();
                 manageActiveObjects(Redirect);
                 if (Redirect == "Combat")
                 {
@@ -171,7 +176,16 @@ namespace MyFirstMonoGame
             }
             if (Shop == true)
             {
-
+                shop.UpdateButtons(currentState);
+                string Redirect = shop.CheckButtons();
+                if (Redirect == "reload")
+                {
+                    dao.Read();
+                    var playerConverter = new PlayerConverter();
+                    players = playerConverter.DAOToGame(dao.Players);
+                    Redirect = "Shop";
+                }
+                manageActiveObjects(Redirect);
             }
             previousState = currentState;
             base.Update(gameTime);
@@ -240,6 +254,8 @@ namespace MyFirstMonoGame
         {
             var converter = new PlayerConverter();
             var party = converter.GameToDAO(activeMission.Players);
+            money += victory.GetReward();
+            party.Money = money;
             dao.Update(party);
             dao.Read();
             players = converter.DAOToGame(dao.Players);
@@ -247,7 +263,7 @@ namespace MyFirstMonoGame
 
         private void newShop()
         {
-            shop = new Presentation.Shop(players, dao, menuBackGround, buttonTexture, font);
+            shop = new Presentation.Shop(players, dao, shopBackGround, buttonTexture, font);
         }
     }
 }

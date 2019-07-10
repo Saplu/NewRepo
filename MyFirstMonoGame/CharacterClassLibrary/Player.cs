@@ -107,6 +107,12 @@ namespace CharacterClassLibrary
             addItem(item);
         }
 
+        public int RemovedItemValue(Item loot)
+        {
+            var itemPlace = items.IndexOf(items.Find(x => x.ItemPlace == loot.ItemPlace));
+            return items[itemPlace].SellValue;
+        }
+
         private void modifyPlayer(int health, int strength, int spellPower)
         {
             Health += health;

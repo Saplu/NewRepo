@@ -24,6 +24,8 @@ namespace MyFirstMonoGame
         private List<BoundingBox> combatBoxes;
         private int level;
         private CharacterClassLibrary.Enums.MissionDifficulty mapDifficulty;
+        private Presentation.Button menuButton;
+        private SpriteFont font;
 
         public List<int> MapCubes { get => mapCubes; set => mapCubes = value; }
         public Texture2D Texture { get => texture; }
@@ -35,7 +37,7 @@ namespace MyFirstMonoGame
         public int Level { get => level; set => level = value; }
         public MissionDifficulty MapDifficulty { get => mapDifficulty; set => mapDifficulty = value; }
 
-        public Map(Texture2D texture, int rows, int columns, Texture2D enemyTexture)
+        public Map(Texture2D texture, int rows, int columns, Texture2D enemyTexture, Texture2D buttonTexture, SpriteFont font)
         {
             this.texture = texture;
             this.rows = rows;
@@ -46,7 +48,8 @@ namespace MyFirstMonoGame
             mapParts = getMapParts();
             this.enemyTexture = enemyTexture;
             combatBoxes = new List<BoundingBox>();
-
+            menuButton = new Presentation.Button(buttonTexture, 735, 450, "Menu", 60, 25);
+            this.font = font;
         }
 
         public void Draw(SpriteBatch sprite) //Kantaluokkaan
@@ -67,6 +70,7 @@ namespace MyFirstMonoGame
                 sprite.Draw(enemyTexture, new Rectangle((int)box.Min.X, (int)box.Min.Y, (int)box.Max.X - (int)box.Min.X, 
                     (int)box.Max.Y - (int)box.Min.Y), Color.White);
             }
+            menuButton.Draw(sprite, font);
         }
 
         public void RemoveDestroyedEnemy(Hero hero)
@@ -78,6 +82,18 @@ namespace MyFirstMonoGame
                     keepList.Add(enemy);
             }
             combatBoxes = keepList;
+        }
+
+        public void UpdateButtons(MouseState currentState)
+        {
+            menuButton.UpdateMouseState(currentState);
+        }
+
+        public string CheckButtons()
+        {
+            if (menuButton.ButtonClicked())
+                return "MainMenu";
+            else return "Adventure";
         }
 
         private List<Rectangle> getMapParts() //Kantaluokkaan

@@ -14,13 +14,14 @@ namespace MissionClassLibrary
         private List<Player> survivors, players;
         private CharacterClassLibrary.Item loot;
         private int xp;
-
+        private int goldReward;
 
         public Mission Mission { get => mission; set => mission = value; }
         public List<Player> Survivors { get => survivors; set => survivors = value; }
         public Item Loot { get => loot; set => loot = value; }
         public int Xp { get => xp; set => xp = value; }
         public List<Player> Players { get => players; set => players = value; }
+        public int GoldReward { get => goldReward; set => goldReward = value; }
 
         public SuccessfulMission(Mission mission)
         {
@@ -31,6 +32,7 @@ namespace MissionClassLibrary
             var quality = rewardItemQuality();
             var item = new RandomItemGenerator();
             loot = item.CreateItem(mission.Level, quality);
+            goldReward = 0;
         }
 
         public void ModifyXp()

@@ -88,7 +88,7 @@ namespace DAL
                 var items = generateItems(item, lines, data[0]);
                 var player = new Player(data[0], Convert.ToInt32(data[7]), Convert.ToInt32(data[8]),
                     Convert.ToInt32(data[1]), Convert.ToInt32(data[2]), Convert.ToInt32(data[3]),
-                    Convert.ToInt32(data[5]), Convert.ToInt32(data[6]), Convert.ToInt32(data[4]),
+                    Convert.ToInt32(data[5]), Convert.ToInt32(data[6]), Convert.ToDouble(data[4]),
                     items, getItemTypes(Convert.ToInt32(data[8])));
                 players.Add(player);
             }
@@ -109,7 +109,7 @@ namespace DAL
                 var data = split(thing + i, lines);
                 var item = new Item(Convert.ToInt32(data[1]), Convert.ToInt32(data[2]), Convert.ToInt32(data[3]),
                     Convert.ToInt32(data[6]), Convert.ToInt32(data[8]), Convert.ToInt32(data[5]),
-                    Convert.ToInt32(data[7]), Convert.ToInt32(data[9]), Convert.ToInt32(data[4]), data[0],
+                    Convert.ToInt32(data[7]), Convert.ToInt32(data[9]), Convert.ToDouble(data[4]), data[0],
                     name);
                 items.Add(item);
             }

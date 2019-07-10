@@ -68,7 +68,14 @@ namespace CharacterClassLibrary
         {
             return name + "\r\nHealth: " + health + "\r\nStrength: " + strength + "\r\nSpellpower: " + spellpower +
                 "\r\nArmor: " + armor + "\r\nCrit: " + crit + "\r\n\r\n" + itemType.ToString() + " " + itemPlace.ToString() + 
-                " of " + Quality.ToString() + " quality.";
+                " of " + Quality.ToString() + " quality.\r\nSell value: " + SellValue;
+        }
+
+        public string ToString(int thing)
+        {
+            return itemType.ToString() + " " + itemPlace.ToString() +
+                " of " + Quality.ToString() + " quality.\r\nStats will be random because the\r\nlack of craftsmanshipskill\r\nCost: "
+                + SellValue * 4;
         }
     }
 }

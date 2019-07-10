@@ -28,7 +28,7 @@ namespace MyFirstMonoGame.Presentation
             infoLabel = new Label("info", font, "Grats!\r\nYour survivors gained " + mission.Xp + " xp!", 200, 50, 300, 40);
             lootLabel = new Label("loot", font, "Loot:\r\n" + mission.Loot.ToString(), 100, 120, 300, 120);
             currentLabel = new Label("current", font, "Currently wearing:\r\n" + currentItem(0), 600, 120, 200, 120);
-            selectedPlayer = "Inventory";
+            selectedPlayer = "Sell it";
             okButton = new Button(buttonTexture, 550, 410, "Great, continue!", 160, 50);
 
             playerButtons = new List<Button>();
@@ -36,10 +36,12 @@ namespace MyFirstMonoGame.Presentation
             {
                 var texture = buttonTexture;
                 var buttonX = 360;
-                var buttonY = 120 + (mission.Mission.Players.IndexOf(player) * 65);
+                var buttonY = 100 + (mission.Mission.Players.IndexOf(player) * 55);
                 var button = new Button(texture, buttonX, buttonY, player.Name, 80, 50);
                 playerButtons.Add(button);
             }
+            var inventoryButton = new Button(buttonTexture, 360, 320, "Sell it", 80, 50);
+            playerButtons.Add(inventoryButton);
             this.hero = hero;
             this.map = map;
         }
@@ -71,7 +73,9 @@ namespace MyFirstMonoGame.Presentation
                 if (button.ButtonClicked())
                 {
                     selectedPlayer = button.Text;
-                    currentLabel.Text = "Currently wearing:\r\n" + currentItem(playerButtons.IndexOf(button));
+                    if (selectedPlayer != "Sell it")
+                        currentLabel.Text = "Currently wearing:\r\n" + currentItem(playerButtons.IndexOf(button));
+                    else currentLabel.Text = "Selling it for full value!";
                 }
             }
             if (okButton.ButtonClicked())
@@ -79,11 +83,12 @@ namespace MyFirstMonoGame.Presentation
                 var target = mission.Mission.Players.Find(x => x.Name == selectedPlayer);
                 try
                 {
-                    if (selectedPlayer == "Inventory")
+                    if (selectedPlayer == "Sell it")
                     {
                         mission.ModifyXp();
                         mission.Loot.Owner = selectedPlayer;
                         map.RemoveDestroyedEnemy(hero);
+                        mission.GoldReward = mission.Loot.SellValue;
                         return "Adventure";
                     }
                     else if (target.ItemTypes.Exists(x => x == mission.Loot.ItemType))
@@ -91,6 +96,7 @@ namespace MyFirstMonoGame.Presentation
                         mission.ModifyXp();
                         mission.Loot.Owner = selectedPlayer;
                         var reward = mission.Loot;
+                        mission.GoldReward = target.RemovedItemValue(mission.Loot);
                         target.AddItem(reward);
                         map.RemoveDestroyedEnemy(hero);
                         return "Adventure";
@@ -103,6 +109,11 @@ namespace MyFirstMonoGame.Presentation
                 }
             }
             return "Victory";
+        }
+
+        public int GetReward()
+        {
+            return mission.GoldReward;
         }
 
         private string currentItem(int index)

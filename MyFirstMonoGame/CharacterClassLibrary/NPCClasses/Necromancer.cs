@@ -16,7 +16,7 @@ namespace CharacterClassLibrary.NPCClasses
             Type = (Enums.NPCType)Enum.Parse(typeof(Enums.NPCType), type.ToString());
             var multi = typeMultiplier();
             Level = level;
-            Health = Convert.ToInt32(multi * multi * (65 + (37 * level)));
+            Health = Convert.ToInt32(multi * multi * (87 + (37 * level)));
             MaxHealth = Health;
             Strength = 0;
             Crit = 10;

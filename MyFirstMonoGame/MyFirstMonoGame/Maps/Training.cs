@@ -10,7 +10,8 @@ namespace MyFirstMonoGame.Maps
 {
     public class Training : Map
     {
-        public Training(Texture2D texture, int rows, int columns, Texture2D enemyTexture) : base(texture, rows, columns, enemyTexture)
+        public Training(Texture2D texture, int rows, int columns, Texture2D enemyTexture, Texture2D buttonTexture, SpriteFont font) : 
+            base(texture, rows, columns, enemyTexture, buttonTexture, font)
         {
             this.MapCubes = getMapCubes();
             getBoundingBoxes();

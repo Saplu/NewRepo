@@ -52,6 +52,28 @@ namespace ShopClassLibrary
                 CharacterClassLibrary.Enums.ItemQuality.Good);
         }
 
+        public List<CharacterClassLibrary.Player> PurcasheItem()
+        {
+            if (offer != null)
+            {
+                if (money < offer.SellValue * 4)
+                    throw new Exception("You cannot afford that. LoL.");
+                money -= offer.SellValue * 4;
+                var currentIndex = selectedPlayer.Items.IndexOf(selectedPlayer.Items.Find(x => x.ItemPlace == offer.ItemPlace));
+                money += selectedPlayer.Items[currentIndex].SellValue;
+                selectedPlayer.AddItem(offer);
+                var replaceIndex = players.IndexOf(players.Find(x => x.Name == selectedPlayer.Name));
+                players[replaceIndex] = selectedPlayer;
+                return players;
+            }
+            else throw new Exception("Select some item first.");
+        }
+
+        public void SaveChanges(Party dalParty)
+        {
+            dao.Update(dalParty);
+        }
+
         private int casterOrPhysical()
         {
             if (selectedPlayer.ClassName == CharacterClassLibrary.Enums.ClassName.BloodPriest ||
@@ -78,34 +100,9 @@ namespace ShopClassLibrary
             }
         }
 
-        public string CurrentOffer(int type, int place, CharacterClassLibrary.Player buyer)
-        {
-            var typeString = offerString(type);
-            var Place = placeString(place);
-            var value = new RandomItemGenerator();
-            var placeEnum = (CharacterClassLibrary.Enums.ItemPlace)Enum.Parse(typeof(CharacterClassLibrary.Enums.ItemPlace), place.ToString());
-            var price = value.GetItemPower(placeEnum, buyer.Level, CharacterClassLibrary.Enums.ItemQuality.Good) * 8;
-            var offer = "Level " + buyer.Level + " " + typeString + " " + Place + 
-                "\r\nPrice: " + price + ". Don't bother bargaining, I am computer.";
-            return offer;
-        }
-
-        private void typeValid(int type)
-        {
-            if ((Convert.ToInt32(selectedPlayer.ClassName) == 1 || Convert.ToInt32(
-                selectedPlayer.ClassName) == 4) && type > 0)
-                throw new Exception("Target cannot use the armor type");
-            if ((Convert.ToInt32(selectedPlayer.ClassName) == 2 || Convert.ToInt32(
-                selectedPlayer.ClassName) == 6) && type > 1)
-                throw new Exception("Target cannot use the armor type");
-            if ((Convert.ToInt32(selectedPlayer.ClassName) == 0 || Convert.ToInt32(
-                selectedPlayer.ClassName) == 5) && type > 2)
-                throw new Exception("target Cannot use the armor type");
-        }
-        
         private int setItemPlace(string id)
         {
-            switch(id)
+            switch (id)
             {
                 case "Helmet": return 2;
                 case "Chest": return 3;
@@ -113,34 +110,6 @@ namespace ShopClassLibrary
                 case "Legs": return 5;
                 case "Feet": return 6;
                 default: return 0;
-            }
-        }
-
-        private string offerString(int type)
-        {
-            switch(type)
-            {
-                case 0: return "Cloth";
-                case 1: return "Leather";
-                case 2: return "Mail";
-                case 3: return "Plate";
-                default: throw new Exception("Something weird has happened. Please contact our customer support.");
-            }
-        }
-
-        private string placeString(int place)
-        {
-            switch(place)
-            {
-                case 0: return "Main Hand";
-                case 1: return "Offhand";
-                case 2: return "Helmet";
-                case 3: return "Chest";
-                case 4: return "Gloves";
-                case 5: return "Pants";
-                case 6: return "Shoes";
-                case 7: return "Shield";
-                default: throw new Exception("Something weird has happened. Please contact our customer support.");
             }
         }
     }
