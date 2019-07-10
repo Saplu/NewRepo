@@ -67,17 +67,12 @@
     <Compile Include="Presentation\Combat.cs" />
     <Compile Include="Presentation\Label.cs" />
     <Compile Include="Presentation\MainMenu.cs" />
+    <Compile Include="Presentation\Shop.cs" />
     <Compile Include="Presentation\VictoryView.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MonoGameInstallDirectory)\MonoGame\v3.0\Assemblies\DesktopGL\MonoGame.Framework.dll</HintPath>
     </Reference>
@@ -143,21 +138,25 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\MyFirstGame\CharacterClassLibrary\CharacterClassLibrary.csproj">
+    <ProjectReference Include="..\CharacterClassLibrary\CharacterClassLibrary.csproj">
       <Project>{ff0c105b-ea2e-410f-9f7a-e1ce08c0c35e}</Project>
       <Name>CharacterClassLibrary</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\MyFirstGame\MissionClassLibrary\MissionClassLibrary.csproj">
-      <Project>{8bfd2f25-a6b9-42eb-8dd9-565032b6707d}</Project>
-      <Name>MissionClassLibrary</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\MyFirstGame\ShopClassLibrary\ShopClassLibrary.csproj">
-      <Project>{823ea572-99d6-48ef-b52f-8d727641a85f}</Project>
-      <Name>ShopClassLibrary</Name>
     </ProjectReference>
     <ProjectReference Include="..\DAL\DAL.csproj">
       <Project>{f79a9083-3c94-4e8a-8da4-6e72d5aa9214}</Project>
       <Name>DAL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MissionClassLibrary\MissionClassLibrary.csproj">
+      <Project>{8bfd2f25-a6b9-42eb-8dd9-565032b6707d}</Project>
+      <Name>MissionClassLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ShopClassLibrary\ShopClassLibrary.csproj">
+      <Project>{823ea572-99d6-48ef-b52f-8d727641a85f}</Project>
+      <Name>ShopClassLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{2076fcc0-2c7a-45b9-bb13-42a03c085374}</Project>
+      <Name>Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

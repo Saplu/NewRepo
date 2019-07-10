@@ -83,8 +83,6 @@ namespace MyFirstMonoGame.Presentation
                     {
                         mission.ModifyXp();
                         mission.Loot.Owner = selectedPlayer;
-                        //var reward = convertToDbItem(mission.Loot);
-                        //itemDAO.AddNewItem(reward);
                         map.RemoveDestroyedEnemy(hero);
                         return "Adventure";
                     }

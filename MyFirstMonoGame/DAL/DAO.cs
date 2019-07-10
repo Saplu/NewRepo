@@ -8,17 +8,18 @@ namespace DAL
     {
         private string filePath;
         private List<Player> players;
-        private List<Party> parties;
+        private Party party;
         private List<int> playerLines;
 
         public List<Player> Players { get => players; set => players = value; }
+        public Party Party { get => party; set => party = value; }
 
         public DAO(int partyNumber)
         {
             string fileName = "party" + partyNumber + ".txt";
             filePath = Path.Combine(Environment.CurrentDirectory, fileName);
             players = new List<Player>();
-            parties = new List<Party>();
+            party = new Party(players);
             playerLines = new List<int>();
         }
 
@@ -38,14 +39,16 @@ namespace DAL
             {
                 newLines.AddRange(rewriteData(item, party, lines, partyPlayerLines.IndexOf(item)));
             }
+            newLines.Add(party.Money.ToString());
             updateFile(newLines);
         }
 
         public void Read()
         {
             var lines = readFile();
-
             separatePlayers(lines);
+            party = new Party(players);
+            party.Money = Convert.ToInt32(lines[lines.Count - 1]);
         }
 
         private List<string> readFile()
@@ -94,7 +97,7 @@ namespace DAL
 
         private string[] split(int thing, List<string> lines)
         {
-            string[] data = lines[thing].Split(',');
+            string[] data = lines[thing].Split('.');
             return data;
         }
 
@@ -149,7 +152,7 @@ namespace DAL
             for (int i = 2; i < 10; i++)
             {
                 string origin = lines[item + i];
-                string update = origin.Replace(origin, party.Players[index].Items[i - 2].ToString());
+                string update = party.Players[index].Items[i - 2].ToString();
                 value.Add(update);
             }
             return value;

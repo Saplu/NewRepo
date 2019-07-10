@@ -18,14 +18,17 @@ namespace MyFirstMonoGame
         Hero hero;
         Presentation.MainMenu mainMenu;
         Presentation.Combat combat;
-        bool Main, Adventure, Combat, Victory;
+        Presentation.Shop shop;
+
+        bool Main, Adventure, Combat, Victory, Shop;
         MouseState previousState, currentState;
         int x, y;
         List<Texture2D> characterTextures;
         MissionClassLibrary.Mission activeMission;
         List<CharacterClassLibrary.Player> players;
         Presentation.VictoryView victory;
-        Texture2D combatBackGround, skillButtonTexture, victoryBackGround, buttonTexture, red, blue, green;
+        Texture2D combatBackGround, skillButtonTexture, victoryBackGround, buttonTexture, red, blue, green,
+            menuBackGround;
 
         DAL.DAO dao;
 
@@ -72,7 +75,7 @@ namespace MyFirstMonoGame
             font = Content.Load<SpriteFont>("Font");
             hero = new Hero(heroTextureAtlas, 4, 4);
             buttonTexture = Content.Load<Texture2D>("Nappi");
-            var menuBackGround = Content.Load<Texture2D>("Tausta");
+            menuBackGround = Content.Load<Texture2D>("Tausta");
             mainMenu = new Presentation.MainMenu(buttonTexture, menuBackGround, font);
             skillButtonTexture = Content.Load<Texture2D>("skillbutton");
 
@@ -134,6 +137,8 @@ namespace MyFirstMonoGame
                 mainMenu.UpdateButtons(currentState);
                 string Redirect = mainMenu.CheckButtons();
                 manageActiveObjects(Redirect);
+                if (Redirect == "Shop")
+                    newShop();
             }
 
             if (Adventure == true)
@@ -163,6 +168,10 @@ namespace MyFirstMonoGame
                 {
                     savePlayers();
                 }
+            }
+            if (Shop == true)
+            {
+
             }
             previousState = currentState;
             base.Update(gameTime);
@@ -195,6 +204,10 @@ namespace MyFirstMonoGame
             {
                 victory.Draw(spriteBatch, font);
             }
+            if (Shop == true)
+            {
+                shop.Draw(spriteBatch, font);
+            }
             spriteBatch.End();
 
             base.Draw(gameTime);
@@ -204,10 +217,11 @@ namespace MyFirstMonoGame
         {
             switch (key)
             {
-                case "MainMenu": Main = true; Adventure = false; Combat = false; Victory = false; break;
-                case "Adventure": Main = false; Adventure = true; Combat = false; Victory = false; break;
-                case "Combat": Main = false; Adventure = false; Combat = true; Victory = false; break;
-                case "Victory": Main = false; Adventure = false; Combat = false; Victory = true; break;
+                case "MainMenu": Main = true; Adventure = false; Combat = false; Victory = false; Shop = false; break;
+                case "Adventure": Main = false; Adventure = true; Combat = false; Victory = false; Shop = false; break;
+                case "Combat": Main = false; Adventure = false; Combat = true; Victory = false; Shop = false; break;
+                case "Victory": Main = false; Adventure = false; Combat = false; Victory = true; Shop = false; break;
+                case "Shop": Main = false; Adventure = false; Combat = false; Victory = false; Shop = true; break;
                 case "Exit": Exit(); break;
                 default: Main = true; Adventure = false; Combat = false; Victory = false; break;
             }
@@ -229,6 +243,11 @@ namespace MyFirstMonoGame
             dao.Update(party);
             dao.Read();
             players = converter.DAOToGame(dao.Players);
+        }
+
+        private void newShop()
+        {
+            shop = new Presentation.Shop(players, dao, menuBackGround, buttonTexture, font);
         }
     }
 }

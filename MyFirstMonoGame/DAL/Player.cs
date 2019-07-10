@@ -47,8 +47,8 @@ namespace DAL
 
         public override string ToString()
         {
-            var value = Name + "," + Health + "," + strength + "," + spellPower + "," +
-                crit + "," + Armor + "," + level + "," + xp + "," + className + "\r\n";
+            var value = Name + "." + Health + "." + strength + "." + spellPower + "." +
+                crit + "." + Armor + "." + level + "." + xp + "." + className + "\r\n";
             return value;
         }
     }

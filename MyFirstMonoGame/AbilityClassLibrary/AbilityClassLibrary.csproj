@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1B8188B8-8582-4107-8C0F-A0E3E24C9076}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AbilityClassLibrary</RootNamespace>
+    <AssemblyName>AbilityClassLibrary</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Ability.cs" />
+    <Compile Include="BloodPriest\Heal.cs" />
+    <Compile Include="BloodPriest\LifeLeech.cs" />
+    <Compile Include="BloodPriest\Sacrifice.cs" />
+    <Compile Include="BloodPriest\WeakenBlood.cs" />
+    <Compile Include="Fairy\Bubble.cs" />
+    <Compile Include="Fairy\HealingWords.cs" />
+    <Compile Include="Fairy\Inspire.cs" />
+    <Compile Include="Fairy\Laser.cs" />
+    <Compile Include="Mage\Fireball.cs" />
+    <Compile Include="Mage\FireWithin.cs" />
+    <Compile Include="Mage\Hellfire.cs" />
+    <Compile Include="Mage\LavaField.cs" />
+    <Compile Include="NPC\Bite.cs" />
+    <Compile Include="NPC\BloodPlague.cs" />
+    <Compile Include="NPC\Execute.cs" />
+    <Compile Include="NPC\Kick.cs" />
+    <Compile Include="NPC\RigorMortis.cs" />
+    <Compile Include="NPC\StunningBlow.cs" />
+    <Compile Include="NPC\Whirlwind.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Protector\ChallengingShout.cs" />
+    <Compile Include="Protector\DevastatingStrike.cs" />
+    <Compile Include="Protector\Sweep.cs" />
+    <Compile Include="Protector\TauntingBlow.cs" />
+    <Compile Include="Rogue\BladeFlurry.cs" />
+    <Compile Include="Rogue\Jawbreaker.cs" />
+    <Compile Include="Rogue\Mutilate.cs" />
+    <Compile Include="Rogue\Stab.cs" />
+    <Compile Include="Shaman\ChainLightning.cs" />
+    <Compile Include="Shaman\FlameShock.cs" />
+    <Compile Include="Shaman\LightningBolt.cs" />
+    <Compile Include="Shaman\Thunder.cs" />
+    <Compile Include="Templar\RighteousBane.cs" />
+    <Compile Include="Templar\HolyGround.cs" />
+    <Compile Include="Templar\HolyShock.cs" />
+    <Compile Include="Templar\SacredThrust.cs" />
+    <Compile Include="Warrior\Attack.cs" />
+    <Compile Include="Warrior\BattleCry.cs" />
+    <Compile Include="Warrior\Execute.cs" />
+    <Compile Include="Warrior\ViciousBlow.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CombatLogicClassLibrary\CombatLogicClassLibrary.csproj">
+      <Project>{63871ecc-b299-4f61-bfc7-77571cb3a7f2}</Project>
+      <Name>CombatLogicClassLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{204eaa13-ef34-4626-ad1b-d932f77ac846}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

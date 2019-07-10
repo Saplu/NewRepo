@@ -43,7 +43,7 @@ namespace MyFirstMonoGame.Presentation
             if (ExitButton.ButtonClicked())
                 return "Exit";
             if (ShopButton.ButtonClicked())
-                return "Combat";
+                return "Shop";
             else return "MainMenu";
         }
 
