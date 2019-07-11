@@ -26,6 +26,8 @@ namespace MyFirstMonoGame
         private CharacterClassLibrary.Enums.MissionDifficulty mapDifficulty;
         private Presentation.Button menuButton;
         private SpriteFont font;
+        private int id, north, east, south, west;
+        private Texture2D buttonTexture;
 
         public List<int> MapCubes { get => mapCubes; set => mapCubes = value; }
         public Texture2D Texture { get => texture; }
@@ -36,6 +38,11 @@ namespace MyFirstMonoGame
         public Texture2D EnemyTexture { get => enemyTexture; set => enemyTexture = value; }
         public int Level { get => level; set => level = value; }
         public MissionDifficulty MapDifficulty { get => mapDifficulty; set => mapDifficulty = value; }
+        public int Id { get => id; set => value = id; }
+        public int North { get => north; set => north = value; }
+        public int East { get => east; set => east = value; }
+        public int South { get => south; set => south = value; }
+        public int West { get => west; set => west = value; }
 
         public Map(Texture2D texture, int rows, int columns, Texture2D enemyTexture, Texture2D buttonTexture, SpriteFont font)
         {
@@ -44,12 +51,23 @@ namespace MyFirstMonoGame
             this.columns = columns;
             this.currentFrame = 0;
             this.boxes = new List<BoundingBox>();
+            this.buttonTexture = buttonTexture;
             //Koko on 800x480. 25x15 32x32 tiiliä.
             mapParts = getMapParts();
             this.enemyTexture = enemyTexture;
             combatBoxes = new List<BoundingBox>();
             menuButton = new Presentation.Button(buttonTexture, 735, 450, "Menu", 60, 25);
             this.font = font;
+        }
+
+        public Map Create(int key)
+        {
+            switch(key)
+            {
+                case 1: return new Maps.Training(texture, rows, columns, enemyTexture, buttonTexture, font);
+                case 2: return new Maps.CrossRoad(texture, rows, columns, enemyTexture, buttonTexture, font);
+                default: throw new Exception("No map found.");
+            }
         }
 
         public void Draw(SpriteBatch sprite) //Kantaluokkaan
@@ -96,7 +114,19 @@ namespace MyFirstMonoGame
             else return "Adventure";
         }
 
-        private List<Rectangle> getMapParts() //Kantaluokkaan
+        public int NextMap(int key)
+        {
+            switch(key)
+            {
+                case 1: return north;
+                case 2: return east;
+                case 3: return south;
+                case 4: return west;
+                default: return 0;
+            }
+        }
+
+        private List<Rectangle> getMapParts()
         {
             var parts = new List<Rectangle>();
             var frameWidth = texture.Width / columns;

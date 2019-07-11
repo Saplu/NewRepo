@@ -17,8 +17,14 @@ namespace MyFirstMonoGame.Maps
             getBoundingBoxes();
             CombatBoxes.Add (new BoundingBox(new Vector3(300, 200, 0), new Vector3(332, 232, 0)));
             CombatBoxes.Add(new BoundingBox(new Vector3(350, 250, 0), new Vector3(382, 282, 0)));
+            CombatBoxes.Add(new BoundingBox(new Vector3(250, 270, 0), new Vector3(282, 302, 0)));
             Level = 1;
             MapDifficulty = CharacterClassLibrary.Enums.MissionDifficulty.easy;
+            Id = 1;
+            North = 0;
+            East = 2;
+            South = 0;
+            West = 0;
         }
 
         private List<int> getMapCubes() //Tämä on karttakohtainen!

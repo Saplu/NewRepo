@@ -59,6 +59,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Game1.cs" />
+    <Compile Include="Maps\CrossRoad.cs" />
     <Compile Include="Maps\Map.cs" />
     <Compile Include="Maps\Training.cs" />
     <Compile Include="MovableHero.cs" />

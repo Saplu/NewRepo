@@ -36,7 +36,7 @@ namespace MyFirstMonoGame
             currentFrame = 0;
             frameMultiplier = 0;
             speed = 150f;
-            position = new Vector2(10, 300);
+            position = new Vector2(20, 300);
             box = new BoundingBox(new Vector3(position.X, position.Y, 0), new Vector3(position.X + 32, position.Y + 32, 0));
             actionMultiplier = 0;
             previousActionLeft = false;
@@ -121,6 +121,31 @@ namespace MyFirstMonoGame
                     return "Combat";
             }
             return "Adventure";
+        }
+
+        public int OnBorder()
+        {
+            if (box.Max.X >= 799)
+                return 2;
+            else if (box.Min.X <= 1)
+                return 4;
+            else if (box.Max.Y >= 479)
+                return 3;
+            else if (box.Min.Y <= 1)
+                return 1;
+            else return 0;
+        }
+
+        public Vector2 NewMapPosition(int key)
+        {
+            switch(key)
+            {
+                case 1: return new Vector2(position.X, 460);
+                case 2: return new Vector2(20, position.Y);
+                case 3: return new Vector2(position.X, 20);
+                case 4: return new Vector2(780, position.Y);
+                default: throw new Exception("Something awkward just happened.");
+            }
         }
 
         private void checkCollisionSide(BoundingBox enviroment, GameTime gameTime, GraphicsDeviceManager graphics)

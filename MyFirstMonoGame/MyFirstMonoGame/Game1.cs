@@ -153,9 +153,8 @@ namespace MyFirstMonoGame
                     Redirect = map.CheckButtons();
                 manageActiveObjects(Redirect);
                 if (Redirect == "Combat")
-                {
                     newCombat();
-                }
+                checkNextMap();
             }
             if (Combat == true)
             {
@@ -264,6 +263,20 @@ namespace MyFirstMonoGame
         private void newShop()
         {
             shop = new Presentation.Shop(players, dao, shopBackGround, buttonTexture, font);
+        }
+
+        private void checkNextMap()
+        {
+            var border = hero.OnBorder();
+            if (border != 0)
+            {
+                var available = map.NextMap(border);
+                if (available != 0)
+                {
+                    map = map.Create(available);
+                    hero.Position = hero.NewMapPosition(border);
+                }
+            }
         }
     }
 }
