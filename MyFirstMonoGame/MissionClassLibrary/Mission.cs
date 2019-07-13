@@ -64,7 +64,7 @@ namespace MissionClassLibrary
                             var threat = players[playerPosition - 1].GetThreat(id);
                             if (Utils.TrueDamageAbilities.IsTrueDmg(id))
                                 enemies[target - 5].TrueDmgDefend(dmg);
-                            else enemies[target - 5].Defend(dmg);
+                            else enemies[target - 5].Defend(dmg, players[playerPosition -1].Level);
                             enemies[target - 5].ManageThreat(playerPosition - 1, threat);
                         }
                     }
@@ -254,7 +254,7 @@ namespace MissionClassLibrary
                     {
                         if (Utils.TrueDamageAbilities.IsTrueDmg(id))
                             players[target - 1].TrueDmgDefend(dmg);
-                        else players[target - 1].Defend(dmg);
+                        else players[target - 1].Defend(dmg, enemies[enemyIndex].Level);
                         SetStatuses(enemyIndex + 5, id, target);
                     }
                 }

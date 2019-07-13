@@ -8,7 +8,7 @@ namespace CharacterClassLibrary.Interfaces
 {
     public interface CombatInterface
     {
-        void Defend(int dmg);
+        void Defend(int dmg, int attackerLevel);
         void TrueDmgDefend(int dmg);
     }
 }

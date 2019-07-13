@@ -36,10 +36,10 @@ namespace CharacterClassLibrary
         public abstract int UseAbility(string id);
         public abstract double setStatusEffect(string id, int targetPosition);
 
-        public virtual void Defend(int incomingDmg)
+        public virtual void Defend(int incomingDmg, int attackerLevel)
         {
             var dmg = getDefenseModifier() + incomingDmg;
-            dmg = armorEffect(dmg);
+            dmg = armorEffect(dmg, attackerLevel);
             dmg = Convert.ToInt32(dmg * getDefenseMultiplier());
             var shieldedDmg = dmg - getShield();
             reduceShieldAmount(shieldedDmg, dmg);
@@ -118,7 +118,7 @@ namespace CharacterClassLibrary
                     if (status is CombatLogicClassLibrary.Statuses.Poison)
                         TrueDmgDefend(Convert.ToInt32(status.Effect));
                     else if (status is CombatLogicClassLibrary.Statuses.DoT)
-                        Defend(Convert.ToInt32(status.Effect));
+                        Defend(Convert.ToInt32(status.Effect), level);
                 }
             }
         }
@@ -185,12 +185,18 @@ namespace CharacterClassLibrary
             return multiplier;
         }
 
-        private int armorEffect(int dmg)
+        private int armorEffect(int dmg, int attackerLevel)
         {
-            var effect = dmg - (armor / 4);
-            if (effect >= dmg * .25)
-                return effect;
-            else return Convert.ToInt32(dmg * .25);
+            var armorReduction = calculateArmorReduction(attackerLevel);
+            return Convert.ToInt32(dmg * armorReduction);
+        }
+
+        private double calculateArmorReduction(int attackerLevel)
+        {
+            double fullValue = Convert.ToDouble(armor) / 60 / Convert.ToDouble(attackerLevel);
+            if (fullValue > .75)
+                return .25;
+            else return 1 - fullValue;
         }
 
         private int getShield()

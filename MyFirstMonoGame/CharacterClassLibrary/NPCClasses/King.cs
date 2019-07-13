@@ -20,7 +20,7 @@ namespace CharacterClassLibrary.NPCClasses
             Strength = Convert.ToInt32(multi * (16 + (level * 7)));
             Crit = 0;
             SpellPower = 0;
-            Armor = Convert.ToInt32(multi * (level * 8));
+            Armor = Convert.ToInt32(multi * (level * 13));
             Statuses = new List<CombatLogicClassLibrary.Status>();
             Threat = new CombatLogicClassLibrary.Threat();
         }
