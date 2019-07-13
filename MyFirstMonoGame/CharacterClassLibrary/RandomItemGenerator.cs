@@ -17,7 +17,7 @@ namespace CharacterClassLibrary
             item.Quality = quality;
             item.ItemType = (ItemType)Enum.Parse(typeof(ItemType), chooseItemType(type).ToString());
             item.ItemPlace = (ItemPlace)Enum.Parse(typeof(ItemPlace), chooseItemPlace().ToString());
-            if (Convert.ToInt32(item.ItemPlace) == 0 || Convert.ToInt32(item.ItemPlace) == 1 || Convert.ToInt32(item.ItemPlace) == 8)
+            if (Convert.ToInt32(item.ItemPlace) == 0 || Convert.ToInt32(item.ItemPlace) == 1)
                 item.ItemType = ItemType.Cloth;
             if (Convert.ToInt32(item.ItemPlace) == 7)
                 item.ItemType = ItemType.Mail;
@@ -36,7 +36,7 @@ namespace CharacterClassLibrary
             item.Quality = quality;
             item.ItemType = (ItemType)Enum.Parse(typeof(ItemType), type.ToString());
             item.ItemPlace = (ItemPlace)Enum.Parse(typeof(ItemPlace), place.ToString());
-            if (Convert.ToInt32(item.ItemPlace) == 0 || Convert.ToInt32(item.ItemPlace) == 1 || Convert.ToInt32(item.ItemPlace) == 8)
+            if (Convert.ToInt32(item.ItemPlace) == 0 || Convert.ToInt32(item.ItemPlace) == 1)
                 item.ItemType = ItemType.Cloth;
             if (Convert.ToInt32(item.ItemPlace) == 7)
                 item.ItemType = ItemType.Mail;
@@ -57,14 +57,13 @@ namespace CharacterClassLibrary
             switch (value)
             {
                 case 0: power = level * 5; break;
-                case 1: power = level * 2; break;
+                case 1: power = level * 3; break;
                 case 2: power = level * 3; break;
                 case 3: power = level * 4; break;
                 case 4: power = level * 2; break;
                 case 5: power = level * 4; break;
                 case 6: power = level * 2; break;
                 case 7: power = level * 2; break;
-                case 8: power = level * 2; break;
                 default: throw new ArgumentOutOfRangeException();
             }
             return Convert.ToInt32(power * qualityMultiplier);

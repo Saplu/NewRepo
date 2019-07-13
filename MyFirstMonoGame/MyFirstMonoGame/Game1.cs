@@ -109,7 +109,7 @@ namespace MyFirstMonoGame
                 medicTexture, pirateTexture, necroTexture, warriorTexture, templarTexture,
                 rabbitTexture, rogueTexture, shamanTexture, protectorTexture, mageTexture};
 
-            map = new Maps.Training(mapTextureAtlas, 5, 7, enemyTexture, buttonTexture, font);
+            map = new Maps.CrossRoad(mapTextureAtlas, 5, 7, enemyTexture, buttonTexture, font);
         }
 
         /// <summary>

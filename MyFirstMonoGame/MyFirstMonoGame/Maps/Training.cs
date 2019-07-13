@@ -59,8 +59,8 @@ namespace MyFirstMonoGame.Maps
             list[156] = 5;
             
             list[170] = 5;
-            list[99] = 7;
-            list[124] = 7;
+            list[99] = 7; list[98] = 7;
+            list[124] = 7; list[123] = 7;
 
             return list;
         }

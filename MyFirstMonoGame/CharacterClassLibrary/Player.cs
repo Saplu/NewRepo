@@ -16,6 +16,8 @@ namespace CharacterClassLibrary
         private List<Item> items;
         private List<ItemType> itemTypes;
         private int[] cooldowns;
+        private List<ItemPlace> itemPlaces = new List<ItemPlace>(){ItemPlace.MainHand, ItemPlace.Head,
+            ItemPlace.Chest, ItemPlace.Hands, ItemPlace.Legs, ItemPlace.Feet };
 
         public int Xp { get => xp; set => xp = value; }
         public string Name { get => name; set => name = value; }
@@ -23,6 +25,7 @@ namespace CharacterClassLibrary
         public List<Item> Items { get => items; set => items = value; }
         public List<ItemType> ItemTypes { get => itemTypes; set => itemTypes = value; }
         public int[] Cooldowns { get => cooldowns; set => cooldowns = value; }
+        public List<ItemPlace> ItemPlaces { get => itemPlaces; set => itemPlaces = value; }
 
         public static Player Create(ClassName className)
         {
@@ -102,9 +105,13 @@ namespace CharacterClassLibrary
 
         public void AddItem(Item item)
         {
-            if (Items.Exists(x => x.ItemPlace == item.ItemPlace))
-                removeItem(Convert.ToInt32(item.ItemPlace));
-            addItem(item);
+            if (itemPlaces.Exists(x => x == item.ItemPlace))
+            {
+                if (Items.Exists(x => x.ItemPlace == item.ItemPlace))
+                    removeItem(Convert.ToInt32(item.ItemPlace));
+                addItem(item);
+            }
+            else throw new Exception("Cannot wear the armor type.");
         }
 
         public int RemovedItemValue(Item loot)

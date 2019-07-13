@@ -39,6 +39,7 @@ namespace CharacterClassLibrary.PlayerClasses
             Cooldowns = new int[4] { 0, 0, 0, 0 };
             energy = maxEnergy;
             comboPoints = 0;
+            ItemPlaces.Add(Enums.ItemPlace.OffHand);
         }
 
         private int stab()

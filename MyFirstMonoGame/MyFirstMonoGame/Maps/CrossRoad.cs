@@ -17,6 +17,10 @@ namespace MyFirstMonoGame.Maps
             getBoundingBoxes();
             CombatBoxes.Add(new BoundingBox(new Vector3(300, 200, 0), new Vector3(332, 232, 0)));
             CombatBoxes.Add(new BoundingBox(new Vector3(350, 250, 0), new Vector3(382, 282, 0)));
+            CombatBoxes.Add(new BoundingBox(new Vector3(420, 50, 0), new Vector3(452, 82, 0)));
+            CombatBoxes.Add(new BoundingBox(new Vector3(470, 80, 0), new Vector3(502, 112, 0)));
+            CombatBoxes.Add(new BoundingBox(new Vector3(200, 220, 0), new Vector3(232, 252, 0)));
+            
             Level = 2;
             MapDifficulty = CharacterClassLibrary.Enums.MissionDifficulty.casual;
             Id = 2;
@@ -51,7 +55,15 @@ namespace MyFirstMonoGame.Maps
             list.AddRange(stone);
             list.AddRange(stone);
 
-            //list[12] = 
+            list[0] = 0; list[1] = 0; list[2] = 0; list[25] = 0; list[26] = 0;
+            list[12] = 7; list[13] = 7; list[14] = 7; list[15] = 7;list[16] = 0; list[17] = 0; list[18] = 0;
+            list[37] = 7; list[38] = 7; list[39] = 7; list[40] = 7; list[41] = 0;
+            list[50] = 7; list[51] = 7; list[75] = 7; list[76] = 7; list[100] = 7; list[101] = 7;
+            list[63] = 7; list[64] = 7; list[65] = 7; list[66] = 0; list[67] = 0; list[68] = 0;
+            list[87] = 7; list[88] = 7; list[89] = 7; list[90] = 7;
+            list[112] = 7; list[113] = 7; list[114] = 7; list[115] = 7; list[116] = 7;
+
+            
 
             return list;
         }
