@@ -101,6 +101,11 @@ namespace MissionClassLibrary
                         players[player - 1].RecieveHeal(heal);
                     }
                 }
+                foreach(var enemy in enemies)
+                {
+                    var threat = players[playerPosition - 1].GetThreat(id);
+                    enemy.ManageThreat(playerPosition - 1, threat);
+                }
             }
             else throw new Exception("Healing dead people won't make any good to the mankind.");
         }

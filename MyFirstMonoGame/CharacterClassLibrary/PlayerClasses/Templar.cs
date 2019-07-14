@@ -149,10 +149,10 @@ namespace CharacterClassLibrary.PlayerClasses
         {
             switch(id)
             {
-                case "Sacred Thrust": return 15;
-                case "Holy Ground": return 12;
-                case "Holy Shock": return 9;
-                case "Righteous Bane": return 12;
+                case "Sacred Thrust": return Convert.ToInt32(SpellPower * 2.5);
+                case "Holy Ground": return Convert.ToInt32(SpellPower * 1.7);
+                case "Holy Shock": return Convert.ToInt32(SpellPower * 1.9);
+                case "Righteous Bane": return Convert.ToInt32(SpellPower * 2.3);
                 default: return 0;
             }
         }

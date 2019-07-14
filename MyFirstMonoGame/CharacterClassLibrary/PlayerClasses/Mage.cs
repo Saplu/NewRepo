@@ -152,5 +152,17 @@ namespace CharacterClassLibrary.PlayerClasses
             }
             else return 0;
         }
+
+        public override int GetThreat(string id)
+        {
+            switch(id)
+            {
+                case "Lava Field": return Convert.ToInt32(SpellPower * .8);
+                case "Fireball": return SpellPower;
+                case "Fire Within": return Convert.ToInt32(SpellPower * .8);
+                case "Hellfire": return SpellPower;
+                default: return 0;
+            }
+        }
     }
 }

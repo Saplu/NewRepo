@@ -92,28 +92,19 @@ namespace CharacterClassLibrary.PlayerClasses
 
         public override int UseAbility(string id)
         {
-            if (id == "Life Leech")
-                return lifeLeech();
-            if (id == "Heal")
-                return heal();
-            if (id == "Weaken Blood")
-                return weakenBlood();
-            if (id == "Sacrifice")
-                return sacrifice();
-            else return 1;
+            switch(id)
+            {
+                case "Life Leech": return lifeLeech();
+                case "Heal": return heal();
+                case "Weaken Blood": return weakenBlood();
+                case "Sacrifice": return sacrifice();
+                default: return 1;
+            }
         }
 
         public override int GetTargets(string id)
         {
-            if (id == "Life Leech")
-                return 1;
-            if (id == "Heal")
-                return 1;
-            if (id == "Weaken Blood")
-                return 1;
-            if (id == "Sacrifice")
-                return 1;
-            else return 1;
+            return 1;
         }
 
         public override string setPic()
@@ -141,6 +132,18 @@ namespace CharacterClassLibrary.PlayerClasses
                 case "Life Leech": return Convert.ToInt32(lifeLeech() / 3);
                 case "Weaken Blood": return Convert.ToInt32(SpellPower * .4);
                 case "Sacrifice": return .7;
+                default: return 0;
+            }
+        }
+
+        public override int GetThreat(string id)
+        {
+            switch(id)
+            {
+                case "Life Leech": return Convert.ToInt32(SpellPower * .8);
+                case "Heal": return Convert.ToInt32(SpellPower * .3);
+                case "Weaken Blood": return Convert.ToInt32(SpellPower * .8);
+                case "Sacrifice": return Convert.ToInt32(SpellPower * .4);
                 default: return 0;
             }
         }

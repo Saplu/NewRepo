@@ -139,5 +139,17 @@ namespace CharacterClassLibrary.PlayerClasses
                 default: return 0;
             }
         }
+
+        public override int GetThreat(string id)
+        {
+            switch(id)
+            {
+                case "Lightning Bolt": return SpellPower;
+                case "Flame Shock": return Convert.ToInt32(SpellPower * .8);
+                case "Chain Lightning": return Convert.ToInt32(SpellPower*.9);
+                case "Thunder": return Convert.ToInt32(SpellPower * .5);
+                default: return 0;
+            }
+        }
     }
 }

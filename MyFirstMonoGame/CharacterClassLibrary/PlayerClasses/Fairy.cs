@@ -142,5 +142,17 @@ namespace CharacterClassLibrary.PlayerClasses
                 default: return 0;
             }
         }
+
+        public override int GetThreat(string id)
+        {
+            switch(id)
+            {
+                case "Laser": return SpellPower;
+                case "Bubble": return Convert.ToInt32(SpellPower * .3);
+                case "Healing Words": return Convert.ToInt32(SpellPower * .3);
+                case "Inspire": return Convert.ToInt32(SpellPower * .3);
+                default: return 0;
+            }
+        }
     }
 }

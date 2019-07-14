@@ -92,28 +92,23 @@ namespace CharacterClassLibrary.PlayerClasses
 
         public override int UseAbility(string id)
         {
-            if (id == "Attack")
-                return attack();
-            else if (id == "Vicious Blow")
-                return viciousBlow();
-            else if (id == "Battle Cry")
-                return battleCry();
-            else if (id == "Execute")
-                return execute();
-            else return 1;
+            switch(id)
+            {
+                case "Attack": return attack();
+                case "Vicious Blow": return viciousBlow();
+                case "Battle Cry": return battleCry();
+                case "Execute": return execute();
+                default: return 1;
+            }
         }
 
         public override int GetTargets(string id)
         {
-            if (id == "Attack")
-                return 1;
-            else if (id == "Vicious Blow")
-                return 1;
-            else if (id == "Battle Cry")
-                return 4;
-            else if (id == "Execute")
-                return 1;
-            else return 1;
+            switch(id)
+            {
+                case "Battle Cry": return 4;
+                default: return 1;
+            }
         }
 
         public override string setPic()
@@ -139,6 +134,18 @@ namespace CharacterClassLibrary.PlayerClasses
             if (id == "Battle Cry")
                 return 1.2;
             else return 0;
+        }
+
+        public override int GetThreat(string id)
+        {
+            switch(id)
+            {
+                case "Attack": return Strength;
+                case "Vicious Blow": return Convert.ToInt32(Strength * 1.2);
+                case "Battle Cry": return Convert.ToInt32(Strength * .2);
+                case "Execute": return Convert.ToInt32(Strength * 1.2);
+                default: return 0;
+            }
         }
     }
 }

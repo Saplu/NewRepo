@@ -147,10 +147,10 @@ namespace CharacterClassLibrary.PlayerClasses
         {
             switch (id)
             {
-                case "Taunting Blow": return 3;
-                case "Devastating Strike": return 12;
-                case "Sweep": return 6;
-                case "Challenging Shout": return 6;
+                case "Taunting Blow": return Convert.ToInt32(Strength * 2.4);
+                case "Devastating Strike": return Strength * 3;
+                case "Sweep": return Convert.ToInt32(Strength * 1.4);
+                case "Challenging Shout": return Convert.ToInt32(Strength * 1.5);
                 default: return 0;
             }
         }

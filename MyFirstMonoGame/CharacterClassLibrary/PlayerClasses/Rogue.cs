@@ -203,5 +203,17 @@ namespace CharacterClassLibrary.PlayerClasses
             ComboPoints = 0;
             Statuses = new List<CombatLogicClassLibrary.Status>();
         }
+
+        public override int GetThreat(string id)
+        {
+            switch(id)
+            {
+                case "Stab": return Convert.ToInt32(Strength * .7);
+                case "Mutilate": return Convert.ToInt32(Strength * 1.3);
+                case "Jawbreaker": return Convert.ToInt32(Strength * .8);
+                case "Blade Flurry": return Convert.ToInt32(Strength * 1.2);
+                default: return 0;
+            }
+        }
     }
 }
