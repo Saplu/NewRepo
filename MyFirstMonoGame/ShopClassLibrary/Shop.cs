@@ -10,27 +10,29 @@ namespace ShopClassLibrary
 {
     public class Shop
     {
-        private List<CharacterClassLibrary.Player> players;
-        private int money;
+        private CharacterClassLibrary.Party party;
+        //private List<CharacterClassLibrary.Player> players;
+        //private int money;
         private List<CharacterClassLibrary.Item> items;
         private CharacterClassLibrary.Player selectedPlayer;
         private DAO dao;
         private CharacterClassLibrary.Item offer;
 
-        public List<CharacterClassLibrary.Player> Players { get => players; set => players = value; }
-        public int Money { get => money; set => money = value; }
+        //public List<CharacterClassLibrary.Player> Players { get => players; set => players = value; }
+        //public int Money { get => money; set => money = value; }
         public List<CharacterClassLibrary.Item> Items { get => items; set => items = value; }
         public CharacterClassLibrary.Player SelectedPlayer { get => selectedPlayer; set => selectedPlayer = value; }
         public DAO Dao { get => dao; set => dao = value; }
         public CharacterClassLibrary.Item Offer { get => offer; set => offer = value; }
+        public CharacterClassLibrary.Party Party { get => party; set => party = value; }
 
-        public Shop(List<CharacterClassLibrary.Player> players, DAO dao)
+        public Shop(CharacterClassLibrary.Party party, DAO dao)
         {
             Dao = dao;
-            Players = players;
-            Money = dao.Party.Money;
+            this.party = party;
+            //Money = dao.Party.Money;
             Items = new List<CharacterClassLibrary.Item>();
-            selectedPlayer = players[0];
+            selectedPlayer = party.Players[0];
         }
 
         public int ManageType(int place, int type)
@@ -52,24 +54,24 @@ namespace ShopClassLibrary
                 CharacterClassLibrary.Enums.ItemQuality.Good);
         }
 
-        public List<CharacterClassLibrary.Player> PurcasheItem()
+        public CharacterClassLibrary.Party PurcasheItem()
         {
             if (offer != null)
             {
-                if (money < offer.SellValue * 4)
+                if (party.Money < offer.SellValue * 4)
                     throw new Exception("You cannot afford that. LoL.");
-                money -= offer.SellValue * 4;
+                party.Money -= offer.SellValue * 4;
                 var currentIndex = selectedPlayer.Items.IndexOf(selectedPlayer.Items.Find(x => x.ItemPlace == offer.ItemPlace));
-                money += selectedPlayer.Items[currentIndex].SellValue;
+                Party.Money += selectedPlayer.Items[currentIndex].SellValue;
                 selectedPlayer.AddItem(offer);
-                var replaceIndex = players.IndexOf(players.Find(x => x.Name == selectedPlayer.Name));
-                players[replaceIndex] = selectedPlayer;
-                return players;
+                var replaceIndex = party.Players.IndexOf(party.Players.Find(x => x.Name == selectedPlayer.Name));
+                party.Players[replaceIndex] = selectedPlayer;
+                return party;
             }
             else throw new Exception("Select some item first.");
         }
 
-        public void SaveChanges(Party dalParty)
+        public void SaveChanges(DAL.Party dalParty)
         {
             dao.Update(dalParty);
         }

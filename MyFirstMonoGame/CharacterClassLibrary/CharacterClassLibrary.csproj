@@ -61,6 +61,7 @@
     <Compile Include="NPCClasses\Necromancer.cs" />
     <Compile Include="NPCClasses\Pirate.cs" />
     <Compile Include="NPCClasses\Rabbit.cs" />
+    <Compile Include="Party.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="PlayerClasses\BloodPriest.cs" />
     <Compile Include="PlayerClasses\Fairy.cs" />

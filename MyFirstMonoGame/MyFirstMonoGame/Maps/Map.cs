@@ -38,11 +38,11 @@ namespace MyFirstMonoGame
         public Texture2D EnemyTexture { get => enemyTexture; set => enemyTexture = value; }
         public int Level { get => level; set => level = value; }
         public MissionDifficulty MapDifficulty { get => mapDifficulty; set => mapDifficulty = value; }
-        public int Id { get => id; set => value = id; }
         public int North { get => north; set => north = value; }
         public int East { get => east; set => east = value; }
         public int South { get => south; set => south = value; }
         public int West { get => west; set => west = value; }
+        public int Id { get => id; set => id = value; }
 
         public Map(Texture2D texture, int rows, int columns, Texture2D enemyTexture, Texture2D buttonTexture, SpriteFont font)
         {

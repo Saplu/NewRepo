@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Collections.Generic;
 
 namespace MyFirstMonoGame
@@ -19,16 +20,18 @@ namespace MyFirstMonoGame
         Presentation.MainMenu mainMenu;
         Presentation.Combat combat;
         Presentation.Shop shop;
+        Presentation.PartySelection partySelection;
 
-        bool Main, Adventure, Combat, Victory, Shop;
+        bool Main, Adventure, Combat, Victory, Shop, PartySelect;
+        List<bool> bools;
         MouseState previousState, currentState;
-        int x, y, money;
+        int x, y;
         List<Texture2D> characterTextures;
         MissionClassLibrary.Mission activeMission;
-        List<CharacterClassLibrary.Player> players;
         Presentation.VictoryView victory;
         Texture2D combatBackGround, skillButtonTexture, victoryBackGround, buttonTexture, red, blue, green,
             menuBackGround, shopBackGround;
+        CharacterClassLibrary.Party party;
 
         DAL.DAO dao;
 
@@ -52,11 +55,11 @@ namespace MyFirstMonoGame
             // TODO: Add your initialization logic here
             IsMouseVisible = true;
             Main = true;
+            bools = new List<bool>() { Main, Adventure, Combat, Victory, Shop, PartySelect };
             dao = new DAL.DAO(1);
             dao.Read();
             var playerConverter = new PlayerConverter();
-            players = playerConverter.DAOToGame(dao.Players);
-            money = dao.Party.Money;
+            party = playerConverter.DAOToGame(dao.Party);
 
             base.Initialize();
         }
@@ -109,7 +112,8 @@ namespace MyFirstMonoGame
                 medicTexture, pirateTexture, necroTexture, warriorTexture, templarTexture,
                 rabbitTexture, rogueTexture, shamanTexture, protectorTexture, mageTexture};
 
-            map = new Maps.CrossRoad(mapTextureAtlas, 5, 7, enemyTexture, buttonTexture, font);
+            map = new Maps.Training(mapTextureAtlas, 5, 7, enemyTexture, buttonTexture, font);
+            map = map.Create(party.Map);
         }
 
         /// <summary>
@@ -141,6 +145,8 @@ namespace MyFirstMonoGame
                 manageActiveObjects(Redirect);
                 if (Redirect == "Shop")
                     newShop();
+                if (Redirect == "PartySelect")
+                    newPartySelection();
             }
 
             if (Adventure == true)
@@ -181,8 +187,19 @@ namespace MyFirstMonoGame
                 {
                     dao.Read();
                     var playerConverter = new PlayerConverter();
-                    players = playerConverter.DAOToGame(dao.Players);
+                    party = playerConverter.DAOToGame(dao.Party);
                     Redirect = "Shop";
+                }
+                manageActiveObjects(Redirect);
+            }
+            if(PartySelect == true)
+            {
+                partySelection.UpdateButtons(currentState);
+                string Redirect = partySelection.CheckButtons();
+                if (Redirect != "MainMenu" && Redirect != "PartySelect")
+                {
+                    checkParty(Redirect);
+                    Redirect = "PartySelect";
                 }
                 manageActiveObjects(Redirect);
             }
@@ -221,6 +238,10 @@ namespace MyFirstMonoGame
             {
                 shop.Draw(spriteBatch, font);
             }
+            if (PartySelect == true)
+            {
+                partySelection.Draw(spriteBatch, font);
+            }
             spriteBatch.End();
 
             base.Draw(gameTime);
@@ -230,11 +251,12 @@ namespace MyFirstMonoGame
         {
             switch (key)
             {
-                case "MainMenu": Main = true; Adventure = false; Combat = false; Victory = false; Shop = false; break;
-                case "Adventure": Main = false; Adventure = true; Combat = false; Victory = false; Shop = false; break;
-                case "Combat": Main = false; Adventure = false; Combat = true; Victory = false; Shop = false; break;
-                case "Victory": Main = false; Adventure = false; Combat = false; Victory = true; Shop = false; break;
-                case "Shop": Main = false; Adventure = false; Combat = false; Victory = false; Shop = true; break;
+                case "MainMenu": Main = true; Adventure = false; Combat = false; Victory = false; Shop = false; PartySelect = false; break;
+                case "Adventure": Main = false; Adventure = true; Combat = false; Victory = false; Shop = false; PartySelect = false; break;
+                case "Combat": Main = false; Adventure = false; Combat = true; Victory = false; Shop = false; PartySelect = false; break;
+                case "Victory": Main = false; Adventure = false; Combat = false; Victory = true; Shop = false; PartySelect = false; break;
+                case "Shop": Main = false; Adventure = false; Combat = false; Victory = false; Shop = true; PartySelect = false; break;
+                case "PartySelect": Main = false; Adventure = false; Combat = false; Victory = false; Shop = false; PartySelect = true; break;
                 case "Exit": Exit(); break;
                 default: Main = true; Adventure = false; Combat = false; Victory = false; break;
             }
@@ -243,7 +265,7 @@ namespace MyFirstMonoGame
         private void newCombat()
         {
             var randomMission = new MissionClassLibrary.RandomMissionGenerator();
-            activeMission = randomMission.CreateMission(map.Level, map.MapDifficulty, players);
+            activeMission = randomMission.CreateMission(map.Level, map.MapDifficulty, party.Players);
             combat = new Presentation.Combat(activeMission, combatBackGround, characterTextures, font, skillButtonTexture, green, red, blue);
             var mission = new MissionClassLibrary.SuccessfulMission(activeMission);
             victory = new Presentation.VictoryView(victoryBackGround, mission, buttonTexture, font, hero, map);
@@ -252,17 +274,16 @@ namespace MyFirstMonoGame
         private void savePlayers()
         {
             var converter = new PlayerConverter();
-            var party = converter.GameToDAO(activeMission.Players);
-            money += victory.GetReward();
-            party.Money = money;
-            dao.Update(party);
-            dao.Read();
-            players = converter.DAOToGame(dao.Players);
+            party.Money += victory.GetReward();
+            var DAOParty = converter.GameToDAO(party);
+            dao.Update(DAOParty);
+            //dao.Read();
+            //party = converter.DAOToGame(DAOParty);
         }
 
         private void newShop()
         {
-            shop = new Presentation.Shop(players, dao, shopBackGround, buttonTexture, font);
+            shop = new Presentation.Shop(party, dao, shopBackGround, buttonTexture, font);
         }
 
         private void checkNextMap()
@@ -275,8 +296,24 @@ namespace MyFirstMonoGame
                 {
                     map = map.Create(available);
                     hero.Position = hero.NewMapPosition(border);
+                    party.Map = map.Id;
                 }
             }
+        }
+
+        private void newPartySelection()
+        {
+            partySelection = new Presentation.PartySelection(menuBackGround, buttonTexture, font);
+        }
+
+        private void checkParty(string id)
+        {
+            dao.Number = Convert.ToInt32(id);
+            dao.Read();
+            var playerConverter = new PlayerConverter();
+            party = playerConverter.DAOToGame(dao.Party);
+            map = map.Create(party.Map);
+            hero.Position = new Vector2(20, 300);
         }
     }
 }

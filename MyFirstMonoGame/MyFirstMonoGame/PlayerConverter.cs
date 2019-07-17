@@ -16,21 +16,24 @@ namespace MyFirstMonoGame
 
         }
 
-        public List<CharacterClassLibrary.Player> DAOToGame(List<DAL.Player> DAOPlayers)
+        public CharacterClassLibrary.Party DAOToGame(DAL.Party DAOParty)
         {
             var players = new List<CharacterClassLibrary.Player>();
-            foreach (var player in DAOPlayers)
+            foreach (var player in DAOParty.Players)
             {
                 var newPlayer = generatePlayer(player);
                 players.Add(newPlayer);
             }
-            return players;
+            var money = DAOParty.Money;
+            var map = DAOParty.Map;
+            var side = DAOParty.Side;
+            return new CharacterClassLibrary.Party(players, money, map, side);
         }
 
-        public DAL.Party GameToDAO(List<CharacterClassLibrary.Player> players)
+        public DAL.Party GameToDAO(CharacterClassLibrary.Party party)
         {
             var list = new List<DAL.Player>();
-            foreach (var player in players)
+            foreach (var player in party.Players)
             {
                 var DAOPlayer = new DAL.Player();
                 DAOPlayer.Name = player.Name;
@@ -46,7 +49,11 @@ namespace MyFirstMonoGame
                 DAOPlayer.ClassName = Convert.ToInt32(player.ClassName);
                 list.Add(DAOPlayer);
             }
-            return new Party(list);
+            var DALParty = new DAL.Party(list);
+            DALParty.Money = party.Money;
+            DALParty.Map = party.Map;
+            DALParty.Side = party.Side;
+            return DALParty;
         }
 
         private List<DAL.Item> convertItems(List<CharacterClassLibrary.Item> items)

@@ -23,7 +23,7 @@ namespace MyFirstMonoGame.Presentation
             ExitButton = new Button(buttonTexture, 275, 340, "Exit", 250, 40);
             ChoosePartyButton = new Button(buttonTexture, 275, 280, "Choose Party", 250, 40);
             BackGround = backGroundTexture;
-            MenuButtons = new List<Button>() { PlayButton, NewPlayerButton, ShopButton, ExitButton };
+            MenuButtons = new List<Button>() { PlayButton, NewPlayerButton, ShopButton, ExitButton, ChoosePartyButton };
         }
 
         public void Draw(SpriteBatch sprite, SpriteFont font)
@@ -44,6 +44,10 @@ namespace MyFirstMonoGame.Presentation
                 return "Exit";
             if (ShopButton.ButtonClicked())
                 return "Shop";
+            if (ChoosePartyButton.ButtonClicked())
+                return "PartySelect";
+            if (NewPlayerButton.ButtonClicked())
+                return "PartySelect";
             else return "MainMenu";
         }
 

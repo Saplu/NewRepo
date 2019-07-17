@@ -140,6 +140,7 @@ namespace CharacterClassLibrary
         {
             items[Convert.ToInt32(item.ItemPlace)] = item;
             Health += item.Health;
+            MaxHealth = Health;
             Strength += item.Strength;
             SpellPower += item.Spellpower;
             Crit += item.Crit;

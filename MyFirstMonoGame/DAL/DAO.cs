@@ -10,13 +10,16 @@ namespace DAL
         private List<Player> players;
         private Party party;
         private List<int> playerLines;
+        private int number;
 
         public List<Player> Players { get => players; set => players = value; }
         public Party Party { get => party; set => party = value; }
+        public int Number { get => number; set => number = value; }
 
         public DAO(int partyNumber)
         {
-            string fileName = "party" + partyNumber + ".txt";
+            number = partyNumber;
+            string fileName = "party" + number + ".txt";
             filePath = Path.Combine(Environment.CurrentDirectory, fileName);
             players = new List<Player>();
             party = new Party(players);
@@ -39,7 +42,7 @@ namespace DAL
             {
                 newLines.AddRange(rewriteData(item, party, lines, partyPlayerLines.IndexOf(item)));
             }
-            newLines.Add(party.Money.ToString());
+            newLines.Add(party.Money.ToString() + "." + party.Map.ToString() + "." + party.Side.ToString());
             updateFile(newLines);
         }
 
@@ -48,11 +51,16 @@ namespace DAL
             var lines = readFile();
             separatePlayers(lines);
             party = new Party(players);
-            party.Money = Convert.ToInt32(lines[lines.Count - 1]);
+            var last = split(lines.Count - 1, lines);
+            party.Money = Convert.ToInt32(last[0]);
+            party.Map = Convert.ToInt32(last[1]);
+            party.Side = Convert.ToInt32(last[2]);
         }
 
         private List<string> readFile()
         {
+            string fileName = "party" + number + ".txt";
+            filePath = Path.Combine(Environment.CurrentDirectory, fileName);
             var lines = new List<string>();
             using (StreamReader reader = new StreamReader(filePath))
             {

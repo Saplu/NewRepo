@@ -174,7 +174,7 @@ namespace CharacterClassLibrary.PlayerClasses
         public override string ToString()
         {
             var statuses = getStatuses();
-            return "Health: " + Health + "/" + MaxHealth + "<br/>" +  ComboPoints + " " + Energy + " / " + MaxEnergy + statuses;
+            return "Health: " + Health + "/" + MaxHealth + "\r\n" +  ComboPoints + " " + Energy + " / " + MaxEnergy + statuses;
         }
 
         private void addCombo(int value)

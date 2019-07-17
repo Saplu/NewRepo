@@ -51,5 +51,27 @@ namespace DAL
                 crit + "." + Armor + "." + level + "." + xp + "." + className + "\r\n";
             return value;
         }
+
+        public string ToMenuString()
+        {
+            var className = getClassName();
+            return Name + ", level " + Level + " " + className;
+        }
+
+        private string getClassName()
+        {
+            switch(className)
+            {
+                case 0: return "Warrior";
+                case 1: return "Mage";
+                case 2: return "Blood Priest";
+                case 3: return "Protector";
+                case 4: return "Fairy";
+                case 5: return "Shaman";
+                case 6: return "Rogue";
+                case 7: return "Templar";
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
     }
 }
