@@ -15,17 +15,17 @@ namespace MissionClassLibrary
         private List<Player> players;
         private int turn;
         private int level;
-        private List<int> actionsTaken;
         private int[] rewardTable;
         private string transferTo;
+        private Logger logger;
 
         public List<NPC> Enemies { get => enemies; set => enemies = value; }
         public List<Player> Players { get => players; set => players = value; }
         public int Turn { get => turn; set => turn = value; }
         public int Level { get => level; set => level = value; }
-        public List<int> ActionsTaken { get => actionsTaken; set => actionsTaken = value; }
         public int[] RewardTable { get => rewardTable; set => rewardTable = value; }
         public string TransferTo { get => transferTo; set => transferTo = value; }
+        public Logger Logger { get => logger; set => logger = value; }
 
         public static Mission Create(MissionList missions, List<Player> players)
         {
@@ -168,42 +168,7 @@ namespace MissionClassLibrary
             var cdarr = Players[index].Cooldowns;
             return cdarr;
         }
-        /*
-        public int CalculateXp()
-        {
-            var playerLevel = 0;
-            var enemyLevel = 0;
-            var value = Enemies.Count * 5;
-            foreach (var player in Players)
-                playerLevel += player.Level;
-            foreach (var enemy in Enemies)
-            {
-                var bonus = typeWeight(Convert.ToInt32(enemy.Type));
-                enemyLevel += enemy.Level + bonus;
-            }
-            value += enemyLevel - playerLevel;
-            if (value > 0)
-                return value;
-            else return 0;
-        }
-        */
-        public void ActionDone(int place)
-        {
-            ActionsTaken.Add(place);
-        }
-        /*
-        public ItemQuality RewardItemQuality()
-        {
-            var rand = Utils.RandomProvider.GetRandom(1, 100);
-            if (rand <= RewardTable[0])
-                return ItemQuality.Poor;
-            else if (rand > RewardTable[0] && rand <= RewardTable[0] + RewardTable[1])
-                return ItemQuality.Good;
-            else if (rand > RewardTable[0] + RewardTable[1] && rand <= RewardTable[0] + RewardTable[1] + RewardTable[2])
-                return ItemQuality.Great;
-            else return ItemQuality.Masterpiece;
-        }
-        */
+
         public void EndOfMissionReset()
         {
             foreach(var player in Players)
@@ -214,25 +179,14 @@ namespace MissionClassLibrary
 
         public void EndTurn()
         {
+            Logger.Clear();
             for (int i = 0; i < Enemies.Count; i++)
             {
                 PlayerDefend(i);
             }
             ModifyLength();
         }
-        /*
-        private int typeWeight(int type)
-        {
-            switch (type)
-            {
-                case 0: return -1;
-                case 1: return 0;
-                case 2: return 2;
-                case 3: return 4;
-                default: return 0;
-            }
-        }
-        */
+
         private void enemyHeal(string id, int enemyIndex)
         {
             var targetCount = enemies[enemyIndex].GetTargets(id);
@@ -241,6 +195,8 @@ namespace MissionClassLibrary
             var targetIndex = enemies[enemyIndex].ChooseAlly(healths);
             enemies[targetIndex].RecieveHeal(heal);
             SetStatuses(enemyIndex + 5, id, targetIndex + 5);
+            logger.Update(enemyIndex, new List<int>() { targetIndex + 5 });
+            logger.UpdateHp(players, enemies);
         }
 
         private void enemyAttack(string id, int enemyIndex)
@@ -252,7 +208,7 @@ namespace MissionClassLibrary
             {
                 var util = new Utils.TargetSetter();
                 var targets = util.setTargets(defender, targetCount);
-
+                logger.Update(enemyIndex, targets);
                 foreach (var target in targets)
                 {
                     if (players[target - 1].Health > 0)
@@ -261,6 +217,7 @@ namespace MissionClassLibrary
                             players[target - 1].TrueDmgDefend(dmg);
                         else players[target - 1].Defend(dmg, enemies[enemyIndex].Level);
                         SetStatuses(enemyIndex + 5, id, target);
+                        logger.UpdateHp(players, enemies);
                     }
                 }
             }

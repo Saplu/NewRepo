@@ -33,7 +33,6 @@ namespace MissionClassLibrary.Missions
             }
             Turn = 1;
             Level = 1;
-            ActionsTaken = new List<int>();
             RewardTable = new int[4] { 75, 25, 0, 0 };
             TransferTo = "Menu";
         }

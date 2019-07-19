@@ -16,7 +16,7 @@ namespace MissionClassLibrary
             Level = level;
             RewardTable = rewardTable;
             Turn = 1;
-            ActionsTaken = new List<int>();
+            Logger = new Logger();
 
             foreach (var enemy in Enemies)
             {

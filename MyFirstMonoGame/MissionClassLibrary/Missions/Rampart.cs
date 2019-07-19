@@ -32,7 +32,6 @@ namespace MissionClassLibrary.Missions
             }
             Turn = 1;
             Level = 5;
-            ActionsTaken = new List<int>();
             RewardTable = new int[4] { 25, 50, 25, 0 };
             TransferTo = "Keep";
         }
