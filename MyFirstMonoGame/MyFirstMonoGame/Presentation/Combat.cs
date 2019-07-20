@@ -21,6 +21,8 @@ namespace MyFirstMonoGame.Presentation
         private Label enemy1Label, enemy2Label, enemy3Label, enemy4Label, 
             player1Label, player2Label, player3Label, player4Label, turnLabel, toolTipLabel;
         private List<Button> allButtons, skillUsableButtons, playerUsableButtons, skillButtons;
+        private bool attackAnimationRunning;
+        private Attack attack;
 
         public Combat(Mission mission, Texture2D backGround, List<Texture2D> characterTextures, SpriteFont font, Texture2D skillButton,
             Texture2D available, Texture2D unavailable, Texture2D selected)
@@ -34,6 +36,7 @@ namespace MyFirstMonoGame.Presentation
             enemyButtons = new List<Button>();
             playerButtons = new List<Button>();
             playerUsableButtons = new List<Button>();
+            attack = new Attack(characterTextures.Last());
 
             foreach (var enemy in mission.Enemies)
             {
@@ -117,9 +120,10 @@ namespace MyFirstMonoGame.Presentation
             foreach (var button in skillUsableButtons)
                 button.Draw(sprite, font);
             toolTipLabel.Draw(sprite, font);
+            attack.Draw(sprite);
         }
 
-        public void Update()
+        public void Update(GameTime gameTime)
         {
             player1Label.Text = mission.Players[0].ToString();
             player2Label.Text = mission.Players[1].ToString();
@@ -153,6 +157,7 @@ namespace MyFirstMonoGame.Presentation
                     toolTipLabel.Update(mission.Players[missionStatus.SelectedPlayerPosition - 1].AbilityInfo()[skillButtons.IndexOf(button)]);
                 }
             }
+            attack.Update(gameTime);
         }
 
         public string CheckButtons()
@@ -236,6 +241,7 @@ namespace MyFirstMonoGame.Presentation
                         missionStatus.ActionDone.Add(missionStatus.SelectedPlayerPosition);
                         missionStatus.SkillID = "";
                         missionStatus.SelectedPlayerPosition = 0;
+                        activateAttack(button.ButtonX, button.ButtonY);
                     }
                 }
                 checkPlayerButtons();
@@ -256,5 +262,58 @@ namespace MyFirstMonoGame.Presentation
                 missionStatus.SetSkillID(skill4Button.Text);
             else checkPlayerButtons();
         }
+
+        private void activateAttack(int x, int y)
+        {
+            attack.AttackRunning = true;
+            foreach (var target in mission.Logger.PlayerTargets.Last())
+            {
+                var position = getTargetPosition(target);
+                attack.Positions.Add(position);
+            }
+        }
+
+        private Vector2 getTargetPosition(int position)
+        {
+            switch(position)
+            {
+                case 5: return new Vector2(enemyButtons[0].ButtonX, enemyButtons[0].ButtonY + 10);
+                case 6: return new Vector2(enemyButtons[1].ButtonX, enemyButtons[1].ButtonY + 10);
+                case 7: return new Vector2(enemyButtons[2].ButtonX, enemyButtons[2].ButtonY + 10);
+                case 8: return new Vector2(enemyButtons[3].ButtonX, enemyButtons[3].ButtonY + 10);
+                default: throw new ArgumentOutOfRangeException();
+            }
+        }
     }
 }
+
+/* Tällä idealla animaatiota.
+ bool isAnimationRunning
+ * 
+if (ks.IsKeyDown(Keys.A) && directionPointer == 1 && oldKs.IsKeyUp(Keys.A))
+{
+    isAnimationRunning = true;
+}
+
+if(isAnimationRunning)
+{
+    attackTime += gameTime.ElapsedGameTime.Milliseconds;
+    if (attackTime > 1 && attackTime < 100)
+    {
+        currentSprite = new Rectangle(3, 46, 32, 16);
+    }
+    else if (attackTime < 200 && attackTime > 100)
+    {
+        currentSprite = new Rectangle(33, 61, 32, 32);
+    }
+    else if (attackTime > 200 && attackTime < 300)
+    {
+        currentSprite = new Rectangle(61, 65, 16, 32);
+    }
+    else if (attackTime > 300)
+    {
+        attackTime = 0;
+        isAnimationRunning = false;
+    }
+}
+ */

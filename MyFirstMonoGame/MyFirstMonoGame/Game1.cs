@@ -22,6 +22,8 @@ namespace MyFirstMonoGame
         Presentation.Shop shop;
         Presentation.PartySelection partySelection;
 
+        Presentation.Attack attack;
+
         bool Main, Adventure, Combat, Victory, Shop, PartySelect;
         List<bool> bools;
         MouseState previousState, currentState;
@@ -100,6 +102,7 @@ namespace MyFirstMonoGame
             var protectorTexture = Content.Load<Texture2D>("Tankki");
             var mageTexture = Content.Load<Texture2D>("welho");
             var enemyTexture = Content.Load<Texture2D>("enemy");
+            var attackTextureAtlas = Content.Load<Texture2D>("attack");
             green = Content.Load<Texture2D>("greenButton");
             blue = Content.Load<Texture2D>("blueButton");
             red = Content.Load<Texture2D>("redButton");
@@ -110,7 +113,7 @@ namespace MyFirstMonoGame
 
             characterTextures = new List<Texture2D>() { bloodPriestTexture, goblinTexture, keeperTexture, fairyTexture, kingTexture,
                 medicTexture, pirateTexture, necroTexture, warriorTexture, templarTexture,
-                rabbitTexture, rogueTexture, shamanTexture, protectorTexture, mageTexture};
+                rabbitTexture, rogueTexture, shamanTexture, protectorTexture, mageTexture, attackTextureAtlas};
 
             map = new Maps.Training(mapTextureAtlas, 5, 7, enemyTexture, buttonTexture, font);
             map = map.Create(party.Map);
@@ -137,7 +140,7 @@ namespace MyFirstMonoGame
 
             // TODO: Add your update logic here
             currentState = Mouse.GetState();
-
+            
             if (Main == true)
             {
                 mainMenu.UpdateButtons(currentState);
@@ -166,7 +169,7 @@ namespace MyFirstMonoGame
             {
                 combat.UpdateButtons(currentState);
                 string Redirect = combat.CheckButtons();
-                combat.Update();
+                combat.Update(gameTime);
                 manageActiveObjects(Redirect);
             }
             if (Victory == true)
@@ -204,6 +207,9 @@ namespace MyFirstMonoGame
                 manageActiveObjects(Redirect);
             }
             previousState = currentState;
+            
+            //attack.Update(gameTime);
+
             base.Update(gameTime);
         }
 
@@ -217,6 +223,7 @@ namespace MyFirstMonoGame
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
+            
             if (Adventure == true)
             {
                 map.Draw(spriteBatch);
@@ -242,6 +249,9 @@ namespace MyFirstMonoGame
             {
                 partySelection.Draw(spriteBatch, font);
             }
+            
+            //attack.Draw(spriteBatch);
+
             spriteBatch.End();
 
             base.Draw(gameTime);

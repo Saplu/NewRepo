@@ -54,6 +54,7 @@ namespace MissionClassLibrary
                 var targetCount = players[playerPosition - 1].GetTargets(id);
                 var util = new Utils.TargetSetter();
                 var targets = util.setTargets(enemyPosition, targetCount, Enemies.Count);
+                Logger.PlayerTargets.Add(targets);
                 if (enemies[enemyPosition - 5].Health > 0)
                 {
                     foreach (var target in targets)

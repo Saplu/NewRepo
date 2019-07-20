@@ -97,7 +97,7 @@ namespace MyFirstMonoGame
             int column = (currentFrame + actionMultiplier) % Columns;
 
             Rectangle sourceRectangle = new Rectangle(width * column, height * row, width, height);
-            Rectangle destinationRectangle = new Rectangle((int)Position.X, (int)Position.Y, width, height);
+            Rectangle destinationRectangle = new Rectangle((int)Position.X, (int)Position.Y, 300, 200);
             Vector2 destination = new Vector2(destinationRectangle.X, destinationRectangle.Y);
             Vector2 origin = new Vector2(sourceRectangle.Width / 2, sourceRectangle.Height / 2);
 
@@ -125,13 +125,13 @@ namespace MyFirstMonoGame
 
         public int OnBorder()
         {
-            if (box.Max.X >= 799)
+            if (box.Max.X >= 800)
                 return 2;
-            else if (box.Min.X <= 1)
+            else if (box.Min.X <= 0)
                 return 4;
-            else if (box.Max.Y >= 479)
+            else if (box.Max.Y >= 480)
                 return 3;
-            else if (box.Min.Y <= 1)
+            else if (box.Min.Y <= 0)
                 return 1;
             else return 0;
         }
