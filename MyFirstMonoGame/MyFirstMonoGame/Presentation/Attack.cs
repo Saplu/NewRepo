@@ -14,10 +14,11 @@ namespace MyFirstMonoGame.Presentation
         List<Vector2> positions;
         Texture2D texture;
         int columns, currentFrame, attackTime;
-        bool attackRunning;
+        bool attackRunning, finished;
 
         public List<Vector2> Positions { get => positions; set => positions = value; }
         public bool AttackRunning { get => attackRunning; set => attackRunning = value; }
+        public bool Finished { get => finished; set => finished = value; }
 
         public Attack(Texture2D textureAtlas)
         {
@@ -48,6 +49,7 @@ namespace MyFirstMonoGame.Presentation
                     currentFrame = 0;
                     attackRunning = false;
                     positions.Clear();
+                    finished = true;
                 }
             }
         }

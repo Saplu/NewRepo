@@ -167,8 +167,9 @@ namespace MyFirstMonoGame
             }
             if (Combat == true)
             {
+                
                 combat.UpdateButtons(currentState);
-                string Redirect = combat.CheckButtons();
+                string Redirect = combat.CheckButtons(gameTime, spriteBatch);
                 combat.Update(gameTime);
                 manageActiveObjects(Redirect);
             }
@@ -324,6 +325,11 @@ namespace MyFirstMonoGame
             party = playerConverter.DAOToGame(dao.Party);
             map = map.Create(party.Map);
             hero.Position = new Vector2(20, 300);
+        }
+
+        private void playEndTurn()
+        {
+
         }
     }
 }

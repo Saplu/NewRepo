@@ -16,13 +16,16 @@ namespace MyFirstMonoGame.Presentation
         private MissionStatus missionStatus;
         private List<Button> enemyButtons;
         private List<Button> playerButtons;
-        private Texture2D backGround, available, unavailable, selected;
+        private Texture2D backGround, available, unavailable, selected, attackTexture;
         private Button skill1Button, skill2Button, skill3Button, skill4Button, nextTurnButton;
         private Label enemy1Label, enemy2Label, enemy3Label, enemy4Label, 
             player1Label, player2Label, player3Label, player4Label, turnLabel, toolTipLabel;
         private List<Button> allButtons, skillUsableButtons, playerUsableButtons, skillButtons;
-        private bool attackAnimationRunning;
         private Attack attack;
+        private List<Label> healthLabels;
+        private AttackQueue queue;
+
+        public Attack Attack { get => attack; set => attack = value; }
 
         public Combat(Mission mission, Texture2D backGround, List<Texture2D> characterTextures, SpriteFont font, Texture2D skillButton,
             Texture2D available, Texture2D unavailable, Texture2D selected)
@@ -33,10 +36,13 @@ namespace MyFirstMonoGame.Presentation
             this.available = available;
             this.unavailable = unavailable;
             this.selected = selected;
+            attackTexture = characterTextures.Last();
             enemyButtons = new List<Button>();
             playerButtons = new List<Button>();
             playerUsableButtons = new List<Button>();
-            attack = new Attack(characterTextures.Last());
+            Attack = new Attack(attackTexture);
+            healthLabels = new List<Label>();
+            queue = new AttackQueue();
 
             foreach (var enemy in mission.Enemies)
             {
@@ -58,15 +64,31 @@ namespace MyFirstMonoGame.Presentation
                 var info = new Button(available, buttonX, 275, "", 75, 2);
                 playerUsableButtons.Add(info);
             }
-
-            enemy1Label = new Label("enemy1Label", font, mission.Enemies[0].ToString(), 150, 100, 150, 100);
-            if (mission.Enemies.Count > 1)enemy2Label = new Label("enemy2Label", font, mission.Enemies[1].ToString(), 300, 100, 150, 100);
-            if (mission.Enemies.Count > 2)enemy3Label = new Label("enemy3Label", font, mission.Enemies[2].ToString(), 450, 100, 150, 100);
-            if (mission.Enemies.Count >3)enemy4Label = new Label("enemy4Label", font, mission.Enemies[3].ToString(), 600, 100, 150, 100);
             player1Label = new Label("player1Label", font, mission.Players[0].ToString(), 150, 277, 150, 100);
+            healthLabels.Add(player1Label);
             player2Label = new Label("player2Label", font, mission.Players[1].ToString(), 300, 277, 150, 100);
+            healthLabels.Add(player2Label);
             player3Label = new Label("player3Label", font, mission.Players[2].ToString(), 450, 277, 150, 100);
+            healthLabels.Add(player3Label);
             player4Label = new Label("player4Label", font, mission.Players[3].ToString(), 600, 277, 150, 100);
+            healthLabels.Add(player4Label);
+            enemy1Label = new Label("enemy1Label", font, mission.Enemies[0].ToString(), 150, 100, 150, 100);
+            healthLabels.Add(enemy1Label);
+            if (mission.Enemies.Count > 1)
+            {
+                enemy2Label = new Label("enemy2Label", font, mission.Enemies[1].ToString(), 300, 100, 150, 100);
+                healthLabels.Add(enemy2Label);
+            }
+            if (mission.Enemies.Count > 2)
+            {
+                enemy3Label = new Label("enemy3Label", font, mission.Enemies[2].ToString(), 450, 100, 150, 100);
+                healthLabels.Add(enemy3Label);
+            }
+            if (mission.Enemies.Count > 3)
+            {
+                enemy4Label = new Label("enemy4Label", font, mission.Enemies[3].ToString(), 600, 100, 150, 100);
+                healthLabels.Add(enemy4Label);
+            }
             turnLabel = new Label("turnLabel", font, "Turn: " + missionStatus.Turn.ToString(), 725, 230, 50, 20);
             toolTipLabel = new Label("toolTip", font, "", 5, 240, 130, 240);
 
@@ -101,14 +123,8 @@ namespace MyFirstMonoGame.Presentation
                 button.Draw(sprite, font);
             foreach (var button in playerButtons)
                 button.Draw(sprite, font);
-            enemy1Label.Draw(sprite, font);
-            if (mission.Enemies.Count > 1) enemy2Label.Draw(sprite, font);
-            if (mission.Enemies.Count > 2) enemy3Label.Draw(sprite, font);
-            if (mission.Enemies.Count > 3) enemy4Label.Draw(sprite, font);
-            player1Label.Draw(sprite, font);
-            player2Label.Draw(sprite, font);
-            player3Label.Draw(sprite, font);
-            player4Label.Draw(sprite, font);
+            foreach (var label in healthLabels)
+                label.Draw(sprite, font);
             skill1Button.Draw(sprite, font);
             skill2Button.Draw(sprite, font);
             skill3Button.Draw(sprite, font);
@@ -120,71 +136,79 @@ namespace MyFirstMonoGame.Presentation
             foreach (var button in skillUsableButtons)
                 button.Draw(sprite, font);
             toolTipLabel.Draw(sprite, font);
-            attack.Draw(sprite);
+
+            Attack.Draw(sprite);
         }
 
         public void Update(GameTime gameTime)
         {
-            player1Label.Text = mission.Players[0].ToString();
-            player2Label.Text = mission.Players[1].ToString();
-            player3Label.Text = mission.Players[2].ToString();
-            player4Label.Text = mission.Players[3].ToString();
-            enemy1Label.Text = mission.Enemies[0].ToString();
-            if (mission.Enemies.Count > 1) enemy2Label.Text = mission.Enemies[1].ToString();
-            if (mission.Enemies.Count > 2) enemy3Label.Text = mission.Enemies[2].ToString();
-            if (mission.Enemies.Count > 3) enemy4Label.Text = mission.Enemies[3].ToString();
-            turnLabel.Text = missionStatus.Turn.ToString();
-            foreach(var player in mission.Players)
+            if (queue.Attacks.Count > 0)
             {
-                if (missionStatus.ActionDone.Contains(mission.Players.IndexOf(player) + 1))
-                    playerUsableButtons[mission.Players.IndexOf(player)].Texture = unavailable;
-                else if (missionStatus.SelectedPlayerPosition - 1 == mission.Players.IndexOf(player))
-                    playerUsableButtons[mission.Players.IndexOf(player)].Texture = selected;
-                else playerUsableButtons[mission.Players.IndexOf(player)].Texture = available;
+                attack = queue.Attacks[0];
+                attack.AttackRunning = true;
+                setHealthLabels(queue.Healths);
+                queue.Update(gameTime);
             }
-            foreach(var button in skillUsableButtons)
+            else
             {
-                if (missionStatus.Cdarr[skillUsableButtons.IndexOf(button)] > 0)
-                    button.Texture = unavailable;
-                else if (missionStatus.SkillID == skillButtons[skillUsableButtons.IndexOf(button)].Text)
-                    button.Texture = selected;
-                else button.Texture = available;
-            }
-            foreach (var button in skillButtons)
-            {
-                if (button.MouseOver() && missionStatus.SelectedPlayerPosition != 0)
+                setHealthLabels();
+                turnLabel.Text = missionStatus.Turn.ToString();
+                foreach (var player in mission.Players)
                 {
-                    toolTipLabel.Update(mission.Players[missionStatus.SelectedPlayerPosition - 1].AbilityInfo()[skillButtons.IndexOf(button)]);
+                    if (missionStatus.ActionDone.Contains(mission.Players.IndexOf(player) + 1))
+                        playerUsableButtons[mission.Players.IndexOf(player)].Texture = unavailable;
+                    else if (missionStatus.SelectedPlayerPosition - 1 == mission.Players.IndexOf(player))
+                        playerUsableButtons[mission.Players.IndexOf(player)].Texture = selected;
+                    else playerUsableButtons[mission.Players.IndexOf(player)].Texture = available;
                 }
-            }
-            attack.Update(gameTime);
-        }
-
-        public string CheckButtons()
-        {
-            try
-            {
-                if (missionStatus.SelectedPlayerPosition == 0)
-                    checkPlayerButtons();
-                else if (missionStatus.SkillID == "")
-                    checkSkillButtons();
-                else checkCharacterButtons(missionStatus.TargetSide);
-                if (nextTurnButton.ButtonClicked())
+                foreach (var button in skillUsableButtons)
                 {
-                    missionStatus.EndTurn();
-                    mission.EndTurn();
-                    if (mission.CheckLoss())
-                        return "Lose";
-                    else if (mission.CheckWin())
+                    if (missionStatus.Cdarr[skillUsableButtons.IndexOf(button)] > 0)
+                        button.Texture = unavailable;
+                    else if (missionStatus.SkillID == skillButtons[skillUsableButtons.IndexOf(button)].Text)
+                        button.Texture = selected;
+                    else button.Texture = available;
+                }
+                foreach (var button in skillButtons)
+                {
+                    if (button.MouseOver() && missionStatus.SelectedPlayerPosition != 0)
                     {
-                        mission.EndOfMissionReset();
-                        return "Victory";
+                        toolTipLabel.Update(mission.Players[missionStatus.SelectedPlayerPosition - 1].AbilityInfo()[skillButtons.IndexOf(button)]);
                     }
                 }
+                Attack.Update(gameTime);
             }
-            catch(Exception ex)
-            {
+        }
 
+        public string CheckButtons(GameTime gameTime, SpriteBatch sprite)
+        {
+            if (queue.Attacks.Count == 0)
+            {
+                try
+                {
+                    if (missionStatus.SelectedPlayerPosition == 0)
+                        checkPlayerButtons();
+                    else if (missionStatus.SkillID == "")
+                        checkSkillButtons();
+                    else checkCharacterButtons(missionStatus.TargetSide);
+                    if (nextTurnButton.ButtonClicked())
+                    {
+                        missionStatus.EndTurn();
+                        mission.EndTurn();
+                        endTurn(gameTime, sprite);
+                        if (mission.CheckLoss())
+                            return "Lose";
+                        else if (mission.CheckWin())
+                        {
+                            mission.EndOfMissionReset();
+                            return "Victory";
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
             }
             return "Combat";
         }
@@ -265,11 +289,11 @@ namespace MyFirstMonoGame.Presentation
 
         private void activateAttack(int x, int y)
         {
-            attack.AttackRunning = true;
+            Attack.AttackRunning = true;
             foreach (var target in mission.Logger.PlayerTargets.Last())
             {
                 var position = getTargetPosition(target);
-                attack.Positions.Add(position);
+                Attack.Positions.Add(position);
             }
         }
 
@@ -277,6 +301,10 @@ namespace MyFirstMonoGame.Presentation
         {
             switch(position)
             {
+                case 1: return new Vector2(playerButtons[0].ButtonX, playerButtons[0].ButtonY + 10);
+                case 2: return new Vector2(playerButtons[1].ButtonX, playerButtons[1].ButtonY + 10);
+                case 3: return new Vector2(playerButtons[2].ButtonX, playerButtons[2].ButtonY + 10);
+                case 4: return new Vector2(playerButtons[3].ButtonX, playerButtons[3].ButtonY + 10);
                 case 5: return new Vector2(enemyButtons[0].ButtonX, enemyButtons[0].ButtonY + 10);
                 case 6: return new Vector2(enemyButtons[1].ButtonX, enemyButtons[1].ButtonY + 10);
                 case 7: return new Vector2(enemyButtons[2].ButtonX, enemyButtons[2].ButtonY + 10);
@@ -284,36 +312,42 @@ namespace MyFirstMonoGame.Presentation
                 default: throw new ArgumentOutOfRangeException();
             }
         }
-    }
-}
 
-/* Tällä idealla animaatiota.
- bool isAnimationRunning
- * 
-if (ks.IsKeyDown(Keys.A) && directionPointer == 1 && oldKs.IsKeyUp(Keys.A))
-{
-    isAnimationRunning = true;
-}
+        private void endTurn(GameTime gameTime, SpriteBatch sprite)
+        {
+            var index = 0;
+            foreach(var attacker in mission.Logger.Attackers)
+            {
+                var attack = new Attack(attackTexture);
+                foreach(var target in mission.Logger.Targets[index])
+                    attack.Positions.Add(getTargetPosition(target));
+                queue.Add(attack, mission.Logger.Healths[index]);
+                index++;
+            }
+        }
 
-if(isAnimationRunning)
-{
-    attackTime += gameTime.ElapsedGameTime.Milliseconds;
-    if (attackTime > 1 && attackTime < 100)
-    {
-        currentSprite = new Rectangle(3, 46, 32, 16);
-    }
-    else if (attackTime < 200 && attackTime > 100)
-    {
-        currentSprite = new Rectangle(33, 61, 32, 32);
-    }
-    else if (attackTime > 200 && attackTime < 300)
-    {
-        currentSprite = new Rectangle(61, 65, 16, 32);
-    }
-    else if (attackTime > 300)
-    {
-        attackTime = 0;
-        isAnimationRunning = false;
+        private void setHealthLabels()
+        {
+            player1Label.Text = mission.Players[0].ToString();
+            player2Label.Text = mission.Players[1].ToString();
+            player3Label.Text = mission.Players[2].ToString();
+            player4Label.Text = mission.Players[3].ToString();
+            enemy1Label.Text = mission.Enemies[0].ToString();
+            if (mission.Enemies.Count > 1) enemy2Label.Text = mission.Enemies[1].ToString();
+            if (mission.Enemies.Count > 2) enemy3Label.Text = mission.Enemies[2].ToString();
+            if (mission.Enemies.Count > 3) enemy4Label.Text = mission.Enemies[3].ToString();
+        }
+
+        private void setHealthLabels(List<List<int>> healths)
+        {
+            player1Label.Text = "Health: " + healths[0][0].ToString() + "/" + mission.Players[0].MaxHealth;
+            player2Label.Text = "Health: " + healths[0][1].ToString() + "/" + mission.Players[1].MaxHealth;
+            player3Label.Text = "Health: " + healths[0][2].ToString() + "/" + mission.Players[2].MaxHealth;
+            player4Label.Text = "Health: " + healths[0][3].ToString() + "/" + mission.Players[3].MaxHealth;
+            enemy1Label.Text = "Health: " + healths[0][4].ToString() + "/" + mission.Enemies[0].MaxHealth;
+            if (mission.Enemies.Count > 1) enemy2Label.Text = "Health: " + healths[0][5].ToString() + "/" + mission.Enemies[1].MaxHealth;
+            if (mission.Enemies.Count > 2) enemy3Label.Text = "Health: " + healths[0][6].ToString() + "/" + mission.Enemies[2].MaxHealth;
+            if (mission.Enemies.Count > 3) enemy4Label.Text = "Health: " + healths[0][7].ToString() + "/" + mission.Enemies[3].MaxHealth;
+        }
     }
 }
- */

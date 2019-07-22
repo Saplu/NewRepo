@@ -15,7 +15,7 @@ namespace CombatLogicClassLibrary
 
         public Threat()
         {
-            threatTable = new int[4] { 0, 0, 0, 0 };
+            threatTable = new int[4] { 1, 1, 1, 1 };
         }
 
         public int[] ManageThreat(int index, int amount)
