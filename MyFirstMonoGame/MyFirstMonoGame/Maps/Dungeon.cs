@@ -37,6 +37,19 @@ namespace MyFirstMonoGame.Maps
             }
         }
 
+        public override void RemoveDestroyedEnemy(Hero hero)
+        {
+            base.RemoveDestroyedEnemy(hero);
+            var keepList = new List<BoundingBox>();
+            foreach(var enemy in bossBoxes)
+            {
+                if (!hero.Box.Intersects(enemy))
+                    keepList.Add(enemy);
+            }
+            bossBoxes = keepList;
+            CombatBoxes.AddRange(bossBoxes);
+        }
+
         protected void getBossBoxes(List<int> X, List<int> Y)
         {
             var bBoxes = new List<BoundingBox>();

@@ -30,7 +30,7 @@ namespace CharacterClassLibrary.NPCClasses
             var multi = getAttackMultiplier();
             var increase = getAttackModifier();
             var attack = new AbilityClassLibrary.Warrior.Attack();
-            Statuses.Add(new CombatLogicClassLibrary.Statuses.AttackDmgMultiplier(100, new List<int>(), 1.02));
+            Statuses.Add(new CombatLogicClassLibrary.Statuses.AttackDmgMultiplier(100, new List<int>(), 1.04));
             return attack.Action(Strength, Crit, multi, increase);
         }
 
@@ -39,7 +39,7 @@ namespace CharacterClassLibrary.NPCClasses
             var multi = getAttackMultiplier();
             var increase = getAttackModifier();
             var stun = new AbilityClassLibrary.NPC.StunningBlow();
-            Statuses.Add(new CombatLogicClassLibrary.Statuses.AttackDmgMultiplier(100, new List<int>(), 1.02));
+            Statuses.Add(new CombatLogicClassLibrary.Statuses.AttackDmgMultiplier(100, new List<int>(), 1.04));
             return stun.Action(Strength, Crit, multi, increase);
         }
 
@@ -48,7 +48,7 @@ namespace CharacterClassLibrary.NPCClasses
             var multi = getAttackMultiplier();
             var increase = getAttackModifier();
             var whirl = new AbilityClassLibrary.NPC.Whirlwind();
-            Statuses.Add(new CombatLogicClassLibrary.Statuses.AttackDmgMultiplier(100, new List<int>(), 1.02));
+            Statuses.Add(new CombatLogicClassLibrary.Statuses.AttackDmgMultiplier(100, new List<int>(), 1.04));
             return whirl.Action(Strength, Crit, multi, increase);
         }
 
@@ -57,7 +57,7 @@ namespace CharacterClassLibrary.NPCClasses
             var multi = getAttackMultiplier();
             var increase = getAttackModifier();
             var sweep = new AbilityClassLibrary.Protector.Sweep();
-            Statuses.Add(new CombatLogicClassLibrary.Statuses.AttackDmgMultiplier(100, new List<int>(), 1.02));
+            Statuses.Add(new CombatLogicClassLibrary.Statuses.AttackDmgMultiplier(100, new List<int>(), 1.04));
             return sweep.Action(Strength - 20, Crit, multi, increase);
         }
 

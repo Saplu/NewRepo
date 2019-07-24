@@ -95,6 +95,7 @@ namespace MyFirstMonoGame
             {
                 case 1: return new MissionClassLibrary.Missions.Keep(players);
                 case 2: return new MissionClassLibrary.Missions.Castle(players);
+                case 3: return new MissionClassLibrary.Missions.ThroneRoom(players);
                 default: throw new Exception("No boss found");
             }
         }
@@ -125,7 +126,7 @@ namespace MyFirstMonoGame
             menuButton.Draw(sprite, font);
         }
 
-        public void RemoveDestroyedEnemy(Hero hero)
+        public virtual void RemoveDestroyedEnemy(Hero hero)
         {
             var keepList = new List<BoundingBox>();
             foreach (var enemy in CombatBoxes)

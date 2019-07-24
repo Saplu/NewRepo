@@ -32,6 +32,7 @@ namespace MissionClassLibrary.Missions
             Level = 6;
             RewardTable = new int[4] { 0, 0, 80, 20 };
             TransferTo = "Menu";
+            Logger = new Logger();
         }
     }
 }

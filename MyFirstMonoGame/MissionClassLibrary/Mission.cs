@@ -43,7 +43,7 @@ namespace MissionClassLibrary
 
         public void EnemyDefend(int enemyPosition, int playerPosition, string id)
         {
-            if (players[playerPosition - 1].isStunned() == false)
+            if (players[playerPosition - 1].isStunned() == false && players[playerPosition - 1].Health > 0)
             {
                 var targetCount = players[playerPosition - 1].GetTargets(id);
                 var util = new Utils.TargetSetter();
@@ -83,7 +83,7 @@ namespace MissionClassLibrary
 
         public void PlayerHeal(int targetPosition, int playerPosition, string id)
         {
-            if (players[targetPosition - 1].Health > 0)
+            if (players[targetPosition - 1].Health > 0 && players[playerPosition - 1].Health > 0)
             {
                 var targetCount = players[playerPosition - 1].GetTargets(id);
                 var util = new Utils.TargetSetter();
