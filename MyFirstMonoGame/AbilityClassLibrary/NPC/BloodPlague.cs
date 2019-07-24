@@ -17,13 +17,13 @@ namespace AbilityClassLibrary.NPC
 
         public int Action(int spellPower, double crit, double multiplier, int increase)
         {
-            var dmg = 5 + Convert.ToInt32(spellPower * .7);
+            var dmg = 6 + Convert.ToInt32(spellPower * .7);
             return AttackLogic.CalculateAttackDamage(dmg, crit, multiplier, increase);
         }
 
         public int DoT(int spellPower, double crit, double multi, int increase)
         {
-            var dmg = Convert.ToInt32(spellPower * .9);
+            var dmg = 3 + Convert.ToInt32(spellPower * .9);
             return AttackLogic.CalculateAttackDamage(dmg, crit, multi, increase);
         }
     }

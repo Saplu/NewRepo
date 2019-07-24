@@ -17,7 +17,7 @@ namespace AbilityClassLibrary.NPC
 
         public int Action(int strength, double crit, double multiplier, int increase)
         {
-            var dmg = Convert.ToInt32(3 + strength*1.2);
+            var dmg = Convert.ToInt32(4 + strength*1.3);
             return AttackLogic.CalculateAttackDamage(dmg, crit, multiplier, increase);
         }
     }

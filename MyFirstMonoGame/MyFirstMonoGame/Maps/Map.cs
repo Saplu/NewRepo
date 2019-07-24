@@ -12,7 +12,7 @@ namespace MyFirstMonoGame
 {
     public class Map
     {
-        private Texture2D texture, enemyTexture;
+        private Texture2D texture, enemyTexture, dungeonTexture, buttonTexture, bossTexture;
         private int rows;
         private int columns;
         private List<Rectangle> mapParts;
@@ -22,12 +22,13 @@ namespace MyFirstMonoGame
         private int currentFrame;
         private List<BoundingBox> boxes;
         private List<BoundingBox> combatBoxes;
+        private List<BoundingBox> dungeonBoxes;
         private int level;
         private CharacterClassLibrary.Enums.MissionDifficulty mapDifficulty;
         private Presentation.Button menuButton;
         private SpriteFont font;
         private int id, north, east, south, west;
-        private Texture2D buttonTexture;
+        private List<Vector2> startingPoints;
 
         public List<int> MapCubes { get => mapCubes; set => mapCubes = value; }
         public Texture2D Texture { get => texture; }
@@ -43,8 +44,12 @@ namespace MyFirstMonoGame
         public int South { get => south; set => south = value; }
         public int West { get => west; set => west = value; }
         public int Id { get => id; set => id = value; }
+        public List<Vector2> StartingPoints { get => startingPoints; set => startingPoints = value; }
+        public List<BoundingBox> DungeonBoxes { get => dungeonBoxes; set => dungeonBoxes = value; }
+        public Texture2D DungeonTexture { get => dungeonTexture; set => dungeonTexture = value; }
 
-        public Map(Texture2D texture, int rows, int columns, Texture2D enemyTexture, Texture2D buttonTexture, SpriteFont font)
+        public Map(Texture2D texture, int rows, int columns, Texture2D enemyTexture, Texture2D buttonTexture, SpriteFont font, Texture2D dungeon, 
+            Texture2D bossTexture)
         {
             this.texture = texture;
             this.rows = rows;
@@ -52,25 +57,49 @@ namespace MyFirstMonoGame
             this.currentFrame = 0;
             this.boxes = new List<BoundingBox>();
             this.buttonTexture = buttonTexture;
+            startingPoints = new List<Vector2>() { new Vector2(20, 300), new Vector2(20, 300), new Vector2(20, 300), new Vector2(20, 300) };
             //Koko on 800x480. 25x15 32x32 tiiliä.
             mapParts = getMapParts();
             this.enemyTexture = enemyTexture;
             combatBoxes = new List<BoundingBox>();
             menuButton = new Presentation.Button(buttonTexture, 735, 450, "Menu", 60, 25);
             this.font = font;
+            dungeonBoxes = new List<BoundingBox>();
+            this.dungeonTexture = dungeon;
+            this.bossTexture = bossTexture;
         }
 
         public Map Create(int key)
         {
             switch(key)
             {
-                case 1: return new Maps.Training(texture, rows, columns, enemyTexture, buttonTexture, font);
-                case 2: return new Maps.CrossRoad(texture, rows, columns, enemyTexture, buttonTexture, font);
+                case 1: return new Maps.Training(texture, rows, columns, enemyTexture, buttonTexture, font, dungeonTexture, bossTexture);
+                case 2: return new Maps.CrossRoad(texture, rows, columns, enemyTexture, buttonTexture, font, dungeonTexture, bossTexture);
+                case 3: return new Maps.DungeonPassage(texture, rows, columns, enemyTexture, buttonTexture, font, dungeonTexture, bossTexture);
                 default: throw new Exception("No map found.");
             }
         }
 
-        public void Draw(SpriteBatch sprite) //Kantaluokkaan
+        public Map CreateDungeon(int key)
+        {
+            switch(key)
+            {
+                case 101: return new Maps.Cave(texture, rows, columns, enemyTexture, buttonTexture, font, dungeonTexture, bossTexture);
+                default: return Create(key);
+            }
+        }
+
+        public MissionClassLibrary.Mission CreateBossFight(int key, List<CharacterClassLibrary.Player> players)
+        {
+            switch(key)
+            {
+                case 1: return new MissionClassLibrary.Missions.Keep(players);
+                case 2: return new MissionClassLibrary.Missions.Castle(players);
+                default: throw new Exception("No boss found");
+            }
+        }
+
+        public virtual void Draw(SpriteBatch sprite) //Kantaluokkaan
         {
             for (int i = 0; i < mapCubes.Count; i++)
             {
@@ -86,6 +115,11 @@ namespace MyFirstMonoGame
             foreach(var box in combatBoxes)
             {
                 sprite.Draw(enemyTexture, new Rectangle((int)box.Min.X, (int)box.Min.Y, (int)box.Max.X - (int)box.Min.X, 
+                    (int)box.Max.Y - (int)box.Min.Y), Color.White);
+            }
+            foreach(var box in dungeonBoxes)
+            {
+                sprite.Draw(dungeonTexture, new Rectangle((int)box.Min.X, (int)box.Min.Y, (int)box.Max.X - (int)box.Min.X,
                     (int)box.Max.Y - (int)box.Min.Y), Color.White);
             }
             menuButton.Draw(sprite, font);
@@ -123,6 +157,28 @@ namespace MyFirstMonoGame
                 case 3: return south;
                 case 4: return west;
                 default: return 0;
+            }
+        }
+
+        public virtual int DungeonId(Vector2 position)
+        {
+            return 0;
+        }
+
+        public virtual int IsBossFight(BoundingBox box)
+        {
+            return 0;
+        }
+
+        public virtual Vector2 GetStartingPoint(int key)
+        {
+            switch(key)
+            {
+                case 4: return startingPoints[0];
+                case 3: return startingPoints[1];
+                case 2: return startingPoints[2];
+                case 1: return startingPoints[3];
+                default: return startingPoints[0];
             }
         }
 
@@ -215,6 +271,24 @@ namespace MyFirstMonoGame
         protected List<int> rowOfBrickWall()
         {
             return new List<int>() { 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 };
+        }
+
+        protected void getCombatBoxes(List<int> x, List<int> y)
+        {
+            var cboxes = new List<BoundingBox>();
+            var index = 0;
+
+            foreach(var item in x)
+            {
+                var box = new BoundingBox();
+                box.Min.X = x[index];
+                box.Min.Y = y[index];
+                box.Max.X = x[index] + 32;
+                box.Max.Y = y[index] + 32;
+                cboxes.Add(box);
+                index++;
+            }
+            combatBoxes = cboxes;
         }
     }
 }

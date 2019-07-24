@@ -10,14 +10,15 @@ namespace MyFirstMonoGame.Maps
 {
     public class Training : Map
     {
-        public Training(Texture2D texture, int rows, int columns, Texture2D enemyTexture, Texture2D buttonTexture, SpriteFont font) : 
-            base(texture, rows, columns, enemyTexture, buttonTexture, font)
+        public Training(Texture2D texture, int rows, int columns, Texture2D enemyTexture, Texture2D buttonTexture, SpriteFont font,
+            Texture2D dungeon, Texture2D boss) : 
+            base(texture, rows, columns, enemyTexture, buttonTexture, font, dungeon, boss)
         {
             this.MapCubes = getMapCubes();
             getBoundingBoxes();
-            CombatBoxes.Add (new BoundingBox(new Vector3(300, 200, 0), new Vector3(332, 232, 0)));
-            CombatBoxes.Add(new BoundingBox(new Vector3(350, 250, 0), new Vector3(382, 282, 0)));
-            CombatBoxes.Add(new BoundingBox(new Vector3(250, 270, 0), new Vector3(282, 302, 0)));
+            var combatX = new List<int>() { 160, 300, 350, 250, 430, 500, 620 };
+            var combatY = new List<int>() { 235, 200, 250, 270, 285, 210, 240 };
+            getCombatBoxes(combatX, combatY);
             Level = 1;
             MapDifficulty = CharacterClassLibrary.Enums.MissionDifficulty.easy;
             Id = 1;
@@ -25,6 +26,7 @@ namespace MyFirstMonoGame.Maps
             East = 2;
             South = 0;
             West = 0;
+            StartingPoints[2] = new Vector2(750, 300);
         }
 
         private List<int> getMapCubes() //Tämä on karttakohtainen!

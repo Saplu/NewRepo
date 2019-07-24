@@ -13,9 +13,9 @@ namespace MissionClassLibrary.Missions
         public Keep(List<Player> players)
         {
             var Enemy1 = new CharacterClassLibrary.NPCClasses.KeepKeeper(5, 3);
-            var Enemy2 = new CharacterClassLibrary.NPCClasses.Goblin(5, 1);
-            var Enemy3 = new CharacterClassLibrary.NPCClasses.Pirate(5, 1);
-            var Enemy4 = new CharacterClassLibrary.NPCClasses.Necromancer(5, 1);
+            var Enemy2 = new CharacterClassLibrary.NPCClasses.Goblin(5, 2);
+            var Enemy3 = new CharacterClassLibrary.NPCClasses.Pirate(5, 2);
+            var Enemy4 = new CharacterClassLibrary.NPCClasses.Necromancer(5, 2);
             Enemies = new List<NPC>() { Enemy1, Enemy2, Enemy3, Enemy4 };
             foreach (var enemy in Enemies)
             {
@@ -34,6 +34,7 @@ namespace MissionClassLibrary.Missions
             Level = 5;
             RewardTable = new int[4] { 0, 0, 100, 0 };
             TransferTo = "Menu";
+            Logger = new Logger();
         }
     }
 }

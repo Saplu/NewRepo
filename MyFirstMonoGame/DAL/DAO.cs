@@ -83,7 +83,6 @@ namespace DAL
                     playerLines.Add(lines.IndexOf(line));
                 }
             }
-
             generatePlayers(lines, playerLines);
         }
 

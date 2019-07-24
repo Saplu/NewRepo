@@ -10,24 +10,25 @@ namespace MyFirstMonoGame.Maps
 {
     public class CrossRoad : Map
     {
-        public CrossRoad(Texture2D texture, int rows, int columns, Texture2D enemyTexture, Texture2D buttonTexture, SpriteFont font) :
-            base(texture, rows, columns, enemyTexture, buttonTexture, font)
+        public CrossRoad(Texture2D texture, int rows, int columns, Texture2D enemyTexture, Texture2D buttonTexture, SpriteFont font,
+            Texture2D dungeon, Texture2D boss) :
+            base(texture, rows, columns, enemyTexture, buttonTexture, font, dungeon, boss)
         {
             this.MapCubes = getMapCubes();
             getBoundingBoxes();
-            CombatBoxes.Add(new BoundingBox(new Vector3(300, 200, 0), new Vector3(332, 232, 0)));
-            CombatBoxes.Add(new BoundingBox(new Vector3(350, 250, 0), new Vector3(382, 282, 0)));
-            CombatBoxes.Add(new BoundingBox(new Vector3(420, 50, 0), new Vector3(452, 82, 0)));
-            CombatBoxes.Add(new BoundingBox(new Vector3(470, 80, 0), new Vector3(502, 112, 0)));
-            CombatBoxes.Add(new BoundingBox(new Vector3(200, 220, 0), new Vector3(232, 252, 0)));
+            var combatX = new List<int>() { 300, 350, 420, 470, 200, 160 };
+            var combatY = new List<int>() { 200, 250, 50, 80, 220, 190 };
+            getCombatBoxes(combatX, combatY);
             
             Level = 2;
             MapDifficulty = CharacterClassLibrary.Enums.MissionDifficulty.casual;
             Id = 2;
-            North = 0;
+            North = 3;
             East = 0;
             South = 0;
             West = 1;
+
+            StartingPoints[3] = new Vector2(400, 20);
         }
 
         private List<int> getMapCubes() //374 on viimonen, 25x15

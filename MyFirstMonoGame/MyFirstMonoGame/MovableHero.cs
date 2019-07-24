@@ -113,12 +113,17 @@ namespace MyFirstMonoGame
             }
         }
 
-        public string CheckForCombat(List<BoundingBox> enemies)
+        public string CheckForCombat(List<BoundingBox> enemies, List<BoundingBox> dungeons)
         {
             foreach(var enemy in enemies)
             {
                 if (box.Intersects(enemy))
                     return "Combat";
+            }
+            foreach(var dung in dungeons)
+            {
+                if (box.Intersects(dung))
+                    return "Dungeon";
             }
             return "Adventure";
         }

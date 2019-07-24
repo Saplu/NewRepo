@@ -31,12 +31,6 @@ namespace MissionClassLibrary
         {
             switch (missions)
             {
-                case MissionList.Tutorial: return new Missions.Tutorial(players);
-                case MissionList.NextStep: return new Missions.NextStep(players);
-                case MissionList.FirstChallenge: return new Missions.FirstChallenge(players);
-                case MissionList.SomethingNew: return new Missions.SomethingNew(players);
-                case MissionList.TankThat: return new Missions.TankThat(players);
-                case MissionList.GettingHarder: return new Missions.GettingHarder(players);
                 case MissionList.Outpost: return new Missions.Outpost(players);
                 case MissionList.Rampart: return new Missions.Rampart(players);
                 case MissionList.Keep: return new Missions.Keep(players);

@@ -23,5 +23,19 @@ namespace CharacterClassLibrary
             this.map = map;
             this.side = side;
         }
+
+        public void CheckSide(int x, int y, int mapId)
+        {
+            if (x < 50)
+                side = 4;
+            else if (x > 750)
+                side = 2;
+            else if (y < 50)
+                side = 1;
+            else if (y > 430)
+                side = 3;
+            else side = 4;
+            map = mapId;
+        }
     }
 }

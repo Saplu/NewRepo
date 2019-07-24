@@ -22,8 +22,6 @@ namespace MyFirstMonoGame
         Presentation.Shop shop;
         Presentation.PartySelection partySelection;
 
-        Presentation.Attack attack;
-
         bool Main, Adventure, Combat, Victory, Shop, PartySelect;
         List<bool> bools;
         MouseState previousState, currentState;
@@ -32,7 +30,7 @@ namespace MyFirstMonoGame
         MissionClassLibrary.Mission activeMission;
         Presentation.VictoryView victory;
         Texture2D combatBackGround, skillButtonTexture, victoryBackGround, buttonTexture, red, blue, green,
-            menuBackGround, shopBackGround;
+            menuBackGround, shopBackGround, dungeon, boss;
         CharacterClassLibrary.Party party;
 
         DAL.DAO dao;
@@ -106,6 +104,8 @@ namespace MyFirstMonoGame
             green = Content.Load<Texture2D>("greenButton");
             blue = Content.Load<Texture2D>("blueButton");
             red = Content.Load<Texture2D>("redButton");
+            dungeon = Content.Load<Texture2D>("castledoors");
+            boss = Content.Load<Texture2D>("boss");
 
             combatBackGround = Content.Load<Texture2D>("CombatBackGround");
             victoryBackGround = Content.Load<Texture2D>("voittotausta");
@@ -115,8 +115,9 @@ namespace MyFirstMonoGame
                 medicTexture, pirateTexture, necroTexture, warriorTexture, templarTexture,
                 rabbitTexture, rogueTexture, shamanTexture, protectorTexture, mageTexture, attackTextureAtlas};
 
-            map = new Maps.Training(mapTextureAtlas, 5, 7, enemyTexture, buttonTexture, font);
+            map = new Maps.Training(mapTextureAtlas, 5, 7, enemyTexture, buttonTexture, font, dungeon, boss);
             map = map.Create(party.Map);
+            hero.Position = map.GetStartingPoint(party.Side);
         }
 
         /// <summary>
@@ -157,7 +158,13 @@ namespace MyFirstMonoGame
                 map.UpdateButtons(currentState);
                 hero.Update(gameTime, graphics);
                 hero.CheckForCollision(map.Boxes, gameTime, graphics);
-                string Redirect = hero.CheckForCombat(map.CombatBoxes);
+                string Redirect = hero.CheckForCombat(map.CombatBoxes, map.DungeonBoxes);
+                if (Redirect == "Dungeon")
+                {
+                    var heroMap = map.Id + 4;
+                    map = map.CreateDungeon(map.DungeonId(hero.Position));
+                    hero.Position = map.GetStartingPoint(heroMap);
+                }
                 if (Redirect != "Combat")
                     Redirect = map.CheckButtons();
                 manageActiveObjects(Redirect);
@@ -250,8 +257,6 @@ namespace MyFirstMonoGame
             {
                 partySelection.Draw(spriteBatch, font);
             }
-            
-            //attack.Draw(spriteBatch);
 
             spriteBatch.End();
 
@@ -275,8 +280,16 @@ namespace MyFirstMonoGame
 
         private void newCombat()
         {
-            var randomMission = new MissionClassLibrary.RandomMissionGenerator();
-            activeMission = randomMission.CreateMission(map.Level, map.MapDifficulty, party.Players);
+            var id = map.IsBossFight(hero.Box);
+            if (id == 0)
+            {
+                var randomMission = new MissionClassLibrary.RandomMissionGenerator();
+                activeMission = randomMission.CreateMission(map.Level, map.MapDifficulty, party.Players);
+            }
+            else
+            {
+                activeMission = map.CreateBossFight(id, party.Players);
+            }
             combat = new Presentation.Combat(activeMission, combatBackGround, characterTextures, font, skillButtonTexture, green, red, blue);
             var mission = new MissionClassLibrary.SuccessfulMission(activeMission);
             victory = new Presentation.VictoryView(victoryBackGround, mission, buttonTexture, font, hero, map);
@@ -288,8 +301,6 @@ namespace MyFirstMonoGame
             party.Money += victory.GetReward();
             var DAOParty = converter.GameToDAO(party);
             dao.Update(DAOParty);
-            //dao.Read();
-            //party = converter.DAOToGame(DAOParty);
         }
 
         private void newShop()
@@ -307,7 +318,7 @@ namespace MyFirstMonoGame
                 {
                     map = map.Create(available);
                     hero.Position = hero.NewMapPosition(border);
-                    party.Map = map.Id;
+                    party.CheckSide((int)hero.Position.X, (int)hero.Position.Y, map.Id);
                 }
             }
         }
@@ -325,11 +336,6 @@ namespace MyFirstMonoGame
             party = playerConverter.DAOToGame(dao.Party);
             map = map.Create(party.Map);
             hero.Position = new Vector2(20, 300);
-        }
-
-        private void playEndTurn()
-        {
-
         }
     }
 }

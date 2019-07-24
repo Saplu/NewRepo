@@ -54,9 +54,9 @@ namespace MissionClassLibrary
         {
             if (missionDifficulty == 0)
             {
-                if (random < 30)
+                if (random < 20)
                     enemyCount = 1;
-                else if (random < 60)
+                else if (random < 50)
                     enemyCount = 2;
                 else if (random < 80)
                     enemyCount = 3;
@@ -72,7 +72,7 @@ namespace MissionClassLibrary
             }
             if (missionDifficulty == 2)
             {
-                if (random < 20)
+                if (random < 10)
                     enemyCount = 2;
                 else if (random < 40)
                     enemyCount = 3;
@@ -99,20 +99,20 @@ namespace MissionClassLibrary
                     }break;
                 case 1: switch(enemyCount)
                     {
-                        case 2: enemyTypes = new List<int>() { 2, 1 }; break;
-                        case 3: enemyTypes = new List<int>() { 2, 0, 0 }; break;
-                        case 4: enemyTypes = new List<int>() { 1, 1, 1, 0 }; break;
+                        case 2: enemyTypes = new List<int>() { 2, 2 }; break;
+                        case 3: enemyTypes = new List<int>() { 2, 1, 1 }; break;
+                        case 4: enemyTypes = new List<int>() { 2, 1, 1, 1 }; break;
                     }break;
                 case 2: switch(enemyCount)
                     {
-                        case 2: enemyTypes = new List<int>() { 3, 2 }; break;
-                        case 3: enemyTypes = new List<int>() { 3, 1, 1 }; break;
-                        case 4: enemyTypes = new List<int>() { 2, 2, 2, 1 }; break;
+                        case 2: enemyTypes = new List<int>() { 3, 3 }; break;
+                        case 3: enemyTypes = new List<int>() { 3, 2, 2 }; break;
+                        case 4: enemyTypes = new List<int>() { 3, 2, 2, 1 }; break;
                     }break;
                 case 3: switch(enemyCount)
                     {
-                        case 3: enemyTypes = new List<int>() { 3, 3, 1 }; break;
-                        case 4: enemyTypes = new List<int>() { 3, 2, 2, 1 }; break;
+                        case 3: enemyTypes = new List<int>() { 3, 3, 2 }; break;
+                        case 4: enemyTypes = new List<int>() { 3, 3, 2, 1 }; break;
                     }break;
             }
         }
@@ -121,10 +121,10 @@ namespace MissionClassLibrary
         {
             switch(missionDifficulty)
             {
-                case 0: rewardTable = new int[4] { 100, 0, 0, 0 }; break;
+                case 0: rewardTable = new int[4] { 90, 10, 0, 0 }; break;
                 case 1: rewardTable = new int[4] { 50, 40, 10, 0 }; break;
-                case 2: rewardTable = new int[4] { 20, 40, 35, 5 }; break;
-                case 3: rewardTable = new int[4] { 0, 40, 40, 20 }; break;
+                case 2: rewardTable = new int[4] { 20, 50, 30, 0 }; break;
+                case 3: rewardTable = new int[4] { 0, 55, 40, 5 }; break;
             }
         }
     }
