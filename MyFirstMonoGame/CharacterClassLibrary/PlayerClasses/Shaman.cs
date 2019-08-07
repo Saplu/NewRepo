@@ -22,7 +22,9 @@ namespace CharacterClassLibrary.PlayerClasses
             Xp = 0;
             Name = name;
             ClassName = Enums.ClassName.Shaman;
-            Items = new List<Item>();
+            Items = new List<Item>(){new Item(0, Enums.ItemPlace.MainHand), new Item(0, Enums.ItemPlace.OffHand),
+                new Item(2, Enums.ItemPlace.Head), new Item(2, Enums.ItemPlace.Chest), new Item(2, Enums.ItemPlace.Hands),
+                new Item(2, Enums.ItemPlace.Legs), new Item(2, Enums.ItemPlace.Feet), new Item(5, Enums.ItemPlace.Shield)};
             ItemTypes = new List<Enums.ItemType>() { Enums.ItemType.Cloth, Enums.ItemType.Leather, Enums.ItemType.Mail };
             Statuses = new List<CombatLogicClassLibrary.Status>();
             Cooldowns = new int[4] { 0, 0, 0, 4 };

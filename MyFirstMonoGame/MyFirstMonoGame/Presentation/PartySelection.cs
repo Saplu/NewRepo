@@ -40,10 +40,10 @@ namespace MyFirstMonoGame.Presentation
         public void Draw(SpriteBatch sprite, SpriteFont font)
         {
             sprite.Draw(backGround, new Rectangle(0, 0, 800, 480), Color.White);
-            p1Label.Draw(sprite, font);
-            p2Label.Draw(sprite, font);
-            p3Label.Draw(sprite, font);
-            p4Label.Draw(sprite, font);
+            p1Label.Draw(sprite, font, Color.White);
+            p2Label.Draw(sprite, font, Color.White);
+            p3Label.Draw(sprite, font, Color.White);
+            p4Label.Draw(sprite, font, Color.White);
             foreach (var button in allButtons)
                 button.Draw(sprite, font);
         }

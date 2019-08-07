@@ -20,7 +20,9 @@ namespace CharacterClassLibrary.PlayerClasses
             Armor = 0;
             Level = 1;
             Xp = 0;
-            Items = new List<Item>();
+            Items = new List<Item>(){new Item(0, Enums.ItemPlace.MainHand), new Item(0, Enums.ItemPlace.OffHand),
+                new Item(3, Enums.ItemPlace.Head), new Item(3, Enums.ItemPlace.Chest), new Item(3, Enums.ItemPlace.Hands),
+                new Item(3, Enums.ItemPlace.Legs), new Item(3, Enums.ItemPlace.Feet), new Item(5, Enums.ItemPlace.Shield)};
             Name = name;
             ClassName = Enums.ClassName.Protector;
             ItemTypes = new List<Enums.ItemType>

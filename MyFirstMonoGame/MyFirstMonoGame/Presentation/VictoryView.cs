@@ -51,9 +51,9 @@ namespace MyFirstMonoGame.Presentation
         public void Draw(SpriteBatch sprite, SpriteFont font)
         {
             sprite.Draw(backGround, new Rectangle(0, 0, 800, 480), Color.White);
-            infoLabel.Draw(sprite, font);
-            lootLabel.Draw(sprite, font);
-            currentLabel.Draw(sprite, font);
+            infoLabel.Draw(sprite, font, Color.Black);
+            lootLabel.Draw(sprite, font, Color.Black);
+            currentLabel.Draw(sprite, font, Color.Black);
             foreach (var button in playerButtons)
                 button.Draw(sprite, font);
             okButton.Draw(sprite, font);

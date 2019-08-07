@@ -15,6 +15,8 @@ namespace MyFirstMonoGame.Maps
         List<Mission> bossFights;
         Texture2D bossTexture;
 
+        protected int bossFightId;
+
         public List<BoundingBox> BossBoxes { get => bossBoxes; set => bossBoxes = value; }
         public List<Mission> BossFights { get => bossFights; set => bossFights = value; }
 
@@ -45,6 +47,7 @@ namespace MyFirstMonoGame.Maps
             {
                 if (!hero.Box.Intersects(enemy))
                     keepList.Add(enemy);
+                else bossFightId++;
             }
             bossBoxes = keepList;
             CombatBoxes.AddRange(bossBoxes);

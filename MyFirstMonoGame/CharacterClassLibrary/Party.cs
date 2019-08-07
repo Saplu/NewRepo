@@ -24,6 +24,14 @@ namespace CharacterClassLibrary
             this.side = side;
         }
 
+        public Party()
+        {
+            players = new List<Player>();
+            money = 10;
+            map = 1;
+            side = 4;
+        }
+
         public void CheckSide(int x, int y, int mapId)
         {
             if (x < 50)

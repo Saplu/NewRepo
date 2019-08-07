@@ -11,26 +11,26 @@ namespace MyFirstMonoGame.Presentation
 {
     public class MainMenu
     {
-        Button PlayButton, NewPlayerButton, ShopButton, ExitButton, ChoosePartyButton;
+        Button PlayButton, NewPartyButton, ShopButton, ExitButton, ChoosePartyButton;
         Texture2D BackGround;
         public List<Button> MenuButtons;
 
         public MainMenu(Texture2D buttonTexture, Texture2D backGroundTexture, SpriteFont font)
         {
             PlayButton = new Button(buttonTexture, 275, 100, "Enter World", 250, 40);
-            NewPlayerButton = new Button(buttonTexture, 275, 160, "New Character", 250, 40);
+            NewPartyButton = new Button(buttonTexture, 275, 160, "New Party", 250, 40);
             ShopButton = new Button(buttonTexture, 275, 220, "Shop", 250, 40);
             ExitButton = new Button(buttonTexture, 275, 340, "Exit", 250, 40);
             ChoosePartyButton = new Button(buttonTexture, 275, 280, "Choose Party", 250, 40);
             BackGround = backGroundTexture;
-            MenuButtons = new List<Button>() { PlayButton, NewPlayerButton, ShopButton, ExitButton, ChoosePartyButton };
+            MenuButtons = new List<Button>() { PlayButton, NewPartyButton, ShopButton, ExitButton, ChoosePartyButton };
         }
 
         public void Draw(SpriteBatch sprite, SpriteFont font)
         {
             sprite.Draw(BackGround, new Rectangle(0, 0, 800, 480), Color.White);
             PlayButton.Draw(sprite, font);
-            NewPlayerButton.Draw(sprite, font);
+            NewPartyButton.Draw(sprite, font);
             ShopButton.Draw(sprite, font);
             ChoosePartyButton.Draw(sprite, font);
             ExitButton.Draw(sprite, font);
@@ -46,8 +46,8 @@ namespace MyFirstMonoGame.Presentation
                 return "Shop";
             if (ChoosePartyButton.ButtonClicked())
                 return "PartySelect";
-            if (NewPlayerButton.ButtonClicked())
-                return "PartySelect";
+            if (NewPartyButton.ButtonClicked())
+                return "NewParty";
             else return "MainMenu";
         }
 

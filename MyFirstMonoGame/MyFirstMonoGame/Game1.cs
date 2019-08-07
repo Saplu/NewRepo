@@ -21,8 +21,9 @@ namespace MyFirstMonoGame
         Presentation.Combat combat;
         Presentation.Shop shop;
         Presentation.PartySelection partySelection;
+        Presentation.NewParty newParty;
 
-        bool Main, Adventure, Combat, Victory, Shop, PartySelect;
+        bool Main, Adventure, Combat, Victory, Shop, PartySelect, NewParty;
         List<bool> bools;
         MouseState previousState, currentState;
         int x, y;
@@ -32,6 +33,7 @@ namespace MyFirstMonoGame
         Texture2D combatBackGround, skillButtonTexture, victoryBackGround, buttonTexture, red, blue, green,
             menuBackGround, shopBackGround, dungeon, boss;
         CharacterClassLibrary.Party party;
+        Presentation.TextBox text;
 
         DAL.DAO dao;
 
@@ -60,6 +62,8 @@ namespace MyFirstMonoGame
             dao.Read();
             var playerConverter = new PlayerConverter();
             party = playerConverter.DAOToGame(dao.Party);
+
+            text = new Presentation.TextBox(font, 10, 200, 200, 50);
 
             base.Initialize();
         }
@@ -151,6 +155,9 @@ namespace MyFirstMonoGame
                     newShop();
                 if (Redirect == "PartySelect")
                     newPartySelection();
+                if (Redirect == "NewParty")
+                    newNewParty();
+                //text.Update(currentState, Keyboard.GetState());
             }
 
             if (Adventure == true)
@@ -214,9 +221,14 @@ namespace MyFirstMonoGame
                 }
                 manageActiveObjects(Redirect);
             }
+            if (NewParty == true)
+            {
+                newParty.UpdateButtons(currentState);
+                newParty.Update(Mouse.GetState(), Keyboard.GetState());
+                string Redirect = newParty.CheckButtons();
+                manageActiveObjects(Redirect);
+            }
             previousState = currentState;
-            
-            //attack.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -257,6 +269,10 @@ namespace MyFirstMonoGame
             {
                 partySelection.Draw(spriteBatch, font);
             }
+            if (NewParty == true)
+            {
+                newParty.Draw(spriteBatch, font);
+            }
 
             spriteBatch.End();
 
@@ -267,12 +283,13 @@ namespace MyFirstMonoGame
         {
             switch (key)
             {
-                case "MainMenu": Main = true; Adventure = false; Combat = false; Victory = false; Shop = false; PartySelect = false; break;
-                case "Adventure": Main = false; Adventure = true; Combat = false; Victory = false; Shop = false; PartySelect = false; break;
-                case "Combat": Main = false; Adventure = false; Combat = true; Victory = false; Shop = false; PartySelect = false; break;
-                case "Victory": Main = false; Adventure = false; Combat = false; Victory = true; Shop = false; PartySelect = false; break;
-                case "Shop": Main = false; Adventure = false; Combat = false; Victory = false; Shop = true; PartySelect = false; break;
-                case "PartySelect": Main = false; Adventure = false; Combat = false; Victory = false; Shop = false; PartySelect = true; break;
+                case "MainMenu": Main = true; Adventure = false; Combat = false; Victory = false; Shop = false; PartySelect = false; NewParty = false; break;
+                case "Adventure": Main = false; Adventure = true; Combat = false; Victory = false; Shop = false; PartySelect = false; NewParty = false; break;
+                case "Combat": Main = false; Adventure = false; Combat = true; Victory = false; Shop = false; PartySelect = false; NewParty = false; break;
+                case "Victory": Main = false; Adventure = false; Combat = false; Victory = true; Shop = false; PartySelect = false; NewParty = false; break;
+                case "Shop": Main = false; Adventure = false; Combat = false; Victory = false; Shop = true; PartySelect = false; NewParty = false; break;
+                case "PartySelect": Main = false; Adventure = false; Combat = false; Victory = false; Shop = false; PartySelect = true; NewParty = false; break;
+                case "NewParty": Main = false; Adventure = false; Combat = false; Victory = false; Shop = false; PartySelect = false; NewParty = true; break;
                 case "Exit": Exit(); break;
                 default: Main = true; Adventure = false; Combat = false; Victory = false; break;
             }
@@ -336,6 +353,11 @@ namespace MyFirstMonoGame
             party = playerConverter.DAOToGame(dao.Party);
             map = map.Create(party.Map);
             hero.Position = new Vector2(20, 300);
+        }
+
+        private void newNewParty()
+        {
+            newParty = new Presentation.NewParty(menuBackGround, buttonTexture, font);
         }
     }
 }

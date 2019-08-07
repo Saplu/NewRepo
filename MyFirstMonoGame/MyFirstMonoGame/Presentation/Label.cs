@@ -31,9 +31,9 @@ namespace MyFirstMonoGame.Presentation
             this.text = trimTextLength();
         }
 
-        public void Draw(SpriteBatch sprite, SpriteFont font)
+        public void Draw(SpriteBatch sprite, SpriteFont font, Color color)
         {
-            sprite.DrawString(font, text, new Vector2(x, y), Color.Black);
+            sprite.DrawString(font, text, new Vector2(x, y), color);
         }
 
         public void Update(string newText)

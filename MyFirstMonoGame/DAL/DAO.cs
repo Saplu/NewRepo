@@ -9,7 +9,7 @@ namespace DAL
         private string filePath;
         private List<Player> players;
         private Party party;
-        private List<int> playerLines;
+        private List<int> playerLines, partyPlayerLines;
         private int number;
 
         public List<Player> Players { get => players; set => players = value; }
@@ -24,6 +24,7 @@ namespace DAL
             players = new List<Player>();
             party = new Party(players);
             playerLines = new List<int>();
+            partyPlayerLines = new List<int>(){ 0, 10, 20, 30};
         }
 
         public void Update(Party party)
@@ -31,13 +32,14 @@ namespace DAL
             var lines = readFile();
             var newLines = new List<string>();
             separatePlayers(lines);
-            var partyPlayerLines = new List<int>();
-
+            /*var partyPlayerLines = new List<int>();
+            
             foreach (var player in party.Players)
             {
                 var startLine = findLine(player.Name, lines);
                 partyPlayerLines.Add(startLine);
-            }
+            }*/
+            
             foreach (var item in partyPlayerLines)
             {
                 newLines.AddRange(rewriteData(item, party, lines, partyPlayerLines.IndexOf(item)));

@@ -124,59 +124,66 @@ namespace MyFirstMonoGame.Presentation
             foreach (var button in playerButtons)
                 button.Draw(sprite, font);
             foreach (var label in healthLabels)
-                label.Draw(sprite, font);
+                label.Draw(sprite, font, Color.Black);
             skill1Button.Draw(sprite, font);
             skill2Button.Draw(sprite, font);
             skill3Button.Draw(sprite, font);
             skill4Button.Draw(sprite, font);
             nextTurnButton.Draw(sprite, font);
-            turnLabel.Draw(sprite, font);
+            turnLabel.Draw(sprite, font, Color.Black);
             foreach (var button in playerUsableButtons)
                 button.Draw(sprite, font);
             foreach (var button in skillUsableButtons)
                 button.Draw(sprite, font);
-            toolTipLabel.Draw(sprite, font);
+            toolTipLabel.Draw(sprite, font, Color.Black);
 
             Attack.Draw(sprite);
         }
 
         public void Update(GameTime gameTime)
         {
-            if (queue.Attacks.Count > 0)
+            try
             {
-                attack = queue.Attacks[0];
-                attack.AttackRunning = true;
-                setHealthLabels(queue.Healths);
-                queue.Update(gameTime);
-            }
-            else
-            {
-                setHealthLabels();
-                turnLabel.Text = missionStatus.Turn.ToString();
-                foreach (var player in mission.Players)
+                if (queue.Attacks.Count > 0)
                 {
-                    if (missionStatus.ActionDone.Contains(mission.Players.IndexOf(player) + 1))
-                        playerUsableButtons[mission.Players.IndexOf(player)].Texture = unavailable;
-                    else if (missionStatus.SelectedPlayerPosition - 1 == mission.Players.IndexOf(player))
-                        playerUsableButtons[mission.Players.IndexOf(player)].Texture = selected;
-                    else playerUsableButtons[mission.Players.IndexOf(player)].Texture = available;
+                    attack = queue.Attacks[0];
+                    attack.AttackRunning = true;
+                    setHealthLabels(queue.Healths);
+                    queue.Update(gameTime);
                 }
-                foreach (var button in skillUsableButtons)
+                else
                 {
-                    if (missionStatus.Cdarr[skillUsableButtons.IndexOf(button)] > 0)
-                        button.Texture = unavailable;
-                    else if (missionStatus.SkillID == skillButtons[skillUsableButtons.IndexOf(button)].Text)
-                        button.Texture = selected;
-                    else button.Texture = available;
-                }
-                foreach (var button in skillButtons)
-                {
-                    if (button.MouseOver() && missionStatus.SelectedPlayerPosition != 0)
+                    setHealthLabels();
+                    turnLabel.Text = missionStatus.Turn.ToString();
+                    foreach (var player in mission.Players)
                     {
-                        toolTipLabel.Update(mission.Players[missionStatus.SelectedPlayerPosition - 1].AbilityInfo()[skillButtons.IndexOf(button)]);
+                        if (missionStatus.ActionDone.Contains(mission.Players.IndexOf(player) + 1))
+                            playerUsableButtons[mission.Players.IndexOf(player)].Texture = unavailable;
+                        else if (missionStatus.SelectedPlayerPosition - 1 == mission.Players.IndexOf(player))
+                            playerUsableButtons[mission.Players.IndexOf(player)].Texture = selected;
+                        else playerUsableButtons[mission.Players.IndexOf(player)].Texture = available;
                     }
+                    foreach (var button in skillUsableButtons)
+                    {
+                        if (missionStatus.Cdarr[skillUsableButtons.IndexOf(button)] > 0)
+                            button.Texture = unavailable;
+                        else if (missionStatus.SkillID == skillButtons[skillUsableButtons.IndexOf(button)].Text)
+                            button.Texture = selected;
+                        else button.Texture = available;
+                    }
+                    foreach (var button in skillButtons)
+                    {
+                        if (button.MouseOver() && missionStatus.SelectedPlayerPosition != 0)
+                        {
+                            toolTipLabel.Update(mission.Players[missionStatus.SelectedPlayerPosition - 1].AbilityInfo()[skillButtons.IndexOf(button)]);
+                        }
+                    }
+                    Attack.Update(gameTime);
                 }
-                Attack.Update(gameTime);
+            }
+            catch(Exception ex)
+            {
+                toolTipLabel.Text = ex.Message;
             }
         }
 
@@ -207,7 +214,7 @@ namespace MyFirstMonoGame.Presentation
                 }
                 catch (Exception ex)
                 {
-
+                    toolTipLabel.Text = ex.Message;
                 }
             }
             return "Combat";
@@ -248,8 +255,7 @@ namespace MyFirstMonoGame.Presentation
                         mission.PlayerHeal(position, missionStatus.SelectedPlayerPosition, missionStatus.SkillID);
                         mission.SetStatuses(missionStatus.SelectedPlayerPosition, missionStatus.SkillID, position);
                         missionStatus.ActionDone.Add(missionStatus.SelectedPlayerPosition);
-                        missionStatus.SkillID = "";
-                        missionStatus.SelectedPlayerPosition = 0;
+                        missionStatus.SkillID = "";;
                     }
                 }
             }
@@ -264,7 +270,6 @@ namespace MyFirstMonoGame.Presentation
                         mission.SetStatuses(missionStatus.SelectedPlayerPosition, missionStatus.SkillID, position);
                         missionStatus.ActionDone.Add(missionStatus.SelectedPlayerPosition);
                         missionStatus.SkillID = "";
-                        missionStatus.SelectedPlayerPosition = 0;
                         activateAttack(button.ButtonX, button.ButtonY);
                     }
                 }

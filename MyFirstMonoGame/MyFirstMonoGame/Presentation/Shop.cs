@@ -51,10 +51,10 @@ namespace MyFirstMonoGame.Presentation
         public void Draw(SpriteBatch sprite, SpriteFont font)
         {
             sprite.Draw(backGround, new Rectangle(0, 0, 800, 480), Color.White);
-            offerLabel.Draw(sprite, font);
-            exceptionLabel.Draw(sprite, font);
-            moneyLabel.Draw(sprite, font);
-            currentLabel.Draw(sprite, font);
+            offerLabel.Draw(sprite, font, Color.Black);
+            exceptionLabel.Draw(sprite, font, Color.Black);
+            moneyLabel.Draw(sprite, font, Color.Black);
+            currentLabel.Draw(sprite, font, Color.Black);
             foreach (var button in allButtons)
                 button.Draw(sprite, font);
         }

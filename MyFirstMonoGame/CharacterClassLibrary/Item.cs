@@ -64,6 +64,19 @@ namespace CharacterClassLibrary
 
         }
 
+        public Item(int armorClass, ItemPlace itemPlace)
+        {
+            name = "Base";
+            level = 1;
+            armor = armorClass;
+            if (armorClass == 5)
+                armorClass = 2;
+            this.itemPlace = itemPlace;
+            itemType = (ItemType)Enum.Parse(typeof(ItemType), armorClass.ToString());
+            quality = ItemQuality.Poor;
+            sellValue = 1;
+        }
+
         public override string ToString()
         {
             return name + "\r\nHealth: " + health + "\r\nStrength: " + strength + "\r\nSpellpower: " + spellpower +

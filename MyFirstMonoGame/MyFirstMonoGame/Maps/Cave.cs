@@ -35,11 +35,12 @@ namespace MyFirstMonoGame.Maps
             South = 0;
             West = 0;
             StartingPoints = new List<Vector2>() { new Vector2(50, 440) };
+            bossFightId = 1;
         }
 
         public override int IsBossFight(BoundingBox heroBox)
         {
-            var id = 1;
+            var id = bossFightId;
             foreach(var box in BossBoxes)
             {
                 if (heroBox.Intersects(box))

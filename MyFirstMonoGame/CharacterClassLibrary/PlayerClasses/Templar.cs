@@ -20,14 +20,16 @@ namespace CharacterClassLibrary.PlayerClasses
             Armor = 0;
             Level = 1;
             Xp = 0;
-            Items = new List<Item>();
+            Items = new List<Item>(){new Item(0, Enums.ItemPlace.MainHand), new Item(0, Enums.ItemPlace.OffHand),
+                new Item(3, Enums.ItemPlace.Head), new Item(3, Enums.ItemPlace.Chest), new Item(3, Enums.ItemPlace.Hands),
+                new Item(3, Enums.ItemPlace.Legs), new Item(3, Enums.ItemPlace.Feet), new Item(5, Enums.ItemPlace.Shield)};
             Name = name;
             ClassName = Enums.ClassName.Templar;
             ItemTypes = new List<Enums.ItemType>()
             { Enums.ItemType.Cloth, Enums.ItemType.Leather, Enums.ItemType.Mail, Enums.ItemType.Plate};
             var stat = new CombatLogicClassLibrary.Statuses.TakenDmgMultiplier(Int32.MaxValue, new List<int>(), .85);
             Statuses = new List<CombatLogicClassLibrary.Status>() { stat };
-            Cooldowns = new int[4] { 0, 0, 0, 4 };
+            Cooldowns = new int[4] { 0, 0, 0, 0 };
             ItemPlaces.Add(Enums.ItemPlace.Shield);
         }
 

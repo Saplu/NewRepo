@@ -73,11 +73,14 @@
     <Compile Include="Presentation\Combat.cs" />
     <Compile Include="Presentation\Label.cs" />
     <Compile Include="Presentation\MainMenu.cs" />
+    <Compile Include="Presentation\NewParty.cs" />
     <Compile Include="Presentation\PartySelection.cs" />
     <Compile Include="Presentation\Shop.cs" />
+    <Compile Include="Presentation\TextBox.cs" />
     <Compile Include="Presentation\VictoryView.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TextHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
