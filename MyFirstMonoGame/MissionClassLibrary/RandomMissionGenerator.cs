@@ -13,6 +13,7 @@ namespace MissionClassLibrary
         private List<int> enemyTypes;
         int missionDifficulty;
         int[] rewardTable;
+        bool healer;
 
         public RandomMissionGenerator()
         {
@@ -44,7 +45,7 @@ namespace MissionClassLibrary
             foreach(var thing in enemyTypes)
             {
                 var type = (NPCType)Enum.Parse(typeof(NPCType), thing.ToString());
-                enemyList.Add(enemyGenerator.CreateEnemy(type, level));
+                enemyList.Add(enemyGenerator.CreateEnemy(type, level, healer));
             }
             var mission = new RandomMission(enemyList, players, level, rewardTable);
             return mission;
@@ -84,6 +85,7 @@ namespace MissionClassLibrary
                     enemyCount = 3;
                 else enemyCount = 4;
             }
+            if (enemyCount >= 3) healer = true;
         }
 
         private void types(int random, int enemyCount)
