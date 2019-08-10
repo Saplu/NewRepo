@@ -29,7 +29,7 @@ namespace CharacterClassLibrary.PlayerClasses
             { Enums.ItemType.Cloth, Enums.ItemType.Leather, Enums.ItemType.Mail, Enums.ItemType.Plate};
             var stat = new CombatLogicClassLibrary.Statuses.TakenDmgMultiplier(Int32.MaxValue, new List<int>(), .85);
             Statuses = new List<CombatLogicClassLibrary.Status>() { stat };
-            Cooldowns = new int[4] { 0, 0, 0, 0 };
+            Cooldowns = new int[4] { 0, 0, 0, 4 };
             ItemPlaces.Add(Enums.ItemPlace.Shield);
         }
 

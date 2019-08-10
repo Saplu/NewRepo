@@ -29,6 +29,7 @@ namespace MyFirstMonoGame.Maps
             West = 1;
 
             StartingPoints[3] = new Vector2(400, 20);
+            RespawnPoint = new Vector2(300, 300);
         }
 
         private List<int> getMapCubes() //374 on viimonen, 25x15

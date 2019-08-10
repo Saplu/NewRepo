@@ -64,6 +64,7 @@
     <Compile Include="Maps\CrossRoad.cs" />
     <Compile Include="Maps\Dungeon.cs" />
     <Compile Include="Maps\DungeonPassage.cs" />
+    <Compile Include="Maps\Islands.cs" />
     <Compile Include="Maps\Map.cs" />
     <Compile Include="Maps\Training.cs" />
     <Compile Include="MovableHero.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Presentation\Attack.cs" />
     <Compile Include="Presentation\Button.cs" />
     <Compile Include="Presentation\Combat.cs" />
+    <Compile Include="Presentation\Enemy.cs" />
     <Compile Include="Presentation\Label.cs" />
     <Compile Include="Presentation\MainMenu.cs" />
     <Compile Include="Presentation\NewParty.cs" />

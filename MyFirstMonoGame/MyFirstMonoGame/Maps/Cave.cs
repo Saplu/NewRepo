@@ -35,6 +35,7 @@ namespace MyFirstMonoGame.Maps
             South = 0;
             West = 0;
             StartingPoints = new List<Vector2>() { new Vector2(50, 440) };
+            RespawnPoint = new Vector2(50, 440);
             bossFightId = 1;
         }
 

@@ -157,12 +157,12 @@ namespace MyFirstMonoGame
                     newPartySelection();
                 if (Redirect == "NewParty")
                     newNewParty();
-                //text.Update(currentState, Keyboard.GetState());
             }
 
             if (Adventure == true)
             {
                 map.UpdateButtons(currentState);
+                map.Update(gameTime);
                 hero.Update(gameTime, graphics);
                 hero.CheckForCollision(map.Boxes, gameTime, graphics);
                 string Redirect = hero.CheckForCombat(map.CombatBoxes, map.DungeonBoxes);
@@ -291,6 +291,7 @@ namespace MyFirstMonoGame
                 case "PartySelect": Main = false; Adventure = false; Combat = false; Victory = false; Shop = false; PartySelect = true; NewParty = false; break;
                 case "NewParty": Main = false; Adventure = false; Combat = false; Victory = false; Shop = false; PartySelect = false; NewParty = true; break;
                 case "Exit": Exit(); break;
+                case "Lose": Combat = false; Adventure = true; Hero.Position = map.RespawnPoint; break;
                 default: Main = true; Adventure = false; Combat = false; Victory = false; break;
             }
         }

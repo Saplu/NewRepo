@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using CharacterClassLibrary.Enums;
+using MyFirstMonoGame.Presentation;
 
 namespace MyFirstMonoGame
 {
@@ -29,6 +30,8 @@ namespace MyFirstMonoGame
         private SpriteFont font;
         private int id, north, east, south, west;
         private List<Vector2> startingPoints;
+        private Vector2 respawnPoint;
+        private List<Presentation.Enemy> enemies;
 
         public List<int> MapCubes { get => mapCubes; set => mapCubes = value; }
         public Texture2D Texture { get => texture; }
@@ -47,6 +50,8 @@ namespace MyFirstMonoGame
         public List<Vector2> StartingPoints { get => startingPoints; set => startingPoints = value; }
         public List<BoundingBox> DungeonBoxes { get => dungeonBoxes; set => dungeonBoxes = value; }
         public Texture2D DungeonTexture { get => dungeonTexture; set => dungeonTexture = value; }
+        public Vector2 RespawnPoint { get => respawnPoint; set => respawnPoint = value; }
+        public List<Enemy> Enemies { get => enemies; set => enemies = value; }
 
         public Map(Texture2D texture, int rows, int columns, Texture2D enemyTexture, Texture2D buttonTexture, SpriteFont font, Texture2D dungeon, 
             Texture2D bossTexture)
@@ -61,12 +66,14 @@ namespace MyFirstMonoGame
             //Koko on 800x480. 25x15 32x32 tiiliä.
             mapParts = getMapParts();
             this.enemyTexture = enemyTexture;
-            combatBoxes = new List<BoundingBox>();
-            menuButton = new Presentation.Button(buttonTexture, 735, 450, "Menu", 60, 25);
+            menuButton = new Button(buttonTexture, 735, 450, "Menu", 60, 25);
             this.font = font;
             dungeonBoxes = new List<BoundingBox>();
             this.dungeonTexture = dungeon;
             this.bossTexture = bossTexture;
+            enemies = new List<Enemy>();
+            combatBoxes = new List<BoundingBox>();
+            createCombatBoxes();
         }
 
         public Map Create(int key)
@@ -76,6 +83,7 @@ namespace MyFirstMonoGame
                 case 1: return new Maps.Training(texture, rows, columns, enemyTexture, buttonTexture, font, dungeonTexture, bossTexture);
                 case 2: return new Maps.CrossRoad(texture, rows, columns, enemyTexture, buttonTexture, font, dungeonTexture, bossTexture);
                 case 3: return new Maps.DungeonPassage(texture, rows, columns, enemyTexture, buttonTexture, font, dungeonTexture, bossTexture);
+                case 4: return new Maps.Islands(texture, rows, columns, enemyTexture, buttonTexture, font, dungeonTexture, bossTexture);
                 default: throw new Exception("No map found.");
             }
         }
@@ -98,6 +106,13 @@ namespace MyFirstMonoGame
                 case 3: return new MissionClassLibrary.Missions.ThroneRoom(players);
                 default: throw new Exception("No boss found");
             }
+        }
+
+        public void Update(GameTime gameTime)
+        {
+            foreach (var enemy in enemies)
+                enemy.Update(gameTime);
+            getCombatBoxes();
         }
 
         public virtual void Draw(SpriteBatch sprite) //Kantaluokkaan
@@ -123,18 +138,24 @@ namespace MyFirstMonoGame
                 sprite.Draw(dungeonTexture, new Rectangle((int)box.Min.X, (int)box.Min.Y, (int)box.Max.X - (int)box.Min.X,
                     (int)box.Max.Y - (int)box.Min.Y), Color.White);
             }
+            foreach(var enemy in enemies)
+            {
+                enemy.Draw(sprite);
+            }
             menuButton.Draw(sprite, font);
         }
 
         public virtual void RemoveDestroyedEnemy(Hero hero)
         {
-            var keepList = new List<BoundingBox>();
-            foreach (var enemy in CombatBoxes)
+            var keepList = new List<Enemy>();
+            foreach (var enemy in enemies)
             {
-                if (!hero.Box.Intersects(enemy))
+                if (!hero.Box.Intersects(enemy.AggroBox))
                     keepList.Add(enemy);
             }
-            combatBoxes = keepList;
+            enemies = keepList;
+            createCombatBoxes();
+            getBoundingBoxes();
         }
 
         public void UpdateButtons(MouseState currentState)
@@ -290,6 +311,26 @@ namespace MyFirstMonoGame
                 index++;
             }
             combatBoxes = cboxes;
+        }
+
+        protected void getCombatBoxes()
+        {
+            var index = 0;
+            foreach(var enemy in enemies)
+            {
+                combatBoxes[index] = enemy.AggroBox;
+                index++;
+            }
+            
+        }
+
+        protected void createCombatBoxes()
+        {
+            combatBoxes = new List<BoundingBox>();
+            foreach(var enemy in enemies)
+            {
+                combatBoxes.Add(enemy.AggroBox);
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using MyFirstMonoGame.Presentation;
 
 namespace MyFirstMonoGame.Maps
 {
@@ -16,9 +17,9 @@ namespace MyFirstMonoGame.Maps
         {
             this.MapCubes = getMapCubes();
             getBoundingBoxes();
-            var combatX = new List<int>() { 160, 300, 350, 250, 430, 500, 620 };
-            var combatY = new List<int>() { 235, 200, 250, 270, 285, 210, 240 };
-            getCombatBoxes(combatX, combatY);
+            //var combatX = new List<int>() { 160, 300, 350, 250, 430, 500, 620 };
+            //var combatY = new List<int>() { 235, 200, 250, 270, 285, 210, 240 };
+            //getCombatBoxes(combatX, combatY);
             Level = 1;
             MapDifficulty = CharacterClassLibrary.Enums.MissionDifficulty.easy;
             Id = 1;
@@ -27,6 +28,11 @@ namespace MyFirstMonoGame.Maps
             South = 0;
             West = 0;
             StartingPoints[2] = new Vector2(750, 300);
+            RespawnPoint = new Vector2(400, 180);
+            Enemies = new List<Enemy>() { new Enemy(enemyTexture, 20f, new Vector2(750, 100), new Vector2(740, 250), new Vector2(750, 80)),
+            new Enemy(enemyTexture, 25f, new Vector2(160, 235), new Vector2(180, 300), new Vector2(140, 200))
+            };
+            createCombatBoxes();
         }
 
         private List<int> getMapCubes() //Tämä on karttakohtainen!

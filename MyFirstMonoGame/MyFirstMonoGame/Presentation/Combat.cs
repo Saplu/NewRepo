@@ -204,7 +204,10 @@ namespace MyFirstMonoGame.Presentation
                         mission.EndTurn();
                         endTurn(gameTime, sprite);
                         if (mission.CheckLoss())
+                        {
+                            mission.EndOfMissionReset();
                             return "Lose";
+                        }
                         else if (mission.CheckWin())
                         {
                             mission.EndOfMissionReset();
@@ -255,7 +258,8 @@ namespace MyFirstMonoGame.Presentation
                         mission.PlayerHeal(position, missionStatus.SelectedPlayerPosition, missionStatus.SkillID);
                         mission.SetStatuses(missionStatus.SelectedPlayerPosition, missionStatus.SkillID, position);
                         missionStatus.ActionDone.Add(missionStatus.SelectedPlayerPosition);
-                        missionStatus.SkillID = "";;
+                        missionStatus.SkillID = "";
+                        missionStatus.SelectedPlayerPosition = 0;
                     }
                 }
             }
@@ -271,6 +275,7 @@ namespace MyFirstMonoGame.Presentation
                         missionStatus.ActionDone.Add(missionStatus.SelectedPlayerPosition);
                         missionStatus.SkillID = "";
                         activateAttack(button.ButtonX, button.ButtonY);
+                        missionStatus.SelectedPlayerPosition = 0;
                     }
                 }
                 checkPlayerButtons();
@@ -280,16 +285,19 @@ namespace MyFirstMonoGame.Presentation
 
         private void checkSkillButtons()
         {
-            missionStatus.Cdarr = mission.CheckCooldowns(missionStatus.SelectedPlayerPosition - 1);
-            if (skill1Button.ButtonClicked() && missionStatus.Cdarr[0] < 1)
-                missionStatus.SetSkillID(skill1Button.Text);
-            else if (skill2Button.ButtonClicked() && missionStatus.Cdarr[1] < 1)
-                missionStatus.SetSkillID(skill2Button.Text);
-            else if (skill3Button.ButtonClicked() && missionStatus.Cdarr[2] < 1)
-                missionStatus.SetSkillID(skill3Button.Text);
-            else if (skill4Button.ButtonClicked() && missionStatus.Cdarr[3] < 1)
-                missionStatus.SetSkillID(skill4Button.Text);
-            else checkPlayerButtons();
+            if (missionStatus.SelectedPlayerPosition != 0)
+            {
+                missionStatus.Cdarr = mission.CheckCooldowns(missionStatus.SelectedPlayerPosition - 1);
+                if (skill1Button.ButtonClicked() && missionStatus.Cdarr[0] < 1)
+                    missionStatus.SetSkillID(skill1Button.Text);
+                else if (skill2Button.ButtonClicked() && missionStatus.Cdarr[1] < 1)
+                    missionStatus.SetSkillID(skill2Button.Text);
+                else if (skill3Button.ButtonClicked() && missionStatus.Cdarr[2] < 1)
+                    missionStatus.SetSkillID(skill3Button.Text);
+                else if (skill4Button.ButtonClicked() && missionStatus.Cdarr[3] < 1)
+                    missionStatus.SetSkillID(skill4Button.Text);
+                else checkPlayerButtons();
+            }
         }
 
         private void activateAttack(int x, int y)
