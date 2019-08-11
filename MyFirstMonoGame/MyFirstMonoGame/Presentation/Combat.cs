@@ -200,8 +200,8 @@ namespace MyFirstMonoGame.Presentation
                     else checkCharacterButtons(missionStatus.TargetSide);
                     if (nextTurnButton.ButtonClicked())
                     {
-                        missionStatus.EndTurn();
-                        mission.EndTurn();
+                        var deadPlayers = mission.EndTurn();
+                        missionStatus.EndTurn(deadPlayers);
                         endTurn(gameTime, sprite);
                         if (mission.CheckLoss())
                         {

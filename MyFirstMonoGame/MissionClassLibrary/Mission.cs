@@ -172,7 +172,7 @@ namespace MissionClassLibrary
             }
         }
 
-        public void EndTurn()
+        public List<int> EndTurn()
         {
             Logger.Clear();
             for (int i = 0; i < Enemies.Count; i++)
@@ -180,6 +180,13 @@ namespace MissionClassLibrary
                 PlayerDefend(i);
             }
             ModifyLength();
+            var deadPlayers = new List<int>();
+            foreach(var player in players)
+            {
+                if (player.Health <= 0)
+                    deadPlayers.Add(player.Position);
+            }
+            return deadPlayers;
         }
 
         private void enemyHeal(string id, int enemyIndex)

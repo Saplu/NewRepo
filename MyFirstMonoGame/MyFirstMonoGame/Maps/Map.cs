@@ -93,6 +93,7 @@ namespace MyFirstMonoGame
             switch(key)
             {
                 case 101: return new Maps.Cave(texture, rows, columns, enemyTexture, buttonTexture, font, dungeonTexture, bossTexture);
+                case 102: return new Maps.Castle(texture, rows, columns, enemyTexture, buttonTexture, font, dungeonTexture, bossTexture);
                 default: return Create(key);
             }
         }

@@ -18,7 +18,7 @@ namespace CharacterClassLibrary.NPCClasses
             Level = level;
             Health = Convert.ToInt32(multi * multi * (107 + (51 * level)));
             MaxHealth = Health;
-            Strength = Convert.ToInt32(multi * (9 + (level * 3.5)));
+            Strength = Convert.ToInt32(multi * (9 + (level * 4.5)));
             Crit = 10;
             SpellPower = 0;
             Armor = Convert.ToInt32(multi * (level * 12));

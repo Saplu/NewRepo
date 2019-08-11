@@ -63,8 +63,6 @@ namespace MyFirstMonoGame
             var playerConverter = new PlayerConverter();
             party = playerConverter.DAOToGame(dao.Party);
 
-            text = new Presentation.TextBox(font, 10, 200, 200, 50);
-
             base.Initialize();
         }
 
@@ -121,7 +119,7 @@ namespace MyFirstMonoGame
 
             map = new Maps.Training(mapTextureAtlas, 5, 7, enemyTexture, buttonTexture, font, dungeon, boss);
             map = map.Create(party.Map);
-            hero.Position = new Vector2(710, 200);//map.GetStartingPoint(party.Side);
+            hero.Position = new Vector2(100, 40);//map.GetStartingPoint(party.Side);
         }
 
         /// <summary>

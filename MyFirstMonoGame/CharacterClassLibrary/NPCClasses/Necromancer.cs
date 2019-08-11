@@ -20,7 +20,7 @@ namespace CharacterClassLibrary.NPCClasses
             MaxHealth = Health;
             Strength = 0;
             Crit = 10;
-            SpellPower = Convert.ToInt32(multi * (12 + (5*level)));
+            SpellPower = Convert.ToInt32(multi * (12 + (6*level)));
             Armor = Convert.ToInt32(multi * (level * 6));
             Statuses = new List<CombatLogicClassLibrary.Status>();
             Threat = new CombatLogicClassLibrary.Threat();

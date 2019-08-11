@@ -5,33 +5,31 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
-using MissionClassLibrary.Missions;
 using MyFirstMonoGame.Presentation;
 
 namespace MyFirstMonoGame.Maps
 {
-    public class Cave : Dungeon
+    public class Castle : Dungeon
     {
-        public Cave(Texture2D texture, int rows, int columns, Texture2D enemyTexture, Texture2D buttonTexture, SpriteFont font,
-            Texture2D dungeon, Texture2D boss) : base(texture, rows, columns, enemyTexture, buttonTexture, font,
-                dungeon, boss)
+        public Castle(Texture2D texture, int rows, int columns, Texture2D enemyTexture, Texture2D buttonTexture, SpriteFont font,
+    Texture2D dungeon, Texture2D boss) : base(texture, rows, columns, enemyTexture, buttonTexture, font,
+        dungeon, boss)
         {
             MapCubes = getMapCubes();
             getBoundingBoxes();
             DungeonBoxes.Add(new BoundingBox(new Vector3(0, 450, 0), new Vector3(25, 480, 0)));
             DungeonBoxes.Add(new BoundingBox(new Vector3(700, 400, 0), new Vector3(735, 455, 0)));
 
-            Level = 4;
-            MapDifficulty = CharacterClassLibrary.Enums.MissionDifficulty.dungeon;
-            Id = 3;
+            Level = 8;
+            MapDifficulty = CharacterClassLibrary.Enums.MissionDifficulty.hc;
+            Id = 4;
             North = 0;
             East = 0;
             South = 0;
             West = 0;
             StartingPoints = new List<Vector2>() { new Vector2(50, 440) };
             RespawnPoint = new Vector2(50, 440);
-            bossFightId = 1;
-            
+
             Enemies = new List<Enemy>() { new Enemy(enemyTexture, 20f, new Vector2(480, 250), new Vector2(480, 180), new Vector2(480, 270)),
             new Enemy(enemyTexture, 21f, new Vector2(150, 420), new Vector2(90, 420), new Vector2(170, 420)),
             new Enemy(enemyTexture, 23f, new Vector2(40, 340), new Vector2(40, 365), new Vector2(30, 315)),
@@ -52,7 +50,7 @@ namespace MyFirstMonoGame.Maps
 
         public override int IsBossFight(BoundingBox heroBox)
         {
-            foreach(var boss in Bosses)
+            foreach (var boss in Bosses)
             {
                 if (heroBox.Intersects(boss.AggroBox))
                     return boss.Id;
@@ -62,7 +60,7 @@ namespace MyFirstMonoGame.Maps
 
         public override int DungeonId(Vector2 position)
         {
-            return 3;
+            return 4;
         }
 
         private List<int> getMapCubes()

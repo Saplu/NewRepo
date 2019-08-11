@@ -32,13 +32,14 @@ namespace MissionClassLibrary
             cdarr = new int[4];
         }
 
-        public void EndTurn()
+        public void EndTurn(List<int> deadPlayers)
         {
             turn++;
             selectedPlayerPosition = 0;
             skillID = "";
             targetSide = 0;
             actionDone.Clear();
+            actionDone.AddRange(deadPlayers);
             cdarr = new int[4];
         }
 

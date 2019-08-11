@@ -60,6 +60,7 @@
   <ItemGroup>
     <Compile Include="AttackQueue.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Maps\Castle.cs" />
     <Compile Include="Maps\Cave.cs" />
     <Compile Include="Maps\CrossRoad.cs" />
     <Compile Include="Maps\Dungeon.cs" />
