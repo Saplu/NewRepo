@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using MissionClassLibrary;
+using MyFirstMonoGame.Presentation;
 
 namespace MyFirstMonoGame.Maps
 {
@@ -13,12 +14,14 @@ namespace MyFirstMonoGame.Maps
     {
         List<BoundingBox> bossBoxes;
         List<Mission> bossFights;
+        List<Presentation.Boss> bosses;
         Texture2D bossTexture;
 
         protected int bossFightId;
 
         public List<BoundingBox> BossBoxes { get => bossBoxes; set => bossBoxes = value; }
         public List<Mission> BossFights { get => bossFights; set => bossFights = value; }
+        public List<Boss> Bosses { get => bosses; set => bosses = value; }
 
         public Dungeon(Texture2D texture, int rows, int columns, Texture2D enemyTexture, Texture2D buttonTexture, SpriteFont font,
             Texture2D dungeon, Texture2D boss) :
@@ -27,6 +30,7 @@ namespace MyFirstMonoGame.Maps
             bossTexture = boss;
             bossFights = new List<Mission>();
             bossBoxes = new List<BoundingBox>();
+            bosses = new List<Boss>();
         }
 
         public override void Draw(SpriteBatch sprite)
@@ -42,14 +46,14 @@ namespace MyFirstMonoGame.Maps
         public override void RemoveDestroyedEnemy(Hero hero)
         {
             base.RemoveDestroyedEnemy(hero);
-            var keepList = new List<BoundingBox>();
-            foreach(var enemy in bossBoxes)
+            var keepList = new List<Boss>();
+            foreach(var boss in bosses)
             {
-                if (!hero.Box.Intersects(enemy))
-                    keepList.Add(enemy);
-                else bossFightId++;
+                if (!hero.Box.Intersects(boss.AggroBox))
+                    keepList.Add(boss);
             }
-            bossBoxes = keepList;
+            bosses = keepList;
+            createBossBoxes();
             CombatBoxes.AddRange(bossBoxes);
         }
 
@@ -69,6 +73,15 @@ namespace MyFirstMonoGame.Maps
                 index++;
             }
             bossBoxes = bBoxes;
+        }
+
+        protected void createBossBoxes()
+        {
+            bossBoxes = new List<BoundingBox>();
+            foreach(var boss in bosses)
+            {
+                bossBoxes.Add(boss.AggroBox);
+            }
         }
 
         private List<int> getMapCubes()

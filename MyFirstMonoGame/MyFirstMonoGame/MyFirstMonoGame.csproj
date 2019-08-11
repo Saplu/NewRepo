@@ -70,6 +70,7 @@
     <Compile Include="MovableHero.cs" />
     <Compile Include="PlayerConverter.cs" />
     <Compile Include="Presentation\Attack.cs" />
+    <Compile Include="Presentation\Boss.cs" />
     <Compile Include="Presentation\Button.cs" />
     <Compile Include="Presentation\Combat.cs" />
     <Compile Include="Presentation\Enemy.cs" />

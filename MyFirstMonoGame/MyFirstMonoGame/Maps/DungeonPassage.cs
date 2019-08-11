@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using MyFirstMonoGame.Presentation;
 
 namespace MyFirstMonoGame.Maps
 {
@@ -16,9 +17,6 @@ namespace MyFirstMonoGame.Maps
         {
             this.MapCubes = getMapCubes();
             getBoundingBoxes();
-            var combatX = new List<int>() { 405, 650, 505 };
-            var combatY = new List<int>() { 385, 260, 355 };
-            getCombatBoxes(combatX, combatY);
             DungeonBoxes.Add(new BoundingBox(new Vector3(703, 181, 0), new Vector3(737, 224, 0)));
 
             Level = 3;
@@ -30,6 +28,14 @@ namespace MyFirstMonoGame.Maps
             West = 0;
             StartingPoints = new List<Vector2>() { new Vector2(400, 450), new Vector2(725, 243), new Vector2(480, 20) };
             RespawnPoint = new Vector2(365, 200);
+
+            Enemies = new List<Enemy>() { new Enemy(enemyTexture, 20f, new Vector2(390, 385), new Vector2(395, 385), new Vector2(375, 365)),
+            new Enemy(enemyTexture, 23f, new Vector2(400, 322), new Vector2(525, 322), new Vector2(370, 322)),
+            new Enemy(enemyTexture, 25f, new Vector2(650, 260), new Vector2(565, 257), new Vector2(700, 262)),
+            new Enemy(enemyTexture, 35f, new Vector2(350, 150), new Vector2(350, 90), new Vector2(350, 210)),
+            new Enemy(enemyTexture, 25f, new Vector2(210, 85), new Vector2(230, 100), new Vector2(185, 25)),
+            };
+            createCombatBoxes();
         }
 
         public override int DungeonId(Vector2 position)

@@ -121,7 +121,7 @@ namespace MyFirstMonoGame
 
             map = new Maps.Training(mapTextureAtlas, 5, 7, enemyTexture, buttonTexture, font, dungeon, boss);
             map = map.Create(party.Map);
-            hero.Position = map.GetStartingPoint(party.Side);
+            hero.Position = new Vector2(710, 200);//map.GetStartingPoint(party.Side);
         }
 
         /// <summary>

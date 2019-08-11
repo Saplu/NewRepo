@@ -11,10 +11,10 @@ namespace MyFirstMonoGame.Presentation
 {
     public class Enemy
     {
-        Texture2D texture;
-        float speed;
-        Vector2 position, firstEnd, secondEnd, destination;
-        BoundingBox aggroBox;
+        protected Texture2D texture;
+        protected float speed;
+        protected Vector2 position, firstEnd, secondEnd, destination;
+        protected BoundingBox aggroBox;
         
         public BoundingBox AggroBox { get => aggroBox; set => aggroBox = value; }
 
@@ -29,7 +29,7 @@ namespace MyFirstMonoGame.Presentation
             aggroBox = new BoundingBox(new Vector3(position.X, position.Y, 0), new Vector3(position.X + 32, position.Y + 32, 0));
         }
 
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
             if (position.X < destination.X)
                 move(0, gameTime);
