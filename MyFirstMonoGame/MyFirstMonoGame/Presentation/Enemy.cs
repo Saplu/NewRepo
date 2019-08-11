@@ -15,6 +15,7 @@ namespace MyFirstMonoGame.Presentation
         protected float speed;
         protected Vector2 position, firstEnd, secondEnd, destination;
         protected BoundingBox aggroBox;
+        private int currentFrame, frameTime;
         
         public BoundingBox AggroBox { get => aggroBox; set => aggroBox = value; }
 
@@ -27,6 +28,8 @@ namespace MyFirstMonoGame.Presentation
             secondEnd = second;
             destination = firstEnd;
             aggroBox = new BoundingBox(new Vector3(position.X, position.Y, 0), new Vector3(position.X + 32, position.Y + 32, 0));
+            currentFrame = 0;
+            frameTime = 0;
         }
 
         public virtual void Update(GameTime gameTime)
@@ -41,11 +44,17 @@ namespace MyFirstMonoGame.Presentation
                 move(3, gameTime);
             checkDirection();
             updateAggroBox();
+            updateFrame(gameTime);
         }
 
         public void Draw(SpriteBatch sprite)
         {
-            sprite.Draw(texture, new Rectangle(Convert.ToInt32(position.X), Convert.ToInt32(position.Y), 32, 32), Color.White);
+            int width = texture.Width / 2;
+
+            Rectangle sourceRectangle = new Rectangle(width * currentFrame, 0, width, texture.Height);
+            Rectangle destinationRectangle = new Rectangle((int)position.X, (int)position.Y, 32, 32);
+
+            sprite.Draw(texture, destinationRectangle, sourceRectangle, Color.White);
         }
 
         private void move(int id, GameTime gameTime)
@@ -76,6 +85,18 @@ namespace MyFirstMonoGame.Presentation
         {
             aggroBox.Min = new Vector3(position.X, position.Y, 0);
             aggroBox.Max = new Vector3(position.X + 32, position.Y + 32, 0);
+        }
+
+        private void updateFrame(GameTime gameTime)
+        {
+            frameTime += Convert.ToInt32(gameTime.ElapsedGameTime.TotalMilliseconds);
+            if (frameTime > 500)
+            {
+                currentFrame++;
+                frameTime = 0;
+            }
+            if (currentFrame >= 2)
+                currentFrame = 0;
         }
     }
 }

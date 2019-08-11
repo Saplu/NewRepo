@@ -129,11 +129,6 @@ namespace MyFirstMonoGame
             }
             currentFrame = 0;
 
-            foreach(var box in combatBoxes)
-            {
-                sprite.Draw(enemyTexture, new Rectangle((int)box.Min.X, (int)box.Min.Y, (int)box.Max.X - (int)box.Min.X, 
-                    (int)box.Max.Y - (int)box.Min.Y), Color.White);
-            }
             foreach(var box in dungeonBoxes)
             {
                 sprite.Draw(dungeonTexture, new Rectangle((int)box.Min.X, (int)box.Min.Y, (int)box.Max.X - (int)box.Min.X,
