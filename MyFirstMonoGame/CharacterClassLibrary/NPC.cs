@@ -27,6 +27,7 @@ namespace CharacterClassLibrary
                 case NPCClassName.Goblin: return new NPCClasses.Goblin(level, Convert.ToInt32(type));
                 case NPCClassName.Pirate: return new NPCClasses.Pirate(level, Convert.ToInt32(type));
                 case NPCClassName.Necromancer: return new NPCClasses.Necromancer(level, Convert.ToInt32(type));
+                case NPCClassName.Alchemist: return new NPCClasses.Alchemist(level, Convert.ToInt32(type));
                 case NPCClassName.Medic: return new NPCClasses.Medic(level, Convert.ToInt32(type));
                 default: throw new ArgumentOutOfRangeException();
             }
@@ -86,8 +87,8 @@ namespace CharacterClassLibrary
             {
                 case Enums.NPCType.Recruit: return .7;
                 case Enums.NPCType.Normal: return 1;
-                case Enums.NPCType.Veteran: return 1.3;
-                case Enums.NPCType.Elite: return 1.7;
+                case Enums.NPCType.Veteran: return 1.35;
+                case Enums.NPCType.Elite: return 1.8;
                 default: return 1;
             }
         }

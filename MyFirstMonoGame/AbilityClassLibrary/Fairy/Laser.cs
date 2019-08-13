@@ -12,7 +12,7 @@ namespace AbilityClassLibrary.Fairy
         public Laser()
         {
             Name = "Laser";
-            Description = "Shoots pink laser from her eyes to an enemy, reducing damage the target deals by 10% for 2 turns.";
+            Description = "Attack 1 enemy\r\nand reduce the\r\ndmg it deals\r\nby 10% for 2 turns";
             Cooldown = 1;
         }
 

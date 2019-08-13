@@ -16,11 +16,11 @@ namespace CharacterClassLibrary.NPCClasses
             Type = (Enums.NPCType)Enum.Parse(typeof(Enums.NPCType), type.ToString());
             var multi = typeMultiplier();
             Level = level;
-            Health = Convert.ToInt32(multi * multi * (87 + (37 * level)));
+            Health = Convert.ToInt32(multi * multi * (87 + (39 * level)));
             MaxHealth = Health;
             Strength = 0;
             Crit = 10;
-            SpellPower = Convert.ToInt32(multi * (12 + (6*level)));
+            SpellPower = Convert.ToInt32(multi * (12 + (9*level)));
             Armor = Convert.ToInt32(multi * (level * 6));
             Statuses = new List<CombatLogicClassLibrary.Status>();
             Threat = new CombatLogicClassLibrary.Threat();

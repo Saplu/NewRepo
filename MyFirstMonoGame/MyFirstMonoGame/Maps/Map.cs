@@ -109,7 +109,7 @@ namespace MyFirstMonoGame
             }
         }
 
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
             foreach (var enemy in enemies)
                 enemy.Update(gameTime);

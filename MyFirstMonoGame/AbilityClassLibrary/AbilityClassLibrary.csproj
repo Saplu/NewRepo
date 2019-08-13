@@ -58,6 +58,7 @@
     <Compile Include="NPC\BloodPlague.cs" />
     <Compile Include="NPC\Execute.cs" />
     <Compile Include="NPC\Kick.cs" />
+    <Compile Include="NPC\PoisonExplosion.cs" />
     <Compile Include="NPC\RigorMortis.cs" />
     <Compile Include="NPC\StunningBlow.cs" />
     <Compile Include="NPC\Whirlwind.cs" />

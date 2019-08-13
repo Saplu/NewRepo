@@ -119,7 +119,8 @@ namespace MyFirstMonoGame
 
             map = new Maps.Training(mapTextureAtlas, 5, 7, enemyTexture, buttonTexture, font, dungeon, boss);
             map = map.Create(party.Map);
-            hero.Position = new Vector2(100, 40);//map.GetStartingPoint(party.Side);
+            //hero.Position = //new Vector2(100, 40);
+                //map.GetStartingPoint(party.Side);
         }
 
         /// <summary>
@@ -155,6 +156,8 @@ namespace MyFirstMonoGame
                     newPartySelection();
                 if (Redirect == "NewParty")
                     newNewParty();
+                if (Redirect == "Adventure")
+                    hero.Position = map.GetStartingPoint(party.Side);
             }
 
             if (Adventure == true)

@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace CharacterClassLibrary.Enums
 {
-    public enum NPCClassName { Rabbit, Goblin, Pirate, Necromancer, Medic}
+    public enum NPCClassName { Rabbit, Goblin, Pirate, Necromancer, Alchemist, Medic}
 }
