@@ -41,7 +41,7 @@ namespace MyFirstMonoGame.Maps
             //new Enemy(enemyTexture, 20f, new Vector2(638, 140), new Vector2(638, 205), new Vector2(638, 135)),
             };
             createCombatBoxes();
-            Bosses = new List<Boss>() { new Boss(boss, new Vector2(314, 194), 1),
+            Bosses = new List<Boss>() { new Boss(boss, new Vector2(314, 194), 5),
             new Boss(boss, new Vector2(520, 155), 2),
             new Boss(boss, new Vector2(690, 320), 3)};
             createBossBoxes();

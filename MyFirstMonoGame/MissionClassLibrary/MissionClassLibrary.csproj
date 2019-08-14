@@ -52,6 +52,8 @@
     <Compile Include="Mission.cs" />
     <Compile Include="MissionStatus.cs" />
     <Compile Include="Missions\Castle.cs" />
+    <Compile Include="Missions\CastleFirst.cs" />
+    <Compile Include="Missions\CastleSecond.cs" />
     <Compile Include="Missions\Gate.cs" />
     <Compile Include="Missions\Keep.cs" />
     <Compile Include="Missions\Outpost.cs" />
