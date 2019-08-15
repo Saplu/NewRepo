@@ -104,6 +104,7 @@ namespace MyFirstMonoGame
             var enemyTexture = Content.Load<Texture2D>("enemy");
             var attackTextureAtlas = Content.Load<Texture2D>("attack");
             var bruteTexture = Content.Load<Texture2D>("Brute");
+            var bossRabbitTexture = Content.Load<Texture2D>("Pupu");
             green = Content.Load<Texture2D>("greenButton");
             blue = Content.Load<Texture2D>("blueButton");
             red = Content.Load<Texture2D>("redButton");
@@ -115,12 +116,12 @@ namespace MyFirstMonoGame
 
 
             characterTextures = new List<Texture2D>() { bloodPriestTexture, goblinTexture, keeperTexture, fairyTexture, kingTexture,
-                medicTexture, pirateTexture, necroTexture, warriorTexture, templarTexture,
+                medicTexture, pirateTexture, necroTexture, warriorTexture, templarTexture, bossRabbitTexture,
                 rabbitTexture, rogueTexture, shamanTexture, protectorTexture, mageTexture, bruteTexture, attackTextureAtlas};
 
             map = new Maps.Training(mapTextureAtlas, 5, 7, enemyTexture, buttonTexture, font, dungeon, boss);
             map = map.Create(party.Map);
-            hero.Position = new Vector2(100, 40);
+            //hero.Position = new Vector2(100, 40);
                 //map.GetStartingPoint(party.Side);
         }
 
@@ -157,8 +158,8 @@ namespace MyFirstMonoGame
                     newPartySelection();
                 if (Redirect == "NewParty")
                     newNewParty();
-                //if (Redirect == "Adventure")
-                    //hero.Position = map.GetStartingPoint(party.Side);
+                if (Redirect == "Adventure")
+                    hero.Position = map.GetStartingPoint(party.Side);
             }
 
             if (Adventure == true)

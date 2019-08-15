@@ -17,6 +17,13 @@ namespace CombatLogicClassLibrary.Statuses
             Effect = value;
         }
 
+        public Shield(int duration, int value)
+        {
+            Name = StatusEnums.Shield;
+            Duration = duration;
+            Effect = value;
+        }
+
         public override string ToString()
         {
             return "\r\nShielded";

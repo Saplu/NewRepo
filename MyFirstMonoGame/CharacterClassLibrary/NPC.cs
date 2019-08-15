@@ -87,8 +87,8 @@ namespace CharacterClassLibrary
             {
                 case Enums.NPCType.Recruit: return .7;
                 case Enums.NPCType.Normal: return 1;
-                case Enums.NPCType.Veteran: return 1.35;
-                case Enums.NPCType.Elite: return 1.8;
+                case Enums.NPCType.Veteran: return 1.4;
+                case Enums.NPCType.Elite: return 1.9;
                 default: return 1;
             }
         }

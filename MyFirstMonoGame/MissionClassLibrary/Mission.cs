@@ -130,7 +130,7 @@ namespace MissionClassLibrary
             else return false;
         }
 
-        public bool CheckWin()
+        public virtual bool CheckWin()
         {
             var aliveList = new List<NPC>();
             foreach (var npc in Enemies)

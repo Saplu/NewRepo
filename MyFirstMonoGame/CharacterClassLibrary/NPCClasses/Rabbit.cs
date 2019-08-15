@@ -16,13 +16,28 @@ namespace CharacterClassLibrary.NPCClasses
             Type = (Enums.NPCType)Enum.Parse(typeof(Enums.NPCType), type.ToString());
             var multiplier = typeMultiplier();
             Level = level;
+            Health = Convert.ToInt32(multiplier * multiplier * (100 + (level * 63)));
+            MaxHealth = Health;
+            Strength = Convert.ToInt32(multiplier * (7 + (level * 7)));
+            Crit = 10;
+            SpellPower = 0;
+            Armor = Convert.ToInt32(multiplier * (level * 15));
+            Statuses = new List<CombatLogicClassLibrary.Status>();
+            Threat = new CombatLogicClassLibrary.Threat();
+        }
+
+        public Rabbit(int level, int type, int undying)
+        {
+            Type = (Enums.NPCType)Enum.Parse(typeof(Enums.NPCType), type.ToString());
+            var multiplier = typeMultiplier();
+            Level = level;
             Health = Convert.ToInt32(multiplier * multiplier * (111 + (level * 58)));
             MaxHealth = Health;
             Strength = Convert.ToInt32(multiplier * (7 + (level * 6.5)));
             Crit = 10;
             SpellPower = 0;
             Armor = Convert.ToInt32(multiplier * (level * 15));
-            Statuses = new List<CombatLogicClassLibrary.Status>();
+            Statuses = new List<CombatLogicClassLibrary.Status>() { new CombatLogicClassLibrary.Statuses.Shield(int.MaxValue, int.MaxValue) };
             Threat = new CombatLogicClassLibrary.Threat();
         }
 

@@ -75,13 +75,13 @@ namespace MissionClassLibrary
             {
                 if (random < 10)
                     enemyCount = 2;
-                else if (random < 40)
+                else if (random < 35)
                     enemyCount = 3;
                 else enemyCount = 4;
             }
             if (missionDifficulty == 3)
             {
-                if (random < 30)
+                if (random < 15)
                     enemyCount = 3;
                 else enemyCount = 4;
             }
@@ -113,8 +113,8 @@ namespace MissionClassLibrary
                     }break;
                 case 3: switch(enemyCount)
                     {
-                        case 3: enemyTypes = new List<int>() { 3, 3, 2 }; break;
-                        case 4: enemyTypes = new List<int>() { 3, 3, 2, 1 }; break;
+                        case 3: enemyTypes = new List<int>() { 3, 3, 3 }; break;
+                        case 4: enemyTypes = new List<int>() { 3, 3, 2, 2 }; break;
                     }break;
             }
         }

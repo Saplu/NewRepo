@@ -16,21 +16,21 @@ namespace CharacterClassLibrary.NPCClasses
             Type = (Enums.NPCType)Enum.Parse(typeof(Enums.NPCType), type.ToString());
             var multi = typeMultiplier();
             Level = level;
-            Health = Convert.ToInt32(multi * multi * (87 + (41 * level)));
+            Health = Convert.ToInt32(multi * multi * (80 + (48 * level)));
             MaxHealth = Health;
             Strength = 0;
             Crit = 10;
-            SpellPower = Convert.ToInt32(multi * (12 + (8.5 * level)));
+            SpellPower = Convert.ToInt32(multi * (12 + (9 * level)));
             Armor = Convert.ToInt32(multi * (level * 9));
             Statuses = new List<CombatLogicClassLibrary.Status>();
             Threat = new CombatLogicClassLibrary.Threat();
         }
 
-        private int fireWithin()
+        private int fireball()
         {
             var multi = getAttackMultiplier();
             var increase = getAttackModifier();
-            var leech = new FireWithin();
+            var leech = new Fireball();
             RecieveHeal(Convert.ToInt32(SpellPower * .3));
             return leech.Action(SpellPower, Crit, multi, increase);
         }
@@ -46,7 +46,7 @@ namespace CharacterClassLibrary.NPCClasses
         public override string ChooseAbility()
         {
             if (RandomProvider.GetRandom(1, 100) > 40)
-                return "Fire Within";
+                return "Fireball";
             else return "Poison Explosion";
         }
 
@@ -54,7 +54,7 @@ namespace CharacterClassLibrary.NPCClasses
         {
             switch(id)
             {
-                case "Fire Within": return 1;
+                case "Fireball": return 1;
                 case "Poison Explosion": return 4;
                 default: return 1;
             }
@@ -64,7 +64,7 @@ namespace CharacterClassLibrary.NPCClasses
         {
             switch(id)
             {
-                case "Fire Within": return fireWithin();
+                case "Fireball": return fireball();
                 case "Poison Explosion": return poisonExplosion();
                 default: return 1;
             }

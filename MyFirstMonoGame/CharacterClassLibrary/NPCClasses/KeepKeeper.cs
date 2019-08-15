@@ -17,9 +17,9 @@ namespace CharacterClassLibrary.NPCClasses
             Type = (Enums.NPCType)Enum.Parse(typeof(Enums.NPCType), type.ToString());
             var multi = typeMultiplier();
             Level = level;
-            Health = Convert.ToInt32(multi * multi * (100 + (75 * level)));
+            Health = Convert.ToInt32(multi * multi * (100 + (88 * level)));
             MaxHealth = Health;
-            Strength = Convert.ToInt32(multi * (8 + (level * 6.5)));
+            Strength = Convert.ToInt32(multi * (8 + (level * 8)));
             Crit = 10;
             SpellPower = 0;
             Armor = Convert.ToInt32(multi * (level * 13));
@@ -32,7 +32,7 @@ namespace CharacterClassLibrary.NPCClasses
             var multi = getAttackMultiplier();
             var increase = getAttackModifier();
             var whirl = new Whirlwind();
-            return whirl.Action(Strength - 5, Crit, multi, increase);
+            return whirl.Action(Strength - 8, Crit, multi, increase);
         }
 
         private int sweep()

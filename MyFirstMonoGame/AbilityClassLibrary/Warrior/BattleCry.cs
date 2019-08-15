@@ -12,7 +12,7 @@ namespace AbilityClassLibrary.Warrior
         public BattleCry()
         {
             Name = "Battle Cry";
-            Description = "Light dmg on \r\nevery enemy.\r\nIncrease dmg\r\nof party by\r\n20% for \r\nthis turn.";
+            Description = "Light dmg on \r\nevery enemy.\r\nIncrease dmg\r\nof party by\r\n15% for \r\ntwo turns.";
             Cooldown = 2;
         }
 
@@ -21,13 +21,5 @@ namespace AbilityClassLibrary.Warrior
             var dmg = Convert.ToInt32(strength / 2);            
             return AttackLogic.CalculateAttackDamage(dmg, crit, multiplier, increase);
         }
-        /*
-        public Status ApplyStatus()
-        {
-            var list = new List<int>() { 1, 2, 3, 4 };
-            var status = new CombatLogicClassLibrary.Statuses.AttackDmgMultiplier(1, list, 1.2);
-            return status;
-        }
-        */
     }
 }

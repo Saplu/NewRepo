@@ -134,7 +134,7 @@ namespace CharacterClassLibrary.PlayerClasses
         public override double setStatusEffect(string id, int targetPosition)
         {
             if (id == "Battle Cry")
-                return 1.2;
+                return 1.15;
             else return 0;
         }
 
@@ -144,7 +144,7 @@ namespace CharacterClassLibrary.PlayerClasses
             {
                 case "Attack": return Strength;
                 case "Vicious Blow": return Convert.ToInt32(Strength * 1.2);
-                case "Battle Cry": return Convert.ToInt32(Strength * .2);
+                case "Battle Cry": return Convert.ToInt32(Strength * .3);
                 case "Execute": return Convert.ToInt32(Strength * 1.2);
                 default: return 0;
             }

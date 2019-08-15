@@ -107,6 +107,7 @@ namespace MyFirstMonoGame
                 case 3: return new MissionClassLibrary.Missions.ThroneRoom(players);
                 case 4: return new MissionClassLibrary.Missions.CastleFirst(players);
                 case 5: return new MissionClassLibrary.Missions.CastleSecond(players);
+                case 6: return new MissionClassLibrary.Missions.CastleThird(players);
                 default: throw new Exception("No boss found");
             }
         }

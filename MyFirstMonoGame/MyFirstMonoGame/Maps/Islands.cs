@@ -25,7 +25,7 @@ namespace MyFirstMonoGame.Maps
             East = 0;
             South = 3;
             West = 0;
-            StartingPoints = new List<Vector2>() { new Vector2(450, 440) };
+            StartingPoints = new List<Vector2>() { new Vector2(450, 440), new Vector2(110, 80) };
             RespawnPoint = new Vector2(450, 440);
             DungeonBoxes.Add(new BoundingBox(new Vector3(95, 20, 0), new Vector3(130, 63, 0)));
 
@@ -43,6 +43,7 @@ namespace MyFirstMonoGame.Maps
         {
             switch(key)
             {
+                case 8: return StartingPoints[1];
                 default: return StartingPoints[0];
             }
         }

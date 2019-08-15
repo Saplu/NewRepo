@@ -24,7 +24,7 @@ namespace CombatLogicClassLibrary
             var list = new List<Status>();
             switch (id)
             {
-                case "Battle Cry": list.Add(new Statuses.AttackDmgMultiplier(1, targets, effect)); return list;
+                case "Battle Cry": list.Add(new Statuses.AttackDmgMultiplier(2, targets, effect)); return list;
                 case "Lava Field": list.Add(new Statuses.DoT(1, targets, Convert.ToInt32(effect))); return list;
                 case "Weaken Blood": list.Add(new Statuses.TakenDmgModifier(1, targets, Convert.ToInt32(effect))); return list;
                 case "Taunting Blow": list.Add(new Statuses.Taunt(2, targets, Convert.ToInt32(effect)));return list;
